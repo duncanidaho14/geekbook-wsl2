@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    container_name: db_geekbook_app
+    restart: always
+    ports:
+      - '5432'
+    environment:
+      POSTGRES_DB: geekbook
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+    networks:
+      - dev
+
+  gkbook:
+    build: docker
+    container_name: www_geek_book
+    image: 'postgres:15'
+    environment:
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
+      POSTGRES_DB: geekbook
+    ports:
+      - '8000:80'
+
+    volumes:
+      - ./docker/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www
+    restart: always
+    networks:
+      - dev
+    depends_on:
+      - db
+
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      - "1025:25"
+      - "1080:1080"
+
+networks:
+  dev:
+
+volumes:
+  database_data:
+
