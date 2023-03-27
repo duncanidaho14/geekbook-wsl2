@@ -4,7 +4,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   \
   &&  apt-get update \
   &&  apt-get install -y --no-install-recommends \
-  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip \
+  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget \
   \
   &&  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
   &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
@@ -16,13 +16,18 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   && curl -sL https://deb.nodesource.com/setup_18.x | bash \
   && apt-get install nodejs \
   \
-  &&  curl -sS https://get.symfony.com/cli/installer | bash && \
-  docker-php-ext-configure \
+  &&  curl -sS https://get.symfony.com/cli/installer | bash \
+  &&  mv /root/.symfony5/bin/symfony /usr/local/bin \ 
+  &&  docker-php-ext-configure \
   intl \
   &&  docker-php-ext-install \
-  pdo_pgsql opcache intl zip calendar dom mbstring gd xsl \
+  pdo pdo_mysql opcache intl zip calendar dom mbstring gd xsl \
   \
   &&  pecl install apcu && docker-php-ext-enable apcu
+
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
+COPY . /var/www/
 
 WORKDIR /var/www/
 
