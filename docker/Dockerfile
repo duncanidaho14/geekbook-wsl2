@@ -25,8 +25,8 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   \
   &&  pecl install apcu && docker-php-ext-enable apcu
 
+
 COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
 COPY . /var/www/
 
 WORKDIR /var/www/

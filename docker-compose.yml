@@ -20,43 +20,57 @@ services:
   gkbook:
     build: docker
     container_name: www_geek_book
-    image: 'postgres:15'
+    #image: 'postgres:15'
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
-    ports:
-      - '8000:80'
-
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
+      - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/
+      - ./docker/ssl:/usr/local/apache2/ssl
       - ./:/var/www
     restart: always
+    labels:
+      - "traefik.http.routers.gkbook.rule=Host(`geekbook.com`)"
+      - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
+      - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
+      - "traefik.http.routers.gkbook.tls=true"
     networks:
       - dev
     depends_on:
       - db
 
-  apache:
-        image: httpd:2.4
-        ports:
-            - "443:443"
-        volumes:
-            - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
-            - ./ssl:/usr/local/apache2/ssl
-            - ./html:/var/www/html
-        depends_on:
-            - gkbook
-
-  mailer:
-    image: schickling/mailcatcher
+  traefik:
+    restart: unless-stopped
+    container_name: traefik_geekbook_app
+    image: traefik:v2.0.2
     ports:
-      - "1025:25"
-      - "1080:1080"
+      - "80:80"
+      - "443:443"
+    labels:
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./tls.yml:/etc/traefik/tls.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - certs:/etc/ssl/traefik
+    networks:
+      - dev
+
+  reverse-proxy-https-helper:
+    image: alpine
+    command: sh -c "cd /etc/ssl/traefik
+      && wget traefik.me/cert.pem -O cert.pem
+      && wget traefik.me/privkey.pem -O privkey.pem"
+    volumes:
+      - certs:/etc/ssl/traefik
+    networks:
+      - dev
 
 networks:
   dev:
 
 volumes:
   database_data:
-  apache:
+  certs:

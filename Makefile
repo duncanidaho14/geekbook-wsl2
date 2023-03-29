@@ -22,18 +22,10 @@ init: ## 💥 Init the project
 	$(MAKE) start
 	$(MAKE) composer-install
 	$(MAKE) npm-install
-	$(MAKE) ssl
-	$(MAKE) https
-	@$(call GREEN,"The application is available at: http://127.0.0.1:8000/.")
+	@$(call GREEN,"The application is available at: https://geekbook.com .")
 	
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
-
-ssl: ## Install ssl
-	$(EXEC2) mkdir docker
-	$(EXEC2) cd docker
-	$(EXEC2) openssl genrsa -out client.key 4096
-	$(EXEC2) openssl req -new -x509 -text -key client.key -out client.cert
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
@@ -41,7 +33,7 @@ https: ## Install ca
 ## Test 💯 ------------------------
 
 .PHONY: tests
-tests: ## Run all tests
+tests: ## Run all tests :m:
 	$(MAKE) database-init-test
 	$(PHP) bin/phpunit --testdox tests/Unit/
 	$(PHP) bin/phpunit --testdox tests/Functional/
@@ -50,7 +42,7 @@ tests: ## Run all tests
 database-init-test: ## Init database for test
 	$(SYMFONY_CONSOLE) d:d:d --force --if-exists --env=test
 	$(SYMFONY_CONSOLE) d:d:c --env=test
-	$(SYMFONY_CONSOLE) d:m:m --no-interaction --env=test
+	$(SYMFONY_CONSOLE) d:migration:migrates --no-interaction --env=test
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction --env=test
 
 unit-test: ## Run unit tests
