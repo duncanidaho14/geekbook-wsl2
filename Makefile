@@ -22,7 +22,7 @@ init: ## 💥 Init the project
 	$(MAKE) start
 	$(MAKE) composer-install
 	$(MAKE) npm-install
-	@$(call GREEN,"The application is available at: https://geekbook.com .")
+	@$(call GREEN,"The application is available at: https://gkbook.traefik.me .")
 	
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear

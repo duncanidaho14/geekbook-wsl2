@@ -20,7 +20,7 @@ services:
   gkbook:
     build: docker
     container_name: www_geek_book
-    #image: 'postgres:15'
+    image: 'postgres:15'
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
@@ -32,7 +32,7 @@ services:
       - ./:/var/www
     restart: always
     labels:
-      - "traefik.http.routers.gkbook.rule=Host(`geekbook.com`)"
+      - "traefik.http.routers.gkbook.rule=Host(`gkbook.com`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"
