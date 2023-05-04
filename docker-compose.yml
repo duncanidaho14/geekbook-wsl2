@@ -6,7 +6,7 @@ services:
     container_name: db_geekbook_app
     restart: always
     ports:
-      - '5432'
+      - '6543:5432'
     environment:
       POSTGRES_DB: geekbook
       # You should definitely change the password in production

@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Gedmo\Mapping\Annotation\Slug;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookRepository;
+use Doctrine\Common\Collections\Collection;
+use Gedmo\Timestampable\Traits\Timestampable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -25,16 +28,20 @@ class Book
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $publishedAt = null;
-
-    #[ORM\Column]
+    #[Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(length: 255)]
+    #[Timestampable(on: 'change')] //, field:["title", "body"]
+    #[ORM\Column(name: 'published_at', type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $publishedAt = null;
+
+    #[Slug(fields: ['title'])]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column]
@@ -80,6 +87,11 @@ class Book
         $this->authors = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
         $this->images = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     public function getId(): ?int
@@ -397,5 +409,12 @@ class Book
         }
 
         return $this;
+    }
+
+    public function computeSlug(SluggerInterface $slugger)
+    {
+       if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) $slugger->slug((string) $this)->lower();
+        }
     }
 }

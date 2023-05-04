@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription à GeekBook{% endblock %}
+
+{% block body %}
+<style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+        .font-family-karla {
+            font-family: karla;
+        }
+    </style>
+
+<div class="bg-white font-family-karla h-screen">
+
+    <div class="w-full flex flex-wrap">
+
+        <!-- Register Section -->
+        <div class="w-full md:w-1/2 flex flex-col">
+
+            <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-12">
+                <a href="#" class="bg-black text-white font-bold text-xl p-4" alt="Logo">GeekBook</a>
+            </div>
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+
+            <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+                <p class="text-center text-3xl">Rejoignez-nous</p>
+                <div class="flex flex-col pt-3 md:pt-8">
+                {{ form_start(registrationForm) }}
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.firstName, {
+                            label: 'Prénom',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                placeholder: 'Prénom'
+                            }
+                        }) }}
+                    </div>
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.lastName, {
+                            label: 'Nom',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                placeholder: 'Votre nom'
+                            }
+                        }) }}
+                    </div>
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.avatar, {
+                            label: 'Avatar',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                placeholder: 'Votre Avatar'
+                            }
+                        }) }}
+                    </div>
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.email, {
+                            label: 'Email',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                placeholder: 'votre@email.com'
+                            }
+                        }) }}
+                    </div>
+    
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.password, {
+                            label: 'Mot de Passe',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                placeholder: 'Votre mot de passe'
+                            }
+                        }) }}
+                    </div>
+
+                    <div class="flex flex-col pt-4">
+                        {{ form_row(registrationForm.agreeTerms, {
+                            label: 'Condition général',
+                            label_attr: {
+                                class: 'text-lg'
+                            },
+                            attr: {
+                                class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                                
+                            }
+                        }) }}
+                    </div>
+    
+                    <button type="submit" value="Inscription" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">Inscription</button>
+                {{ form_end(registrationForm) }}
+                </div>
+                <div class="text-center pt-12 pb-12">
+                    <p>Vous avez déjà un compte ? <a href="{{path('app_login')}}" class="underline font-semibold">Se connecter ici.</a></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Image Section -->
+        <div class="w-1/2 shadow-2xl">
+            <img class="object-cover w-full h-screen hidden md:block" src="https://source.unsplash.com/IXUM4cJynP0" alt="Background" />
+        </div>
+    </div>
+</div>
+{% endblock %}
