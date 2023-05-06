@@ -24,6 +24,7 @@ use Symfony\Component\Mime\Email;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private $mail;
 
     public function __construct(EmailVerifier $emailVerifier)
     {
@@ -33,6 +34,7 @@ class RegistrationController extends AbstractController
     #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, VerifyEmailHelperInterface $verifyEmailHelper, EntityManagerInterface $entityManager): Response
     {
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -52,8 +54,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             
-            
-            
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
@@ -66,10 +66,8 @@ class RegistrationController extends AbstractController
                         'receiver_email' => $user->getFirstName() . ' ' . $user->getLastName()
                     ])
             );
-            // do anything else you need here, like send an email
-
             
-
+            
             $this->addFlash(
                 'success',
                 'confirmer votre email %s '

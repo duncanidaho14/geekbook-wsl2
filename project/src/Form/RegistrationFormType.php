@@ -21,24 +21,36 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-
+                'attr' => ['class' => 'tinymce'],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer votre prénom',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'Vôtre prénom dois comporter au moins {{ limit }} charactères',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 45,
+                    ]),
+                ],
             ])
             ->add('lastName', TextType::class, [
-
+                'attr' => ['class' => 'tinymce'],
                 ])
             ->add('email', EmailType::class, [
-
+                'attr' => ['class' => 'tinymce'],
             ])
             ->add('avatar', TextType::class, [
-
+                'attr' => ['class' => 'tinymce'],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Le mot de passe doit être le même.',
+                'invalid_message' => 'Le mot de passe doit être le même ! ',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => [
-                    'label' => 'Mot de passe',
+                    'label' => 'Mot de passe *',
                     'label_attr' => [
                         'class' => 'text-lg'
                     ],
@@ -48,7 +60,7 @@ class RegistrationFormType extends AbstractType
                     ]
                 ],
                 'second_options' => [
-                    'label' => 'Repéter mot de passe',
+                    'label' => 'Repéter mot de passe *',
                     'label_attr' => [
                         'class' => 'text-lg'
                     ],

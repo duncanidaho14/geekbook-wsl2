@@ -20,6 +20,7 @@ class HomeController extends AbstractController
             'authors' => $authorRepository->findAll(),
             'orders' => $orderRepository->findAll(),
             'orderDetails' => $orderDetailRepository->findAll(),
+            'booksCreatedAt' => $bookRepository->findByBookDate(['now'])
         ]);
     }
 }

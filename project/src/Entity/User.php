@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -20,7 +21,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
+    #[Assert\Email(groups: ['registration'])]
     #[ORM\Column(length: 62, unique: true)] //180
     private ?string $email = null;
 
@@ -30,6 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
+    #[Assert\NotBlank(groups: ['registration'])]
+    #[Assert\Length(min: 7, groups: ['registration'])]
     #[ORM\Column]
     private ?string $password = null;
 
@@ -42,10 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $avatar = null;
 
+    #[Assert\DateTime]
     #[ORM\Column]
     #[Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Assert\DateTime]
     #[ORM\Column]
     #[Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;

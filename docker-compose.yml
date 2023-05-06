@@ -52,7 +52,8 @@ services:
     image: schickling/mailcatcher
     ports:
       - "1025:25"
-      - "1080:1080"
+      - "8000:1080" 
+      # vérifier le port 1080
 
 networks:
   dev:
