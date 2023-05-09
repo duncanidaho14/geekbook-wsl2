@@ -72,11 +72,11 @@ class AppFixtures extends Fixture
             $book = new Book();
             $book->setTitle($title = $faker->name())
                 ->setIntroduction($faker->sentence())
-                ->setDescription($faker->paragraph(3))
-                ->setPrice($faker->randomNumber())
+                ->setDescription($faker->paragraph())
+                ->setPrice($faker->randomFloat())
                 ->setLangue('fr')
                 ->setNbPages($faker->randomNumber())
-                ->setDimension($faker->randomNumber())
+                ->setDimension('20x20x20')
                 ->setIsbn($faker->isbn10())
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean())
@@ -93,7 +93,7 @@ class AppFixtures extends Fixture
             $author = new Author();
             $author->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
-                ->setDescription($faker->paragraph(2))
+                ->setDescription($faker->sentence())
             ;
             $manager->persist($author);
         }
@@ -125,7 +125,7 @@ class AppFixtures extends Fixture
         for ($car=0; $car < 4; $car++) { 
             $carrier = new Carrier();
             $carrier->setName($faker->name())
-                ->setDescription($faker->paragraph(2))
+                ->setDescription($faker->sentence())
                 ->setPrice($faker->numberBetween(0, 25))
             ;
             $manager->persist($carrier);
