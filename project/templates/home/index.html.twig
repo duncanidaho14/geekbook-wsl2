@@ -73,6 +73,42 @@
               <a class="text-pink-500 underline" href="{{asset('')}}">undraw.co</a>
             </p>
           </div>
+          <!--cards    -->
+         
+          {% for book in books %}
+          <div class="max-w-sm rounded overflow-hidden shadow-lg">
+            {# {% for img in jointure %}
+            <img class="w-full" src="{{img.url}}" alt="{{img.name}}">
+            {% endfor %} #}
+            {% for img in book.images %}
+              {# {% if loop.index == 1 %}  #}
+                <img class="w-full" src="{{img.url}}" alt="{{img.name}}">
+              {# {% elseif loop.index == 0%} #}
+
+              {# {% else %} #}
+
+              {# {% endif %} #}
+            {% endfor %}
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2">{{book.title}}</div>
+              <p class="text-gray-700 text-base">
+                {{book.introduction}}
+              </p>
+            </div>
+            {% for cat in book.categories %}
+              <div class="px-6 pt-4 pb-2">
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2 mb-2"># {{cat.name}}</span>
+                <img src="{{cat.image}}" alt="{{cat.name}}" />
+              </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+          <hr />
+          {{ dump(jointure)}}
+          {% for joe in jointure %}
+            <img src="{{ joe.url }}" />
+          {% endfor %}
+          <hr>
           <div class="w-full sm:w-1/2 p-6">
             <svg class="w-full sm:h-64 mx-auto" viewBox="0 0 1177 598.5" xmlns="http://www.w3.org/2000/svg">
               <title>travel booking</title>

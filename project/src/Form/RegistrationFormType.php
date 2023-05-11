@@ -28,21 +28,53 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Entrer votre prénom',
                     ]),
                     new Length([
-                        'min' => 4,
-                        'minMessage' => 'Vôtre prénom dois comporter au moins {{ limit }} charactères',
-                        // max length allowed by Symfony for security reasons
+                        'min' => 3,
+                        'minMessage' => 'Vôtre prénom doit comporter au moins {{ limit }} charactères',
                         'max' => 45,
                     ]),
                 ],
             ])
             ->add('lastName', TextType::class, [
                 'attr' => ['class' => 'tinymce'],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer votre nom',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'Vôtre nom doit comporter au moins {{ limit }} charactères',
+                        'max' => 45,
+                    ]),
+                ],
                 ])
             ->add('email', EmailType::class, [
                 'attr' => ['class' => 'tinymce'],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer votre Email',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'Vôtre email doit comporter au moins {{ limit }} charactères',
+                        'max' => 62,
+                    ]),
+                ],
             ])
             ->add('avatar', TextType::class, [
                 'attr' => ['class' => 'tinymce'],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer votre avatar',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'Vôtre avatar doit comporter au moins {{ limit }} charactères',
+                        'max' => 255,
+                    ]),
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -73,7 +105,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Le mot de passe ne peut être vide',
                     ]),
                     new Length([
                         'min' => 6,
@@ -85,6 +117,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => true,
+                'required' => true,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter les conditions d\'utilisations.',

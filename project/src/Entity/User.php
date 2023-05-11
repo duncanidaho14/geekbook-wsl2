@@ -14,7 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec cet email')]
+#[UniqueEntity(fields: ['firstName', 'lastName'], message: 'Il y a déjà un compte avec ce nom et ce prénom')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -37,12 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(groups: ['registration'])]
+    #[Assert\Length(min: 3, groups: ['registration'])]
+    #[ORM\Column(length: 45, unique: true)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(groups: ['registration'])]
+    #[Assert\Length(min: 4, groups: ['registration'])]
+    #[ORM\Column(length: 45, unique: true)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(groups: ['registration'])]
+    #[Assert\Length(min: 7, groups: ['registration'])]
     #[ORM\Column(length: 255)]
     private ?string $avatar = null;
 
@@ -65,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[Assert\NotBlank(groups: ['registration'])]
     #[ORM\Column]
     private ?bool $agreeTerms = null;
 
