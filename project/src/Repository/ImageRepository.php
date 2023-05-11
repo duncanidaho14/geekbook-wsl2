@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Image;
+use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,16 +43,23 @@ class ImageRepository extends ServiceEntityRepository
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */
-//    public function findByExampleField($value): array
+//    public function findByFirstImage($value): ?array
 //    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
+//         dd($this->createQueryBuilder('i', 'b')
+//              ->select('b.id as bookName')
+//             ->join('i.id', 'b')
+//             ->groupBy('i')
+//             // ->andWhere('i.id = :val')
+//            // ->andWhere('b.id = i.id')
+//             // ->setParameter('val', $value)
+//             // ->setParameter('val2', $value2)
+//              ->orderBy('i.id', 'ASC')
+//              ->setMaxResults(1)
+//              ->getQuery()
+//              //->getOneOrNullResult()
+//              ->getSQL()
+//          )
+//         ;
 //    }
 
 //    public function findOneBySomeField($value): ?Image

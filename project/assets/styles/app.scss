@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 body {
-    background-color: lightgray;
+    background-color: white;
+}
+
+.tinymce {
+    background-color: red;
+    color: red;
 }
