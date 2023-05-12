@@ -23,6 +23,11 @@ class Image
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

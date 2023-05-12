@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{book.title}} !{% endblock %}
+
+{% block body %}
+<div class="m-96 bg-purple-400">
+    <h1>{{ book.title}}</h1>
+    <p>{{book.price|number_format(2, '.', ',')}} €</p>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('build/app.js')}}"></script>
+{% endblock %}

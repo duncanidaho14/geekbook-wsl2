@@ -68,18 +68,18 @@ class AppFixtures extends Fixture
         }
 
         $books = [];
-        for ($bo=0; $bo < 50; $bo++) { 
+        for ($bo=0; $bo < 25; $bo++) { 
             $book = new Book();
             $book->setTitle($title = $faker->name())
                 ->setIntroduction($faker->sentence())
                 ->setDescription($faker->paragraph(3))
-                ->setPrice($faker->randomFloat())
+                ->setPrice($faker->randomFloat(2, 1, 100))
                 ->setLangue('fr')
-                ->setNbPages($faker->randomNumber())
+                ->setNbPages($faker->numberBetween(10, 1200))
                 ->setDimension('15x21')
                 ->setIsbn($faker->isbn10())
                 ->setEditor($faker->company())
-                ->setIsInStock($faker->boolean())
+                ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
@@ -89,6 +89,7 @@ class AppFixtures extends Fixture
             $books[] = $book;
         }
 
+        $authors = [];
         for ($au=0; $au < 10; $au++) { 
             $author = new Author();
             $author->setFirstName($faker->firstName())
@@ -97,8 +98,10 @@ class AppFixtures extends Fixture
                 ->addBook($books[\mt_rand(0, count($books) - 1)])
             ;
             $manager->persist($author);
+            $authors[] = $author;
         }
 
+        $categories = [];
         for ($cat=0; $cat < 5; $cat++) { 
             $category = new Category();
             $category->setName($faker->name())
@@ -106,9 +109,10 @@ class AppFixtures extends Fixture
                 ->addBook($books[\mt_rand(0, count($books) - 1)])
             ;
             $manager->persist($category);
+            $categories[] = $category;
         }
 
-        for ($addr=0; $addr < 10; $addr++) { 
+        for ($addr=0; $addr < 20; $addr++) { 
             $address = new Address();
             $address->setName($faker->name())
                 ->setFirstName($faker->firstName())
@@ -133,6 +137,7 @@ class AppFixtures extends Fixture
             $manager->persist($carrier);
         }
 
+        $comments = [];
         for ($com=0; $com < 20; $com++) { 
             $comment = new Comment();
             $comment->setTitle($faker->title())
@@ -143,15 +148,18 @@ class AppFixtures extends Fixture
                     ->setBookComment($books[\mt_rand(0, count($books) - 1)])
             ;
             $manager->persist($comment);
+            $comments[] = $comment;
         }
 
-        for ($im=0; $im < 100; $im++) { 
+        $images = [];
+        for ($im=0; $im < 50; $im++) { 
             $image = new Image();
             $image->setName($faker->name())
                 ->setUrl($faker->imageUrl())
                 ->setBook($books[\mt_rand(0, count($books) - 1)])
             ;
             $manager->persist($image);
+            $images[] = $image;
         }
 
         for ($or=0; $or < 100; $or++) { 
@@ -168,6 +176,7 @@ class AppFixtures extends Fixture
             $manager->persist($order);
         }
         
+        $orderDetails = [];
         for ($ordd=0; $ordd < 100; $ordd++) { 
             $orderDetail = new OrderDetail();
             $orderDetail->setQuantity($faker->numberBetween(1, 5))
@@ -177,8 +186,18 @@ class AppFixtures extends Fixture
                 ->addProduct($order)
             ;
             $manager->persist($orderDetail);
+            $orderDetails[] = $orderDetail;
         }
 
+        for ($boo=0; $boo < 25; $boo++) { 
+            $book->addAuthor($authors[mt_rand(0, count($authors) - 1)])
+                    ->addCategory($categories[mt_rand(0, count($categories) - 1)])
+                    ->addComment($comments[mt_rand(0, count($comments) - 1)])
+                    ->addImage($images[mt_rand(0, count($images) - 1)])
+                    ->addOrderDetail($orderDetails[mt_rand(0, count($orderDetails) - 1)])
+            ;
+            $manager->persist($book);
+        }
         $manager->flush();
     }
 }
