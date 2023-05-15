@@ -10,14 +10,14 @@
     <div class="container m-24 mt-96">
         <section class="flex flex-wrap">
 
-            {% for book in books %}
+            {% for book in booksRepo %}
                 <div class="basis-1/4 p-2">
                     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        
+                        {% for img in books %}
                         <a href="{{path('app_book_show', {'slug': book.slug })}}">
-                            <img class="rounded-t-lg" src="{{book.url}}" alt="{{book.name}}" />
+                            <img class="rounded-t-lg" src="{{img.url}}" alt="{{img.name}}" />
                         </a>
-                        
+                        {% endfor %}
                         <div class="p-5 w-auto h-70">
                             <a href="{{path('app_book_show', {'slug': book.slug })}}">
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{book.introduction}}</h5>

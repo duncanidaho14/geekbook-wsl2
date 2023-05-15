@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BookController extends AbstractController
 {
     #[Route('/book', name: 'app_book')]
-    public function index(EntityManagerInterface $manager): Response
+    public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
         $books = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, u.firstName, u.lastName
                                             FROM App\Entity\Image i 
@@ -19,10 +19,11 @@ class BookController extends AbstractController
                                             JOIN b.authors u
                                             WHERE b.id =  i.book
                                             GROUP BY i.id, b.slug, b.id, u.firstName, u.lastName
-                                            ")->getResult();
+                                            ")->setMaxResults(1)->getResult();
         
         return $this->render('book/index.html.twig', [
-            'books' => $books
+            'books' => $books,
+            'booksRepo' => $bookRepository->findAll()
         ]);
     }
 
