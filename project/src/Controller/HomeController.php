@@ -21,7 +21,7 @@ class HomeController extends AbstractController
                         WHERE b.id =  i.book
                         GROUP BY i.id, b.slug, b.id, u.firstName, u.lastName, c.name, c.image
                         ORDER BY b.publishedAt DESC
-                        ")->setMaxResults(10)->getResult();
+                        ")->setMaxResults(12)->getResult();
 
         $lastAuthors = $manager->createQuery('SELECT a.id, a.firstName, a.lastName, a.description, b.id, b.title, b.introduction, b.publishedAt, i.name, i.url, c.name as catName, c.image
                                                 FROM App\Entity\Author a
@@ -31,7 +31,9 @@ class HomeController extends AbstractController
                                                 WHERE a.firstName = a.firstName AND a.lastName = a.lastName
                                                 GROUP BY a.id, a.firstName, a.lastName, a.description, b.id, b.title, b.introduction, b.publishedAt, i.name, i.url, c.name, c.image
                                                 ORDER BY b.publishedAt DESC
-                                        ')->setMaxResults(5)->getResult();
+                                        ')->setMaxResults(3)->getResult();
+
+        
 
         return $this->render('home/index.html.twig', [
             'books' => $lastBooks,
