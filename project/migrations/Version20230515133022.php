@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230504080443 extends AbstractMigration
+final class Version20230515133022 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -31,7 +31,7 @@ final class Version20230504080443 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE order_detail_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE address (id INT NOT NULL, owner_id INT NOT NULL, name VARCHAR(45) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, company VARCHAR(45) DEFAULT NULL, address VARCHAR(150) NOT NULL, zip VARCHAR(20) NOT NULL, city VARCHAR(20) NOT NULL, country VARCHAR(20) NOT NULL, phone VARCHAR(20) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE address (id INT NOT NULL, owner_id INT NOT NULL, name VARCHAR(45) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, company VARCHAR(45) DEFAULT NULL, address VARCHAR(150) NOT NULL, zip VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, phone VARCHAR(45) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D4E6F817E3C61F9 ON address (owner_id)');
         $this->addSql('CREATE TABLE author (id INT NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, description TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE author_book (author_id INT NOT NULL, book_id INT NOT NULL, PRIMARY KEY(author_id, book_id))');
@@ -68,6 +68,8 @@ final class Version20230504080443 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN reset_password_request.expires_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(62) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, avatar VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_verified BOOLEAN NOT NULL, agree_terms BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649A9D1C132 ON "user" (first_name)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649C808BA5A ON "user" (last_name)');
         $this->addSql('COMMENT ON COLUMN "user".created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN "user".updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');

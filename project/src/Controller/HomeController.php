@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\BookRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(EntityManagerInterface $manager): Response
+    public function index(EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
     
         $lastBooks = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, u.firstName, u.lastName, c.name  as catName, c.image
@@ -33,11 +36,15 @@ class HomeController extends AbstractController
                                                 ORDER BY b.publishedAt DESC
                                         ')->setMaxResults(3)->getResult();
 
+
         
 
         return $this->render('home/index.html.twig', [
             'books' => $lastBooks,
-            'authors' => $lastAuthors
+            'authors' => $lastAuthors,
+            'booksRepo' => $bookRepository->findBy([]),
+            'imageRepo' => $imageRepository->findByUrl([]),
+            'categories' => $categoriesRepository->findAll()
         ]);
     }
 }

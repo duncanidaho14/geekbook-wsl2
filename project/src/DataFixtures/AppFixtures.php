@@ -70,7 +70,7 @@ class AppFixtures extends Fixture
         $books = [];
         for ($bo=0; $bo < 25; $bo++) { 
             $book = new Book();
-            $book->setTitle($title = $faker->name())
+            $book->setTitle($title = $faker->sentence())
                 ->setIntroduction($faker->sentence())
                 ->setDescription($faker->paragraph(3))
                 ->setPrice($faker->randomFloat(2, 1, 100))
@@ -119,7 +119,7 @@ class AppFixtures extends Fixture
                 ->setLastName($faker->lastName())
                 ->setCompany($faker->company())
                 ->setAddress($faker->streetAddress())
-                ->setZip($faker->countryCode())
+                ->setZip($faker->postcode())
                 ->setCity($faker->city())
                 ->setCountry($faker->country())
                 ->setPhone($faker->phoneNumber())
@@ -140,7 +140,7 @@ class AppFixtures extends Fixture
         $comments = [];
         for ($com=0; $com < 20; $com++) { 
             $comment = new Comment();
-            $comment->setTitle($faker->title())
+            $comment->setTitle($faker->sentence())
                     ->setComment($faker->paragraph(3))
                     ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                     ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))

@@ -28,16 +28,16 @@ class Address
     #[ORM\Column(length: 150)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 45)]
     private ?string $zip = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 45)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 45)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 45)]
     private ?string $phone = null;
 
     #[ORM\ManyToOne(inversedBy: 'addresses')]
