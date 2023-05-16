@@ -4,10 +4,10 @@
       }
 </style>
 <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
-    <nav id="header" class="fixed w-full z-30 top-0 text-blue">
+    <nav id="header" class="fixed w-full z-30 top-0 text-blue dark:bg-gray-800 dark:text-white">
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
             <div class="pl-4 flex items-center">
-                <a class="toggleColour text-green-700 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="{{path('app_home')}}">
+                <a class="toggleColour text-green-700 no-underline hover:no-underline font-bold text-2xl lg:text-4xl dark:text-white" href="{{path('app_home')}}">
                     <!--Icon from: http://www.potlabicons.com/ -->
                     <svg class="h-8 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.005 512.005">
                         <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502" transform="matrix(1,0,0,1,0,0)" />
@@ -30,13 +30,13 @@
             <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
                     <li class="mr-3">
-                        <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="{{path('app_book')}}">Livres</a>
+                        <a class="inline-block py-2 px-4 text-black font-bold no-underline dark:text-white" href="{{path('app_book')}}">Livres</a>
                     </li>
                     <li class="mr-3">
-                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="{{path('app_category')}}">Categories</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4 dark:text-white" href="{{path('app_category')}}">Categories</a>
                     </li>
                     <li class="mr-3">
-                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">Auteurs</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4 dark:text-white" href="#">Auteurs</a>
                     </li>
                     <li>
                         <button id="theme-toggle" type="button" class="js-change-theme text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
@@ -50,7 +50,7 @@
                         <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" data-dropdown-trigger="hover" class="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white" type="button">
                             <span class="sr-only">Ouvrir le menu utilisateur</span>
                             <img class="w-8 h-8 mr-2 rounded-full" src="{{app.user.avatar}}" alt="user photo">
-                            {{app.user.firstName}}
+                            <strong class="text-pink-500 dark:text-white">{{app.user.firstName}}</strong>
                             <svg class="w-4 h-4 mx-1.5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
 

@@ -10,7 +10,7 @@
 </style>
 
 <div class="body leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
-    <div class="pt-24">
+    <div class="pt-24 dark:bg-gray-800 dark:text-white">
       <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <!--Left Col-->
         <div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
@@ -50,7 +50,7 @@
         </g>
       </svg>
     </div>
-    <section class="bg-white border-b py-8">
+    <section class="border-b py-8 dark:bg-gray-800 dark:text-white">
       <div class="container max-w-5xl mx-auto m-8">
         <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
           Les Livres
@@ -62,29 +62,26 @@
           <div class="flex flex-wrap hover:flex-wrap-reverse">
             <!--cards    -->
             {% for book in books %}
-            <div class="max-w-sm  basis-1/4 p-2 rounded overflow-hidden shadow-lg">
-              <a href="{{path('app_book_show', {'slug': book.slug })}}" alt="">
-                <img class="w-full" src="{{book.url}}" alt="{{book.name}}">
-              </a>
-              <div class="px-6 py-4">
-                <div class="font-bold text-xl mb-2">{{book.title}}</div>
-                <p class="text-gray-700 text-base">
-                  {{book.introduction}}
-                </p>
-              </div>
-              
-                <div class="px-6 pt-4 pb-2">
-                  <span class="inline-block bg-purple-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2 mb-2"># {{book.catName}}</span>
-                  <img src="{{book.image}}" alt="{{book.catName}}" class="w-6 h-6 inline-block" />
+              <div class="max-w-sm  basis-1/4 p-2 rounded overflow-hidden shadow-lg">
+                <a href="{{path('app_book_show', {'slug': book.slug })}}" alt="">
+                  <img class="w-full" src="{{book.url}}" alt="{{book.name}}">
+                </a>
+                <div class="px-6 py-4">
+                  <div class="font-bold text-xl mb-2">{{book.title}}</div>
+                  <p class="text-gray-700 text-base">
+                    {{book.introduction}}
+                  </p>
                 </div>
-              
-            </div>
-          
-          <hr />
-          {% endfor %}
-        </div>
-          <hr>
-          
+                
+                  <div class="px-6 pt-4 pb-2">
+                    <span class="inline-block bg-purple-200 rounded-full px-3 py-1 text-sm font-semibold text-red-700 mr-2 mb-2"># {{book.catName}}</span>
+                    <img src="{{book.image}}" alt="{{book.catName}}" class="w-6 h-6 inline-block" />
+                  </div>
+              </div>
+              <hr>
+            {% endfor %}
+          </div>
+          <hr> 
         </div>
         <div class="flex flex-wrap flex-col-reverse sm:flex-row">
           
@@ -92,7 +89,7 @@
       </div>
     </section>
 
-    <section class="bg-white border-b py-8">
+    <section class="bg-white dark:bg-gray-800 dark:text-white border-b py-8">
       <div class="container max-w-5xl mx-auto m-8">
         <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
           Les Livres
@@ -136,9 +133,9 @@
     </section>
 
 
-    <section class="bg-white border-b py-8">
+    <section class="bg-white dark:bg-gray-800 dark:text-white border-b py-8">
       <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800 dark:bg-gray-800 dark:text-white">
           Les catégories
         </h2>
         {% for category in categories %}
@@ -170,9 +167,9 @@
         {% endfor %}
       </div>
     </section>
-    <section class="bg-gray-100 py-8">
+    <section class="bg-gray-100 dark:bg-gray-800 dark:text-white py-8">
       <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
-        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800 dark:text-white">
           Les auteurs
         </h2>
         <div class="w-full mb-4">

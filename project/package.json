@@ -24,9 +24,10 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "NODE_ENV=production encore production --progress"
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.5.3",
         "flowbite": "^1.6.5",
         "postcss-cli": "^10.1.0"
     }

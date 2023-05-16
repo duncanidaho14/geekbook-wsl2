@@ -19,7 +19,7 @@
         <div class="w-full md:w-1/2 flex flex-col">
 
             <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-12">
-                <a href="#" class="bg-black text-white font-bold text-xl p-4" alt="Logo">GeekBook</a>
+                <a href="#" class="bg-blue-700 text-white font-bold text-xl p-4" alt="Logo">GeekBook</a>
             </div>
             {% for flash_error in app.flashes('verify_email_error') %}
                 <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -109,10 +109,10 @@
                         }) }}
                     </div>
     
-                    <button type="submit" value="Inscription" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">Inscription</button>
+                    <button type="submit" value="Inscription" class="bg-blue-800 text-red font-bold text-lg hover:bg-green-700 p-2 mt-8">Inscription</button>
                 {{ form_end(registrationForm) }}
                 </div>
-                <div class="text-center pt-12 pb-12">
+                <div class="text-center">
                     <p>Vous avez déjà un compte ? <a href="{{path('app_login')}}" class="underline font-semibold">Se connecter ici.</a></p>
                 </div>
             </div>

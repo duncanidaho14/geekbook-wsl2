@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
 body {
     background-color: white;
@@ -13,4 +14,8 @@ body {
 
 .gradient {
     background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
-  }
+}
+
+footer {
+    margin-bottom: -150px;
+}
