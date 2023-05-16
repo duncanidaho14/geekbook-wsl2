@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les auteurs de GeekBook !{% endblock %}
+
+{% block body %}
+<section class="">
+    <h1 class="container py-24 sm:py-32 text-2xl text-center dark:text-white">Les auteurs</h1>
+    <div class="bg-white py-24 sm:py-32 dark:bg-gray-800 dark:text-white">
+        <div class="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3 dark:text-white">
+            <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+                {% for author in authors %}
+                    <li>
+                        <div class="flex items-center gap-x-6">
+                            <a href="{{ path('app_author_show', {'id': author.id }) }}">
+                                <img class="h-16 w-16 rounded-full" src="{{author.avatar}}" alt="{{author.firstName}} {{author.lastName}}">
+                            </a>
+                        <div>
+                            <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">{{author.firstName}} {{author.lastName}}</h3>
+                            <p class="text-sm font-semibold leading-6 text-indigo-600">{{author.description}}</p>
+                        </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('build/app.js')}}"></script>
+{% endblock %}

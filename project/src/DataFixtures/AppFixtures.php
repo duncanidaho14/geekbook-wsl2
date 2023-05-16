@@ -95,6 +95,7 @@ class AppFixtures extends Fixture
             $author->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
                 ->setDescription($faker->paragraph(2))
+                ->setAvatar($faker->imageUrl())
                 ->addBook($books[\mt_rand(0, count($books) - 1)])
             ;
             $manager->persist($author);
