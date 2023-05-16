@@ -16,6 +16,13 @@ class HomeController extends AbstractController
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
     
+        /* This code is creating a query to retrieve the last 12 books with their associated image,
+        author, and category information from the database. It joins the `Image`, `Book`, `Author`,
+        and `Category` entities and filters the results to only include books where the `id` matches
+        the `book` property of the `Image` entity. It also groups the results by the `id` of the
+        `Image`, `slug` and `id` of the `Book`, `firstName` and `lastName` of the `Author`, `name`
+        and `image` of the `Category`. Finally, it orders the results by the `publishedAt` property
+        of the `Book` entity in descending order. The result is stored in the `lastBooks` variable. */
         $lastBooks = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, u.firstName, u.lastName, c.name  as catName, c.image
                         FROM App\Entity\Image i 
                         JOIN i.book b
@@ -26,6 +33,15 @@ class HomeController extends AbstractController
                         ORDER BY b.publishedAt DESC
                         ")->setMaxResults(12)->getResult();
 
+        /* This code is creating a query to retrieve the last 3 authors with their associated books,
+        images, and category information from the database. It joins the `Author`, `Book`,
+        `Category`, and `Image` entities and filters the results to only include authors where the
+        `firstName` and `lastName` match the `firstName` and `lastName` properties of the `Author`
+        entity. It also groups the results by the `id` of the `Author`, `firstName`, `lastName`,
+        `description`, `id` and `title` of the `Book`, `introduction`, `publishedAt`, `name` and
+        `url` of the `Image`, `name` and `image` of the `Category`. Finally, it orders the results
+        by the `publishedAt` property of the `Book` entity in descending order. The result is stored
+        in the `lastAuthors` variable. */
         $lastAuthors = $manager->createQuery('SELECT a.id, a.firstName, a.lastName, a.description, b.id, b.title, b.introduction, b.publishedAt, i.name, i.url, c.name as catName, c.image
                                                 FROM App\Entity\Author a
                                                 JOIN a.book b
