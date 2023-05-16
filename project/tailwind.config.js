@@ -14,10 +14,15 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin'),
-    require('@tailwindcss/forms')
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio')
   ],
 }
