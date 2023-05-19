@@ -12,7 +12,6 @@ class Basket
 {
     private RequestStack $session;
     private EntityManagerInterface $entityManager;
-    private User $user;
 
     public function __construct(EntityManagerInterface $entityManager, RequestStack $session)
     {
@@ -22,7 +21,7 @@ class Basket
 
     public function add($id)
     {
-        $basket = $this->session->getSession()->get('basket', []);
+        $basket = $this->get()->get('basket', []);
         
         if (!empty($basket[$id])) {
             $basket[$id]++;
@@ -41,12 +40,12 @@ class Basket
 
     public function remove()
     {
-        return $this->session->getSession()->remove('basket');
+        return $this->get()->remove('basket');
     }
 
     public function delete($id)
     {
-        $basket = $this->session->getSession()->get('basket', []);
+        $basket = $this->get()->get('basket', []);
         unset($basket[$id]);
 
         return $this->get()->set('basket', $basket);
@@ -54,7 +53,7 @@ class Basket
 
     public function decrease($id)
     {
-        $basket = $this->session->getSession()->get('basket', []);
+        $basket = $this->get()->get('basket', []);
 
         if ($basket[$id] > 1) {
             $basket[$id]--;
@@ -80,7 +79,7 @@ class Basket
                 the given `id`. It is used in the `getAllBasket()` method of the `Basket` class to retrieve all the
                 books in the basket along with their quantities. If a book with the given `id` cannot be found in
                 the database, it is removed from the basket. */
-                $book = $this->entityManager->getRepository(Book::class)->findOneById(['id' => $user->getId()]);
+                $book = $this->entityManager->getRepository(Book::class)->findOneBy(['id' => $user->getId()]);
                 if (!$book) {
                     $this->delete($id);
                     continue;

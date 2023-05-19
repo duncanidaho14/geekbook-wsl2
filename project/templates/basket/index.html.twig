@@ -98,26 +98,30 @@ le panier est vide
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{book.book.title}}
+                    {{dump(book)}}
                     </th>
-                    <td class="px-6 py-4">
-                    {% for author in book.book.categories %}
-                            {{ author.name}}
-                    {% endfor %}
-                    </td>
-                    <td class="px-6 py-4">
-                    {{book.book.editor}}
-                    </td>
-                    <td class="px-6 py-4">
                     {% for author in book.book.authors %}
-                        {{author.lastName }}
+                    <td class="px-6 py-4">
+                            {{ author.lastName}}
+                    </td>
                     {% endfor %}
+                    {% for category in book.book.categories %}
+                    <td class="px-6 py-4">
+                        {{category.name }}
+                    </td>
+                    {% endfor %}
+                    <td class="px-6 py-4">
+                        <a href="{{path('app_decrease_basket', {'id': book.book.id })}}" alt="{{book.book.title}}">➖</a>
+                            {{book.quantity|number_format(2, ',', '.')}}
+                        <a href="{{path('app_add_basket', {'id': book.book.id })}}" alt="{{book.book.title}}">➕</a>
+                    </td>
+                    
+                    <td class="px-6 py-4">
+
+                    {{book.book.price|number_format(2, ',', '.')}} €
                     </td>
                     <td class="px-6 py-4">
-                    {{book.book.price}} €
-                    </td>
-                    <td class="px-6 py-4">
-                        
+                            {{dump(book)}}
                     </td>
                 </tr>
                 {% endfor %}
