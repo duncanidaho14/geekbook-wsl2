@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
-    #[Route('/book', name: 'app_book')]
+    #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
 
@@ -35,7 +35,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{slug}', name: 'app_book_show')]
+    #[Route('/livre/{slug}', name: 'app_book_show')]
     public function show(BookRepository $bookRepository, ImageRepository $imageRepository, string $slug): Response
     {
         return $this->render('book/show.html.twig', [
