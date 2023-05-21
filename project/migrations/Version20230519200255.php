@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230515133022 extends AbstractMigration
+final class Version20230519200255 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,7 +33,7 @@ final class Version20230515133022 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE address (id INT NOT NULL, owner_id INT NOT NULL, name VARCHAR(45) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, company VARCHAR(45) DEFAULT NULL, address VARCHAR(150) NOT NULL, zip VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, phone VARCHAR(45) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D4E6F817E3C61F9 ON address (owner_id)');
-        $this->addSql('CREATE TABLE author (id INT NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, description TEXT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE author (id INT NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, description TEXT NOT NULL, avatar VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE author_book (author_id INT NOT NULL, book_id INT NOT NULL, PRIMARY KEY(author_id, book_id))');
         $this->addSql('CREATE INDEX IDX_2F0A2BEEF675F31B ON author_book (author_id)');
         $this->addSql('CREATE INDEX IDX_2F0A2BEE16A2B381 ON author_book (book_id)');

@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Classes\Basket;
+use App\Repository\BookRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -19,7 +22,7 @@ class BasketController extends AbstractController
      */
     #[Route('/mon-panier', name: 'app_basket')]
     #[Security("is_granted('ROLE_USER')")]
-    public function index(Basket $basket): Response
+    public function index(Basket $basket,  BookRepository $bookRepository, Request $request): Response
     {
         return $this->render('basket/index.html.twig', [
             'basket' => $basket->getAllBasket($this->getUser())
@@ -35,11 +38,11 @@ class BasketController extends AbstractController
      */
     #[Route('/mon-panier/add/{id<\d+>}', name:"app_add_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function addBasket(Basket $basket, int $id): Response
+    public function addBasket(Basket $basket, Book $book,int $id): Response
     {
-        $basket->add($id);
+        $basket->add($book->getId());
 
-        return $this->redirectToRoute('app_basket');
+        return $this->redirectToRoute('app_basket', [$book->getId()]);
     }
 
     /**

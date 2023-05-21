@@ -98,18 +98,19 @@ le panier est vide
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{dump(book)}}
+                        {{book.book.title}}
                     </th>
+                    <td class="px-6 py-4">
                     {% for author in book.book.authors %}
-                    <td class="px-6 py-4">
-                            {{ author.lastName}}
-                    </td>
+                        {{ author.lastName}}
+                        {{ author.firstName}},
                     {% endfor %}
+                    </td>
+                    <td class="px-6 py-4">
                     {% for category in book.book.categories %}
-                    <td class="px-6 py-4">
                         {{category.name }}
-                    </td>
                     {% endfor %}
+                    </td>
                     <td class="px-6 py-4">
                         <a href="{{path('app_decrease_basket', {'id': book.book.id })}}" alt="{{book.book.title}}">➖</a>
                             {{book.quantity|number_format(2, ',', '.')}}
@@ -121,13 +122,13 @@ le panier est vide
                     {{book.book.price|number_format(2, ',', '.')}} €
                     </td>
                     <td class="px-6 py-4">
-                            {{dump(book)}}
+                        <a href="{{path('app_delete_basket', {'id': book.book.id} ) }}" alt="delete : {{book.book.title}}">❌</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{{path('app_order_recap', {'methods': "POST"})}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+        <a href="{{path('app_order_recap', {'methods': "POST"})}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Payer</a>
     </div>
 </div>
 

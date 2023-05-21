@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Entity\Book;
 use App\Entity\User;
+use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -13,7 +14,7 @@ class Basket
     private RequestStack $session;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager, RequestStack $session)
+    public function __construct(RequestStack $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
         $this->entityManager = $entityManager;
@@ -67,19 +68,21 @@ class Basket
     public function getAllBasket(User $user): array
     {
         $basketOver = [];
-        if ($this->get()) {
+        $total = 0;
+        if ($this->get()->get("basket")) {
             /* This code is iterating over the items in the basket, retrieving the corresponding `Book`
             entity from the database using the `EntityManager` and adding it to an array called
             `` along with the quantity of that book in the basket. If a book cannot be
             found in the database, it is removed from the basket and the iteration continues to the
             next item. The resulting `` array contains all the books in the basket along
             with their quantities. */
-            foreach ($this->get() as $id => $quantity) {
+            foreach ($this->get()->get("basket") as $id => $quantity) {
+                //dd($this->entityManager->getRepository(Book::class)->findOneBy(['id' => $user->getId()]));
                 /* This line of code is retrieving a `Book` entity from the database using the `EntityManager` based on
                 the given `id`. It is used in the `getAllBasket()` method of the `Basket` class to retrieve all the
                 books in the basket along with their quantities. If a book with the given `id` cannot be found in
                 the database, it is removed from the basket. */
-                $book = $this->entityManager->getRepository(Book::class)->findOneBy(['id' => $user->getId()]);
+                $book = $this->entityManager->getRepository(Book::class)->findOneById($id);
                 if (!$book) {
                     $this->delete($id);
                     continue;
@@ -88,6 +91,7 @@ class Basket
                     'book' => $book,
                     'quantity' => $quantity
                 ];
+                $total += $book->getPrice() * $quantity;
             }
         }
         return $basketOver;
