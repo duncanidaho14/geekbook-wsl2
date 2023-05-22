@@ -6,7 +6,7 @@
 
 <h1 class="mt-96 text-center text-green-700 border-purple-200 rounded-lg shadow dark:bg-purple-800 dark:border-purple-700">Les livres de GeekBook</h1>
     
-    <div class="container m-24">
+    {# <div class="container m-24">
         {{form_start(searchForm)}}
         <div class="relative">
             {{form_row(searchForm.q, {
@@ -19,18 +19,20 @@
                     placeholder: "Vous cherchez un livre ?",
                     autofocus: true
                 }
-            })}}
+            })}} #}
             {# <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label> #}
             {# <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
                 <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required>
-                #}<button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                #}
+                
+                {# <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div> 
         {{form_end(searchForm)}}
-        {{dump()}}
-        {% if not searchQuery %}
+        
+        {% if searchQuery %}
         <section class="flex flex-wrap mt-96">
             <h2> {{ results|length }} livres trouvé "{{ searchQuery }}"</h2>
             {% for book in results %}
@@ -44,26 +46,75 @@
                         {% endfor %}
                         <div class="p-5 w-auto h-70">
                             {# <a href="{{path('app_book_show', {'slug': book.slug })}}"> #}
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{book.introduction}}</h5>
+                                {# <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{book.introduction}}</h5>
                             </a>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{book.description}}</p>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{book.description}}</p> #}
                             {# <a href="{{path('app_book_show', {'slug': book.slug })}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Read more
                                 <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </a> #}
-                        </div>
+                        {# </div>
                     </div>
                 </div>
                 <br>
                 <hr>
             {% else %}
                 <h3>Il n'y a pas de résultats pour cette requete</h3>
-            {% endfor %}
+            {% endfor %} #}
 
-            <br/>
+            {# <br/>
         </section>
         {% endif %}
-    </div>
+    </div> #} 
+
+{{dump(searchQuery)}}
+    {% if searchQuery %}
+        <h2 class="mb-4 display-6">
+            🔍 {{ results|length }} posts containing "{{ searchQuery }}"
+        </h2>
+
+        {% for post in results %}
+            <article class="my-3 {{ loop.index is odd ? 'bg-light' : '' }} py-4 px-2 rounded">
+                <h4>
+                    #{{ loop.index }}. <a href="{{ path('app_book_show', {slug: post.slug}) }}" class="text-decoration-none">
+                        {{ post._formatted.title|raw }}
+                    </a>
+                </h4>
+                {{ post._formatted.description|raw }}
+            </article>
+        {% else %}
+            <p>There are no results for your query.</p>
+            <div class="row">
+            <div class="col-md-8">
+                <h1>Search for posts</h1>
+
+                {{ form_start(searchForm) }}
+                    {{ form_widget(searchForm) }}
+
+                    {# <button type="submit" class="btn btn-primary w-100" formnovalidate>
+                        Search
+                    </button> #}
+                {{ form_end(searchForm) }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <p><a href="{{ path('app_search', {'fetch_last_query': true}) }}">Do another search</a></p>
+    {% else %}
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Search for posts</h1>
+
+                {{ form_start(searchForm) }}
+                    {{ form_widget(searchForm) }}
+
+                    {# <button type="submit" class="btn btn-primary w-100" formnovalidate>
+                        Search
+                    </button> #}
+                {{ form_end(searchForm) }}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

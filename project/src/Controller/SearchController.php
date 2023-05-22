@@ -33,7 +33,11 @@ class SearchController extends AbstractController
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $searchResponse = $searchService->rawSearch(Book::class, $searchQuery, [
-
+                'attributesToHighlight' => ['title', 'introduction'],
+                'highlightPreTag' => '<mark>',
+                'highlightPostTag' => '</mark>',
+                'attributesToCrop' => ['introduction'],
+                'cropLength' => 20,
             ]);
             $results = $searchResponse['hits'];
         }
