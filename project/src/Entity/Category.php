@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -13,12 +14,15 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 45)]
+    #[Groups(["searchable"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["searchable"])]
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'categories')]

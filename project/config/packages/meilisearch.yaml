@@ -8,3 +8,19 @@ meilisearch:
         - name: books
           class: App\Entity\Book
           enable_serializer_groups: true
+        
+        - name: images
+          class: App\Entity\Image
+          enable_serializer_groups: true
+        
+        - name: authors
+          class: App\Entity\Author
+          enable_serializer_groups: true
+        
+        - name: categories
+          class: App\Entity\Category
+          enable_serializer_groups: true
+        
+        - name: comments
+          class: App\Entity\Comment
+          enable_serializer_groups: true

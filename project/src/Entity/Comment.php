@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use App\Repository\CommentRepository;
 use Gedmo\Mapping\Annotation\Timestampable;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -13,12 +14,15 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(["searchable"])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["searchable"])]
     private ?string $comment = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
@@ -31,10 +35,12 @@ class Comment
 
     #[Timestampable(on: 'create')]
     #[ORM\Column(name: 'created_at', type: Types::DATE_IMMUTABLE)]
+    #[Groups(["searchable"])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
+    #[Groups(["searchable"])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
