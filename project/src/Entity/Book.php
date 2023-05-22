@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -17,55 +18,71 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(["searchable"])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["searchable"])]
     private ?string $introduction = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["searchable"])]
     private ?string $description = null;
 
     #[Timestampable(on: 'create')]
     #[ORM\Column(name: 'created_at', type: Types::DATE_IMMUTABLE)]
+    #[Groups(["searchable"])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
+    #[Groups(["searchable"])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Timestampable(on: 'change')] //, field:["title", "body"]
     #[ORM\Column(name: 'published_at', type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Groups(["searchable"])]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[Slug(fields: ['title'])]
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(["searchable"])]
     private ?string $slug = null;
 
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?float $price = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(["searchable"])]
     private ?string $langue = null;
 
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?int $nbPages = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(["searchable"])]
     private ?string $dimension = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["searchable"])]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["searchable"])]
     private ?string $editor = null;
 
     #[ORM\Column]
+    #[Groups(["searchable"])]
     private ?bool $isInStock = null;
 
     #[ORM\OneToMany(mappedBy: 'bookComment', targetEntity: Comment::class, orphanRemoval: true)]
+    #[Groups(["searchable"])]
     private Collection $comments;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'book')]
@@ -78,6 +95,7 @@ class Book
     private Collection $orderDetails;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Image::class, orphanRemoval: true)]
+    #[Groups(["searchable"])]
     private Collection $images;
 
     public function __construct()

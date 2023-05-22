@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Repository\BookRepository;
-use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
+use Meilisearch\Bundle\SearchService;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,14 +55,13 @@ class HomeController extends AbstractController
                                                 ORDER BY b.publishedAt DESC
                                         ')->setMaxResults(3)->getResult();
 
-
         
-
         return $this->render('home/index.html.twig', [
             'books' => $lastBooks,
             'authors' => $lastAuthors,
             'imageRepo' => $imageRepository->findByUrl([]),
-            'categories' => $categoriesRepository->findAll()
+            'categories' => $categoriesRepository->findAll(),
+            
         ]);
     }
 }

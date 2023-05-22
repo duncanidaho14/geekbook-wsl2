@@ -36,6 +36,7 @@ services:
       - dev
     depends_on:
       - db
+      - meilisearch
 
   apache:
         image: httpd:2.4
@@ -55,9 +56,23 @@ services:
       - "1080:1080" 
       # vérifier le port 1080
 
+  meilisearch:
+    image: getmeili/meilisearch:${MEILISEARCH_VERSION:-latest}
+    container_name: meilisearch
+    restart: always
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-!ChangeMe!}
+    ports:
+      - "7700:7700"
+    volumes:
+      - ./meilisearch_data:/meili_data
+    networks:
+      - dev
+
 networks:
   dev:
 
 volumes:
   database_data:
   apache:
+  meilisearch_data:

@@ -47,7 +47,7 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route("/adresse/editer/{id<\d+>}", name:"app_add_address")]
+    #[Route("/adresse/editer/{id<\d+>}", name:"app_edit_address")]
     public function editAddress(EntityManagerInterface $entityManager, Request $request, string $id): Response
     {
         $address = new Address();
