@@ -24,6 +24,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("tw-elements/dist/plugin.cjs"),
     require('flowbite/plugin'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio')
