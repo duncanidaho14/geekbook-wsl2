@@ -11,6 +11,7 @@ import './styles/app.scss';
 // start the Stimulus application
 import './bootstrap';
 import {
+    Animate,
     Ripple,
     initTE,
 } from "tw-elements";
@@ -19,4 +20,4 @@ import {
 import 'flowbite';
 import './images/hero.png';
 
-initTE({ Ripple });
+initTE({ Ripple, Animate });
