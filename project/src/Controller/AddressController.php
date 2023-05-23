@@ -42,13 +42,13 @@ class AddressController extends AbstractController
 
             $entityManager->persist($address);
             $entityManager->flush();
-
+            sleep(2);
             $this->addFlash(
                 'success',
                 'Vôtre adresse a bien été enregistré !'
             );
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_address');
         }
         
         return $this->render("address/add.html.twig", [
