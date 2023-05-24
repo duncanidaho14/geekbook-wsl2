@@ -13,7 +13,7 @@ class Basket
 {
     private RequestStack $session;
     private EntityManagerInterface $entityManager;
-
+    private const TVA = 0.2;
     public function __construct(RequestStack $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
@@ -65,10 +65,17 @@ class Basket
         return $this->get()->set('basket', $basket);
     }
 
+    public function updateCart(User $user, $basket)
+    {
+        $this->get()->set('basket', $basket);
+        $this->get()->set('cartData', $this->getAllBasket($user));
+    }
+
     public function getAllBasket(User $user): array
     {
         $basketOver = [];
-        $total = 0;
+        $quantityCart = 0;
+        $subTotal = 0;
         if ($this->get()->get("basket")) {
             /* This code is iterating over the items in the basket, retrieving the corresponding `Book`
             entity from the database using the `EntityManager` and adding it to an array called
@@ -87,13 +94,22 @@ class Basket
                     $this->delete($id);
                     continue;
                 }
-                $basketOver[] = [
+                $basketOver["products"][] = [
                     'book' => $book,
                     'quantity' => $quantity
                 ];
-                $total += $book->getPrice() * $quantity;
+                $quantityCart += $quantity;
+                $subTotal += $book->getPrice() * $quantity;
             }
         }
+
+        $basketOver['data'] = [
+            "quantityCart" => $quantityCart,
+            'subTotalHT' => $subTotal,
+            'taxe' => round($subTotal * self::TVA),
+            'subTotalTTC' => round($subTotal + ($subTotal * self::TVA), 2)
+        ];
+
         return $basketOver;
     }
 }

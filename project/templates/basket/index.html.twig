@@ -3,7 +3,7 @@
 {% block title %}Mon panier GeekBook !{% endblock %}
 
 {% block body %}
-{% if basket|length < 1 %}
+{% if basket.data.quantityCart == 0 %}
 <div class="w-full mt-96">
   <h1>le panier est vide</h1>
 </div>
@@ -28,42 +28,45 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                {% for cart in basket %}
-                                <td class="py-4">
-                                    <div class="flex items-center">
-                                    {% for image in cart.book.images %}
-                                        <img class="h-16 w-16 mr-4" src="{{image.url}}" alt="Product image">
-                                    {% endfor %}
-                                        <span class="font-semibold">{{cart.book.title}}</span>
-                                    </div>
-                                </td>
-                                <td class="py-4">{{cart.book.price}}</td>
-                                <td class="py-4">
-                                    <div class="flex items-center">
-                                        <a class="border rounded-md py-2 px-4 mr-2" href="{{path('app_decrease_basket', {'id': cart.book.id})}}">-</a>
-                                        <span class="text-center w-8">{{cart.quantity}}</span>
-                                        <a class="border rounded-md py-2 px-4 ml-2" href="{{path('app_add_basket', {'id': cart.book.id})}}">+</a>
-                                    </div>
-                                </td>
-                                <td class="py-4">$19.99</td>
+                            
+                                {% for cart in basket.products %}
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                            <!-- Slice découpe le tableau par exemple là je récupère la premiere image -->
+                                            {% for image in cart.book.images|slice(0,1) %}
+                                                <img class="h-16 w-16 mr-4" src="{{image.url}}" alt="Product image">
+                                            {% endfor %}
+                                                <span class="font-semibold">{{cart.book.title}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">{{cart.book.price}}</td>
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                                <a class="border rounded-md py-2 px-4 mr-2" href="{{path('app_decrease_basket', {'id': cart.book.id})}}">-</a>
+                                                <span class="text-center w-8">{{cart.quantity}}</span>
+                                                <a class="border rounded-md py-2 px-4 ml-2" href="{{path('app_add_basket', {'id': cart.book.id})}}">+</a>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">{{basket.data.subTotalHT|number_format(2, ',', '.')}} €</td>
+                                    </tr>
                                 {% endfor %}
-                            </tr>
-                            <!-- More product rows -->
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="md:w-1/4">
                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-lg font-semibold mb-4">Summary</h2>
+                    <h2 class="text-lg font-semibold mb-4">Résumer</h2>
+                    
                     <div class="flex justify-between mb-2">
-                        <span>Subtotal</span>
-                        <span>$19.99</span>
+                        <span>Sous Total</span>
+                        <span>{{basket.data.subTotalHT|number_format(2, ',', '.')}} €</span>
                     </div>
                     <div class="flex justify-between mb-2">
-                        <span>Taxes</span>
-                        <span>$1.99</span>
+                        <span>Taxe (20%)</span>
+                        <span>{{basket.data.taxe * 0.2 }} €</span>
                     </div>
                     <div class="flex justify-between mb-2">
                         <span>Shipping</span>
@@ -72,8 +75,9 @@
                     <hr class="my-2">
                     <div class="flex justify-between mb-2">
                         <span class="font-semibold">Total</span>
-                        <span class="font-semibold">$21.98</span>
+                        <span class="font-semibold">{{basket.data.subTotalTTC * 1.2 }} €</span>
                     </div>
+                    
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
                 </div>
             </div>

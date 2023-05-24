@@ -24,8 +24,14 @@ class BasketController extends AbstractController
     #[Security("is_granted('ROLE_USER')")]
     public function index(Basket $basket,  BookRepository $bookRepository, Request $request): Response
     {
+        $cart = $basket->getAllBasket($this->getUser());
+
+        if (!isset($cart['data'])) {
+            return $this->redirectToRoute("app_home");
+        }
+
         return $this->render('basket/index.html.twig', [
-            'basket' => $basket->getAllBasket($this->getUser())
+            'basket' => $cart
         ]);
     }
 
