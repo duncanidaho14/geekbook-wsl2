@@ -14,6 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BasketController extends AbstractController
 {
+
+    private Basket $basket;
+
+    public function __construct(Basket $basket)
+    {
+        $this->basket = $basket;
+    }
+
     /**
      * Undocumented function
      *
@@ -22,16 +30,19 @@ class BasketController extends AbstractController
      */
     #[Route('/mon-panier', name: 'app_basket')]
     #[Security("is_granted('ROLE_USER')")]
-    public function index(Basket $basket,  BookRepository $bookRepository, Request $request): Response
+    public function index(): Response
     {
-        $cart = $basket->getAllBasket($this->getUser());
-
-        if (!isset($cart['data'])) {
+        
+        
+        $cart = $this->basket->getAllBasket();
+        
+        if (empty($cart['data'])) {
             return $this->redirectToRoute("app_home");
         }
-
+        //$update = $basket->updateCart($this->getUser(), $cart['data'] );
         return $this->render('basket/index.html.twig', [
-            'basket' => $cart
+            'basket' => $cart,
+            // 'update' => $update
         ]);
     }
 
@@ -44,11 +55,11 @@ class BasketController extends AbstractController
      */
     #[Route('/mon-panier/add/{id<\d+>}', name:"app_add_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function addBasket(Basket $basket, Book $book,int $id): Response
+    public function addBasket(Book $book,int $id): Response
     {
-        $basket->add($book->getId());
+        $this->basket->add($id);
 
-        return $this->redirectToRoute('app_basket', [$book->getId()]);
+        return $this->redirectToRoute('app_basket');
     }
 
     /**
@@ -59,9 +70,9 @@ class BasketController extends AbstractController
      */
     #[Route("/mon-panier/remove", name:"app_remove_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function remove(Basket $basket): Response
+    public function remove(): Response
     {
-        $basket->remove();
+        $this->basket->remove();
 
         return $this->redirectToRoute('app_home');
     }
@@ -75,9 +86,9 @@ class BasketController extends AbstractController
      */
     #[Route("/mon-panier/delete/{id<\d+>}", name:"app_delete_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function delete(Basket $basket, $id): Response
+    public function delete($id): Response
     {
-        $basket->delete($id);
+        $this->basket->delete($id);
 
         return $this->redirectToRoute('app_basket');
     }
@@ -103,9 +114,9 @@ class BasketController extends AbstractController
      */ 
     #[Route("/mon-panier/decrease/{id<\d+>}", name:"app_decrease_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function decrease(Basket $basket, $id): Response
+    public function decrease($id): Response
     {
-        $basket->decrease($id);
+        $this->basket->decrease($id);
 
         return $this->redirectToRoute('app_basket');
     }

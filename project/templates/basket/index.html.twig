@@ -66,7 +66,7 @@
                     </div>
                     <div class="flex justify-between mb-2">
                         <span>Taxe (20%)</span>
-                        <span>{{basket.data.taxe * 0.2 }} €</span>
+                        <span>{{basket.data.taxe|number_format(2, ',', '.')}} €</span>
                     </div>
                     <div class="flex justify-between mb-2">
                         <span>Shipping</span>
@@ -75,7 +75,7 @@
                     <hr class="my-2">
                     <div class="flex justify-between mb-2">
                         <span class="font-semibold">Total</span>
-                        <span class="font-semibold">{{basket.data.subTotalTTC * 1.2 }} €</span>
+                        <span class="font-semibold">{{basket.data.subTotalTTC|number_format(2, ',', '.') }} €</span>
                     </div>
                     
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>

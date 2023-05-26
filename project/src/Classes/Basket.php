@@ -3,7 +3,7 @@
 namespace App\Classes;
 
 use App\Entity\Book;
-use App\Entity\User;
+use App\Entity\User as EntityUser;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -14,6 +14,7 @@ class Basket
     private RequestStack $session;
     private EntityManagerInterface $entityManager;
     private const TVA = 0.2;
+
     public function __construct(RequestStack $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
@@ -22,74 +23,80 @@ class Basket
 
     public function add($id)
     {
-        $basket = $this->get()->get('basket', []);
-        
+        $basket = $this->getCart()->get('basket', []);
+
         if (!empty($basket[$id])) {
             $basket[$id]++;
         } else {
             $basket[$id] = 1;
         }
-        
 
-        $this->get()->set('basket', $basket);
+        $this->updateCart($basket);
     }
 
-    public function get(): SessionInterface
+    public function getCart(): SessionInterface
     {
         return $this->session->getSession();
     }
 
     public function remove()
     {
-        return $this->get()->remove('basket');
+        $this->updateCart([]);
     }
 
     public function delete($id)
     {
-        $basket = $this->get()->get('basket', []);
-        unset($basket[$id]);
-
-        return $this->get()->set('basket', $basket);
+        $basket = $this->getCart()->get('basket', []);
+        
+        if (isset($basket[$id])) {
+            unset($basket[$id]);
+            $this->updateCart($basket);
+        }
     }
 
     public function decrease($id)
     {
-        $basket = $this->get()->get('basket', []);
+        $basket = $this->getCart()->get('basket', []);
 
-        if ($basket[$id] > 1) {
-            $basket[$id]--;
-        } else {
-            unset($basket[$id]);
+        if (isset($basket[$id])) {
+            if ($basket[$id] > 1) {
+                $basket[$id]--;
+            } else {
+                unset($basket[$id]);
+            }
+            $this->updateCart($basket);
         }
-
-        return $this->get()->set('basket', $basket);
     }
 
-    public function updateCart(User $user, $basket)
+    public function updateCart($basket)
     {
-        $this->get()->set('basket', $basket);
-        $this->get()->set('cartData', $this->getAllBasket($user));
+        $this->getCart()->set('basket', $basket);
+        $this->getCart()->set('cartData', $this->getAllBasket());
     }
 
-    public function getAllBasket(User $user): array
+    public function getAllBasket(): array
     {
+        $basket = $this->getCart()->get('basket', []);
         $basketOver = [];
         $quantityCart = 0;
         $subTotal = 0;
-        if ($this->get()->get("basket")) {
+        //dd($this->getCart()->get('basket'));
+        if (is_array($basket)) {
             /* This code is iterating over the items in the basket, retrieving the corresponding `Book`
             entity from the database using the `EntityManager` and adding it to an array called
             `` along with the quantity of that book in the basket. If a book cannot be
             found in the database, it is removed from the basket and the iteration continues to the
             next item. The resulting `` array contains all the books in the basket along
             with their quantities. */
-            foreach ($this->get()->get("basket") as $id => $quantity) {
+            
+            foreach ($basket as $id => $quantity) {
                 //dd($this->entityManager->getRepository(Book::class)->findOneBy(['id' => $user->getId()]));
                 /* This line of code is retrieving a `Book` entity from the database using the `EntityManager` based on
                 the given `id`. It is used in the `getAllBasket()` method of the `Basket` class to retrieve all the
                 books in the basket along with their quantities. If a book with the given `id` cannot be found in
                 the database, it is removed from the basket. */
-                $book = $this->entityManager->getRepository(Book::class)->findOneById($id);
+                $book = $this->entityManager->getRepository(Book::class)->find($id);
+                
                 if (!$book) {
                     $this->delete($id);
                     continue;
@@ -98,8 +105,8 @@ class Basket
                     'book' => $book,
                     'quantity' => $quantity
                 ];
-                $quantityCart += $quantity;
-                $subTotal += $book->getPrice() * $quantity;
+                (int)$quantityCart += $quantity;
+                (float)$subTotal += (float)$book->getPrice() * $quantity;
             }
         }
 
