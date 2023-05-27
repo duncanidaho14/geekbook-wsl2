@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrderController!{% endblock %}
+{% block title %}Récapitulatif de la commande GeekBook !{% endblock %}
 
 {% block body %}
 <div class="bg-gray-100 dark:bg-gray-800 dark:text-white">
@@ -41,34 +41,50 @@
                     </div>
                     <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
                         <p class="text-xl font-medium">Adresse & Transporteur</p>
-                        <p class="text-gray-400">Choisisser votre adresse et votre transporteur</p>
+                        <p class="text-gray-400">Vos choix d'adresse et de transport</p>
                         <div class="">
-                            {{form_start(form, {action: path('app_order_recap')})}}
-                                {{form_row(form.address)|replace({'[eol]' : '<br/>'})|raw}}
-                                {{form_row(form.carrier)|replace({'[eol]' : '<br/>'})|raw}}
-                                {{form_row(form.moreInformation)}}
+                            <label for="email" class="mt-4 mb-2 block text-sm font-medium">Adresse choisi</label>
+                            <div class="relative">
+                                {{address|replace({'[eol]' : '<br/>'})|raw}}
+                            </div>
+                            <label for="card-holder" class="mt-4 mb-2 block text-sm font-medium">Transporteur</label>
+                            <div class="relative">
+                                {{carrier|replace({'[eol]' : '<br/>'})|raw}}
+                            </div>
+                            <label for="card-no" class="mt-4 mb-2 block text-sm font-medium">Information</label>
+                            <div class="flex">
+                                <div class="relative w-7/12 flex-shrink-0">
+                                {% if informations %}
+                                    {{informations|replace({'[eol]' : '<br/>'})|raw}}
+                                {% endif %}
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                                
                             
                         <!-- Total -->
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                            <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
+                            <p class="text-sm font-medium text-gray-900">Prix HT</p>
+                            <p class="font-semibold text-gray-900">{{basket.data.subTotalHT}} €</p>
                             </div>
                             <div class="flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-900">Taxe</p>
-                            <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
+                            <p class="font-semibold text-gray-900">{{basket.data.taxe}} €</p>
                             </div>
                             <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Shipping</p>
-                            <p class="font-semibold text-gray-900">$8.00</p>
+                            <p class="text-sm font-medium text-gray-900">Prix du transporteur : {{carrier.name}}</p>
+                            <p class="font-semibold text-gray-900">{{carrier.price|number_format(2, ',', '.')}} €</p>
                             </div>
                         </div>
                         <div class="mt-6 flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{basket.data.subTotalTTC + carrier.price}} €</p>
                         </div>
                     </div>
-                    {{form_end(form)}}
+                  
                 </div>
             </div>
 

@@ -2,21 +2,21 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Address;
-use App\Entity\Author;
+use Faker\Factory;
 use App\Entity\Book;
-use App\Entity\Carrier;
-use App\Entity\Category;
-use App\Entity\Comment;
+use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Order;
-use App\Entity\OrderDetail;
-use Faker\Factory;
-use App\Entity\User;
+use App\Entity\Author;
+use App\Entity\Address;
+use App\Entity\Carrier;
+use App\Entity\Comment;
+use App\Entity\Category;
+use App\Entity\OrderDetails;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -163,42 +163,52 @@ class AppFixtures extends Fixture
             $images[] = $image;
         }
 
-        for ($or=0; $or < 100; $or++) { 
+        $orders = [];
+        
+        for ($or=0; $or < 20; $or++) { 
             $order = new Order();
-            $order->setCarrierName($faker->name())
+            $order->setReference($faker->randomNumber())
+                ->setFullName($faker->name())
+                ->setCarrierName($faker->name())
                 ->setCarrierPrice($faker->numberBetween(0, 25))
-                ->setDelivery($faker->paragraph(5))
+                ->setDeliveryAddress($faker->address())
                 ->setIsPaid($faker->boolean(\mt_rand(0, 1)))
+                ->setMoreInformation($faker->sentence())
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                ->setReference($faker->randomNumber())
-                ->setStripeSessionId($faker->randomNumber())
+                ->setUsers($users[mt_rand(0, count($users) - 1 )])
             ;
+                
+                $orderDetails = [];
+                for ($ordd=0; $ordd < 3; $ordd++) { 
+                    $orderDetail = new OrderDetails();
+                    $orderDetail->setQuantity($faker->numberBetween(1, 5))
+                        ->setProductPrice($faker->numberBetween(0, 100))
+                        ->setSubTotalHT($faker->numberBetween(0, 100))
+                        ->setProductName($faker->name())
+                        ->setSubTotalTTC($faker->numberBetween(0, 100))
+                        ->setTaxe($faker->numberBetween(10, 20))
+                        ->setOrders($order)
+                    ;
+                    
+                    $manager->persist($orderDetail);
+                    $orderDetails[] = $orderDetail;
+                }
+            $order->addOrderDetail($orderDetails[mt_rand(0, count($orderDetails) - 1 )]);
             $manager->persist($order);
+            $orders[] = $order;
         }
         
-        $orderDetails = [];
-        for ($ordd=0; $ordd < 100; $ordd++) { 
-            $orderDetail = new OrderDetail();
-            $orderDetail->setQuantity($faker->numberBetween(1, 5))
-                ->setPrice($faker->numberBetween(0, 100))
-                ->setTotal($faker->numberBetween(0, 100))
-                ->setBook($books[mt_rand(0, count($books) - 1)])
-                ->addProduct($order)
-            ;
-            $manager->persist($orderDetail);
-            $orderDetails[] = $orderDetail;
-        }
+        
 
         for ($boo=0; $boo < 25; $boo++) { 
             $book->addAuthor($authors[mt_rand(0, count($authors) - 1)])
                     ->addCategory($categories[mt_rand(0, count($categories) - 1)])
                     ->addComment($comments[mt_rand(0, count($comments) - 1)])
                     ->addImage($images[mt_rand(0, count($images) - 1)])
-                    ->addOrderDetail($orderDetails[mt_rand(0, count($orderDetails) - 1)])
             ;
             $manager->persist($book);
         }
+
         $manager->flush();
     }
 }

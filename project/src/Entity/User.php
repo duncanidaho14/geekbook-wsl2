@@ -76,10 +76,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $agreeTerms = null;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Order::class)]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function __toString()
@@ -297,6 +301,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAgreeTerms(bool $agreeTerms): self
     {
         $this->agreeTerms = $agreeTerms;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUsers() === $this) {
+                $order->setUsers(null);
+            }
+        }
 
         return $this;
     }

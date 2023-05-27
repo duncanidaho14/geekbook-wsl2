@@ -2,69 +2,107 @@
 
 namespace App\Controller;
 
-use App\Classes\Basket;
-use App\Form\OrderType;
 use DateTime;
+use App\Classes\Basket;
+use App\Form\CheckoutType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class OrderController extends AbstractController
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private RequestStack $session;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $session)
     {
         $this->entityManager = $entityManager;
+        $this->session = $session;
     }
 
     #[Route('/commande', name: 'app_order')]
     #[Security("is_granted('ROLE_USER')")]
     public function index(Basket $basket, Request $request): Response
     {
+        $user = $this->getUser();
+        $cart = $basket->getAllBasket();
 
-        $form = $this->createForm(OrderType::class, null, [
-            'user' => $this->getUser()
+        if (!isset($cart['products'])) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if (!$user->getAddresses()->getValues()) {
+            return $this->redirectToRoute('app_add_address');
+        }
+
+        $form = $this->createForm(CheckoutType::class, null, [
+            'user' => $user
         ]);
 
-        foreach($basket->getAllBasket($this->getUser()) as $key => $value){
+        $form->handleRequest($request);
+
+        foreach($basket->getAllBasket() as $key => $value){
             $value;
         }
 
 
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
-            'basket' => $basket->getAllBasket($this->getUser())
+            'basket' => $cart
         ]);
     }
 
 
-    #[Route("/commande/recapitulatif", name:"app_order_recap", methods:["POST"])]
+    #[Route("/commande/recapitulatif", name:"app_order_recap")]
     #[Security("is_granted('ROLE_USER')")]
     public function add(CacheInterface $cache, Basket $basket, Request $request): Response
     {
         
-        foreach ($basket->getAllBasket($this->getUser()) as $key => $value) {
-            $value;
+        $user = $this->getUser();
+        $cart = $basket->getAllBasket();
+
+        if (!isset($cart['products'])) {
+            return $this->redirectToRoute('app_home');
         }
 
-        $value =  $cache->get($value['book'], function() use ($value) {
-            return $value;
-        });
+        if (!$user->getAddresses()->getValues()) {
+            return $this->redirectToRoute('app_add_address');
+        }
+        // foreach($basket->getAllBasket() as $key => $value){
+        //     $cache->get($value['data'], function() use ($value) {
+        //         dd($value);
+        //         return $value;
+        //     });
+        // };
 
-        $form = $this->createForm(OrderType::class, null, [
-            'user' => $this->getUser()
+        $form = $this->createForm(CheckoutType::class, null, [
+            'user' => $user
         ]);
 
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $date = new DateTime();
-
+        if ($form->isSubmitted() && $form->isValid() || $this->session->getSession()->get('checkout_data')) {
+            if ($this->session->getSession()->get('checkout_data')) {
+                $data =  $this->session->getSession()->get('checkout_data');
+            }else {
+                $data = $form->getData();
+                $this->session->getSession()->set('checkout_data', $data);
+            }
+            $address = $data['address'];
+            $carrier = $data['carrier'];
+            $information = $data['moreInformation'];
+            
+            return $this->render('order/add.html.twig', [
+                'basket' => $cart,
+                'address' => $address,
+                'carrier' => $carrier,
+                'informations' => $information,
+                'form' => $form->createView()
+            ]);
         }
         return $this->redirectToRoute('app_basket');
     }

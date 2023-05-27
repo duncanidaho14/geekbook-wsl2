@@ -15,8 +15,6 @@ import {
     Ripple,
     initTE,
 } from "tw-elements";
-  
- 
 import 'flowbite';
 import './images/hero.png';
 

@@ -44,6 +44,19 @@ class Address
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    public function __toString()
+    {
+        $result = $this->getFirstName() . ' ' . $this->getLastName() . '[eol]';
+        if ($this->getCompany()) {
+            $result .= $this->getCompany() . '[eol]'; 
+        }
+        $result .= $this->getAddress() . '[eol]';
+        $result .= $this->getZip(). '[eol]'; 
+        $result .= $this->getCity() . ' ' . $this->getCountry(). '[eol]';
+        $result .= $this->getPhone();
+
+        return $result;
+    }
     public function getId(): ?int
     {
         return $this->id;

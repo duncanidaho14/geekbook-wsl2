@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\Basket;
 use App\Entity\Address;
 use App\Form\AddressesType;
 use App\Repository\AddressRepository;
@@ -9,10 +10,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AddressController extends AbstractController
 {
+    private RequestStack $session;
+
+    public function __construct(RequestStack $session)
+    {
+        $this->session = $session;
+    }
+
     #[Route('/adresse', name: 'app_address')]
     public function index(): Response
     {
@@ -30,7 +39,7 @@ class AddressController extends AbstractController
     }
 
     #[Route("/adresse/ajouter", name:"app_add_address")]
-    public function addAddress(EntityManagerInterface $entityManager, Request $request): Response
+    public function addAddress(EntityManagerInterface $entityManager, Request $request, Basket $basket): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressesType::class, $address);
@@ -42,6 +51,11 @@ class AddressController extends AbstractController
 
             $entityManager->persist($address);
             $entityManager->flush();
+
+            if ($basket->getAllBasket()) {
+                return $this->redirectToRoute('app_order');
+            }
+
             sleep(2);
             $this->addFlash(
                 'success',
@@ -72,6 +86,12 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            if ($this->session->getSession()->get('checkout_data')) {
+                $data = $this->session->getSession()->get('checkout_data');
+                $data['address'] = $address;
+                $this->session->getSession()->set('checkout_data', $data);
+                return $this->redirectToRoute('app_order_recap');
+            }
             $this->addFlash(
                 'success',
                 'Vôtre adresse a bien été enregistré !'

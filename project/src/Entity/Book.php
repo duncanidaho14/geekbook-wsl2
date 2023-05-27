@@ -91,9 +91,6 @@ class Book
     #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'book')]
     private Collection $authors;
 
-    #[ORM\OneToMany(mappedBy: 'book', targetEntity: OrderDetail::class)]
-    private Collection $orderDetails;
-
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Image::class, orphanRemoval: true)]
     #[Groups(["searchable"])]
     private Collection $images;
@@ -103,7 +100,6 @@ class Book
         $this->comments = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->authors = new ArrayCollection();
-        $this->orderDetails = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
 
@@ -364,36 +360,6 @@ class Book
     {
         if ($this->authors->removeElement($author)) {
             $author->removeBook($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, OrderDetail>
-     */
-    public function getOrderDetails(): Collection
-    {
-        return $this->orderDetails;
-    }
-
-    public function addOrderDetail(OrderDetail $orderDetail): self
-    {
-        if (!$this->orderDetails->contains($orderDetail)) {
-            $this->orderDetails->add($orderDetail);
-            $orderDetail->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderDetail(OrderDetail $orderDetail): self
-    {
-        if ($this->orderDetails->removeElement($orderDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($orderDetail->getBook() === $this) {
-                $orderDetail->setBook(null);
-            }
         }
 
         return $this;

@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\OrderRepository;
-use Doctrine\Common\Collections\Collection;
-use Gedmo\Mapping\Annotation\Timestampable;
-use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -18,34 +17,36 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 45)]
+    #[ORM\Column(length: 255)]
+    private ?string $reference = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fullName = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $carrierName = null;
 
     #[ORM\Column]
     private ?float $carrierPrice = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $delivery = null;
+    private ?string $deliveryAddress = null;
 
     #[ORM\Column]
     private ?bool $isPaid = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $moreInformation = null;
+
     #[ORM\Column]
-    #[Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    #[Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $reference = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $stripeSessionId = null;
-
-    #[ORM\ManyToMany(targetEntity: OrderDetail::class, mappedBy: 'product')]
+    #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrderDetails::class)]
     private Collection $orderDetails;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $users = null;
 
     public function __construct()
     {
@@ -55,6 +56,30 @@ class Order
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
     }
 
     public function getCarrierName(): ?string
@@ -81,14 +106,14 @@ class Order
         return $this;
     }
 
-    public function getDelivery(): ?string
+    public function getDeliveryAddress(): ?string
     {
-        return $this->delivery;
+        return $this->deliveryAddress;
     }
 
-    public function setDelivery(string $delivery): self
+    public function setDeliveryAddress(string $deliveryAddress): self
     {
-        $this->delivery = $delivery;
+        $this->deliveryAddress = $deliveryAddress;
 
         return $this;
     }
@@ -105,6 +130,18 @@ class Order
         return $this;
     }
 
+    public function getMoreInformation(): ?string
+    {
+        return $this->moreInformation;
+    }
+
+    public function setMoreInformation(?string $moreInformation): self
+    {
+        $this->moreInformation = $moreInformation;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -117,65 +154,44 @@ class Order
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getReference(): ?string
-    {
-        return $this->reference;
-    }
-
-    public function setReference(string $reference): self
-    {
-        $this->reference = $reference;
-
-        return $this;
-    }
-
-    public function getStripeSessionId(): ?string
-    {
-        return $this->stripeSessionId;
-    }
-
-    public function setStripeSessionId(string $stripeSessionId): self
-    {
-        $this->stripeSessionId = $stripeSessionId;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, OrderDetail>
+     * @return Collection<int, OrderDetails>
      */
     public function getOrderDetails(): Collection
     {
         return $this->orderDetails;
     }
 
-    public function addOrderDetail(OrderDetail $orderDetail): self
+    public function addOrderDetail(OrderDetails $orderDetail): self
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails->add($orderDetail);
-            $orderDetail->addProduct($this);
+            $orderDetail->setOrders($this);
         }
 
         return $this;
     }
 
-    public function removeOrderDetail(OrderDetail $orderDetail): self
+    public function removeOrderDetail(OrderDetails $orderDetail): self
     {
         if ($this->orderDetails->removeElement($orderDetail)) {
-            $orderDetail->removeProduct($this);
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getOrders() === $this) {
+                $orderDetail->setOrders(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getUsers(): ?User
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?User $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

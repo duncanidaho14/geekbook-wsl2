@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230519200255 extends AbstractMigration
+final class Version20230526235945 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -28,7 +28,7 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE comment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE image_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "order_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE order_detail_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE order_details_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE address (id INT NOT NULL, owner_id INT NOT NULL, name VARCHAR(45) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, company VARCHAR(45) DEFAULT NULL, address VARCHAR(150) NOT NULL, zip VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, phone VARCHAR(45) NOT NULL, PRIMARY KEY(id))');
@@ -54,14 +54,11 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN comment.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE image (id INT NOT NULL, book_id INT NOT NULL, name VARCHAR(45) NOT NULL, url VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C53D045F16A2B381 ON image (book_id)');
-        $this->addSql('CREATE TABLE "order" (id INT NOT NULL, carrier_name VARCHAR(45) NOT NULL, carrier_price DOUBLE PRECISION NOT NULL, delivery TEXT NOT NULL, is_paid BOOLEAN NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, reference VARCHAR(255) NOT NULL, stripe_session_id VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "order" (id INT NOT NULL, users_id INT NOT NULL, reference VARCHAR(255) NOT NULL, full_name VARCHAR(255) NOT NULL, carrier_name VARCHAR(255) NOT NULL, carrier_price DOUBLE PRECISION NOT NULL, delivery_address TEXT NOT NULL, is_paid BOOLEAN NOT NULL, more_information TEXT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_F529939867B3B43D ON "order" (users_id)');
         $this->addSql('COMMENT ON COLUMN "order".created_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('COMMENT ON COLUMN "order".updated_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE order_detail (id INT NOT NULL, book_id INT NOT NULL, quantity INT NOT NULL, price DOUBLE PRECISION NOT NULL, total DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_ED896F4616A2B381 ON order_detail (book_id)');
-        $this->addSql('CREATE TABLE order_detail_order (order_detail_id INT NOT NULL, order_id INT NOT NULL, PRIMARY KEY(order_detail_id, order_id))');
-        $this->addSql('CREATE INDEX IDX_8C19CCAB64577843 ON order_detail_order (order_detail_id)');
-        $this->addSql('CREATE INDEX IDX_8C19CCAB8D9F6D38 ON order_detail_order (order_id)');
+        $this->addSql('CREATE TABLE order_details (id INT NOT NULL, orders_id INT NOT NULL, product_name VARCHAR(255) NOT NULL, product_price DOUBLE PRECISION NOT NULL, quantity INT NOT NULL, sub_total_ht DOUBLE PRECISION NOT NULL, taxe DOUBLE PRECISION NOT NULL, sub_total_ttc DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_845CA2C1CFFE9AD6 ON order_details (orders_id)');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7CE748AA76ED395 ON reset_password_request (user_id)');
         $this->addSql('COMMENT ON COLUMN reset_password_request.requested_at IS \'(DC2Type:datetime_immutable)\'');
@@ -92,9 +89,8 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C5F0EBBFF FOREIGN KEY (user_comment_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C67C437A0 FOREIGN KEY (book_comment_id) REFERENCES book (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE image ADD CONSTRAINT FK_C53D045F16A2B381 FOREIGN KEY (book_id) REFERENCES book (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE order_detail ADD CONSTRAINT FK_ED896F4616A2B381 FOREIGN KEY (book_id) REFERENCES book (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE order_detail_order ADD CONSTRAINT FK_8C19CCAB64577843 FOREIGN KEY (order_detail_id) REFERENCES order_detail (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE order_detail_order ADD CONSTRAINT FK_8C19CCAB8D9F6D38 FOREIGN KEY (order_id) REFERENCES "order" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE "order" ADD CONSTRAINT FK_F529939867B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE order_details ADD CONSTRAINT FK_845CA2C1CFFE9AD6 FOREIGN KEY (orders_id) REFERENCES "order" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -110,7 +106,7 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('DROP SEQUENCE comment_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE image_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "order_id_seq" CASCADE');
-        $this->addSql('DROP SEQUENCE order_detail_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE order_details_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE reset_password_request_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F817E3C61F9');
@@ -121,9 +117,8 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('ALTER TABLE comment DROP CONSTRAINT FK_9474526C5F0EBBFF');
         $this->addSql('ALTER TABLE comment DROP CONSTRAINT FK_9474526C67C437A0');
         $this->addSql('ALTER TABLE image DROP CONSTRAINT FK_C53D045F16A2B381');
-        $this->addSql('ALTER TABLE order_detail DROP CONSTRAINT FK_ED896F4616A2B381');
-        $this->addSql('ALTER TABLE order_detail_order DROP CONSTRAINT FK_8C19CCAB64577843');
-        $this->addSql('ALTER TABLE order_detail_order DROP CONSTRAINT FK_8C19CCAB8D9F6D38');
+        $this->addSql('ALTER TABLE "order" DROP CONSTRAINT FK_F529939867B3B43D');
+        $this->addSql('ALTER TABLE order_details DROP CONSTRAINT FK_845CA2C1CFFE9AD6');
         $this->addSql('ALTER TABLE reset_password_request DROP CONSTRAINT FK_7CE748AA76ED395');
         $this->addSql('DROP TABLE address');
         $this->addSql('DROP TABLE author');
@@ -135,8 +130,7 @@ final class Version20230519200255 extends AbstractMigration
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE image');
         $this->addSql('DROP TABLE "order"');
-        $this->addSql('DROP TABLE order_detail');
-        $this->addSql('DROP TABLE order_detail_order');
+        $this->addSql('DROP TABLE order_details');
         $this->addSql('DROP TABLE reset_password_request');
         $this->addSql('DROP TABLE "user"');
         $this->addSql('DROP TABLE messenger_messages');

@@ -23,6 +23,11 @@ class Carrier
     #[ORM\Column]
     private ?float $price = null;
 
+    public function __toString()
+    {
+        return $this->getName() . '[eol]' . $this->getDescription() . '[eol]' . $this->getPrice() . ' €[eol]';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
