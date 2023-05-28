@@ -39,8 +39,10 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            // $birthday = ($form->get('birthday')->getData()->format('d/m/Y'));
+            // $user->setBirthday($birthday);
+            
             // encode the password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

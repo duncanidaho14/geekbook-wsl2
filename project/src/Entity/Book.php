@@ -69,6 +69,10 @@ class Book
     #[Groups(["searchable"])]
     private ?string $dimension = null;
 
+    #[Assert\Isbn(
+        type: Assert\Isbn::ISBN_10,
+        message: 'Cette valeur n\'est pas valide.',
+    )]
     #[ORM\Column(length: 50)]
     #[Groups(["searchable"])]
     private ?string $isbn = null;

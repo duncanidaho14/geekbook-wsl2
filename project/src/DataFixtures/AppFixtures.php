@@ -41,6 +41,7 @@ class AppFixtures extends Fixture
             ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN'])
             ->setAgreeTerms(true)
+            ->setBirthday(new \DateTime("26-04-1999 04:44"))
         ;
 
         $password = $this->hasher->hashPassword($admin, 'password');
@@ -60,6 +61,7 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+                ->setBirthday($faker->dateTime())
             ;
             $password = $this->hasher->hashPassword($user, 'password');
             $user->setPassword($password);
