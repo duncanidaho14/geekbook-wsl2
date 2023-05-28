@@ -176,17 +176,21 @@ class AppFixtures extends Fixture
                 ->setMoreInformation($faker->sentence())
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUsers($users[mt_rand(0, count($users) - 1 )])
+                ->setQuantity($quantity = $faker->numberBetween(1, 5))
+                ->setSubTotalHT($subTotalHT = $faker->numberBetween(0, 100))
+                ->setTaxe($taxe = $faker->numberBetween(0, 100))
+                ->setSubTotalTTC($subTotalTTC = $faker->numberBetween(0, 100))
             ;
                 
                 $orderDetails = [];
                 for ($ordd=0; $ordd < 3; $ordd++) { 
                     $orderDetail = new OrderDetails();
-                    $orderDetail->setQuantity($faker->numberBetween(1, 5))
+                    $orderDetail->setQuantity($quantity)
                         ->setProductPrice($faker->numberBetween(0, 100))
-                        ->setSubTotalHT($faker->numberBetween(0, 100))
+                        ->setSubTotalHT($subTotalHT)
                         ->setProductName($faker->name())
-                        ->setSubTotalTTC($faker->numberBetween(0, 100))
-                        ->setTaxe($faker->numberBetween(10, 20))
+                        ->setSubTotalTTC($subTotalTTC)
+                        ->setTaxe($taxe)
                         ->setOrders($order)
                     ;
                     

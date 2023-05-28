@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Classes\OrderClasse;
 use App\Classes\Basket;
 use App\Form\CheckoutType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,7 +61,7 @@ class OrderController extends AbstractController
 
     #[Route("/commande/recapitulatif", name:"app_order_recap")]
     #[Security("is_granted('ROLE_USER')")]
-    public function add(CacheInterface $cache, Basket $basket, Request $request): Response
+    public function add(CacheInterface $cache, Basket $basket, Request $request, OrderClasse $orderClasse): Response
     {
         
         $user = $this->getUser();
@@ -96,6 +97,10 @@ class OrderController extends AbstractController
             $carrier = $data['carrier'];
             $information = $data['moreInformation'];
             
+            // Save cart
+            $cart['checkout'] = $data;
+            $reference = $orderClasse->saveOrder($cart, $user);
+
             return $this->render('order/add.html.twig', [
                 'basket' => $cart,
                 'address' => $address,

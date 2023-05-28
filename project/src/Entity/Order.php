@@ -33,7 +33,7 @@ class Order
     private ?string $deliveryAddress = null;
 
     #[ORM\Column]
-    private ?bool $isPaid = null;
+    private ?bool $isPaid = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $moreInformation = null;
@@ -47,6 +47,18 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
+
+    #[ORM\Column]
+    private ?int $quantity = null;
+
+    #[ORM\Column]
+    private ?float $subTotalHT = null;
+
+    #[ORM\Column]
+    private ?float $taxe = null;
+
+    #[ORM\Column]
+    private ?float $subTotalTTC = null;
 
     public function __construct()
     {
@@ -192,6 +204,54 @@ class Order
     public function setUsers(?User $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getSubTotalHT(): ?float
+    {
+        return $this->subTotalHT;
+    }
+
+    public function setSubTotalHT(float $subTotalHT): self
+    {
+        $this->subTotalHT = $subTotalHT;
+
+        return $this;
+    }
+
+    public function getTaxe(): ?float
+    {
+        return $this->taxe;
+    }
+
+    public function setTaxe(float $taxe): self
+    {
+        $this->taxe = $taxe;
+
+        return $this;
+    }
+
+    public function getSubTotalTTC(): ?float
+    {
+        return $this->subTotalTTC;
+    }
+
+    public function setSubTotalTTC(float $subTotalTTC): self
+    {
+        $this->subTotalTTC = $subTotalTTC;
 
         return $this;
     }
