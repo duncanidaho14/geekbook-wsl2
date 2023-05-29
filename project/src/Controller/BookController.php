@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,11 +37,13 @@ class BookController extends AbstractController
     }
 
     #[Route('/livre/{slug}', name: 'app_book_show')]
-    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, string $slug): Response
+    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
     {
+        $books = $bookRepository->findOneBySlug($slug);
         return $this->render('book/show.html.twig', [
-            'book' => $bookRepository->findOneBySlug($slug),
-            'images' => $imageRepository->findOneByUrl($slug)
+            'book' => $books,
+            'images' => $imageRepository->findOneByUrl($slug),
+            'comments' => $commentRepository->findByBookComment($books)
         ]);
     }
 }
