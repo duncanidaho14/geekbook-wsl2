@@ -81,7 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $orders;
 
     #[Assert\LessThan('-18 years')]
-    ##[Assert\DateTime]
     #[ORM\Column]
     private ?\DateTime $birthday = null;
 

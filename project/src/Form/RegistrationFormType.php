@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
 class RegistrationFormType extends AbstractType
 {
@@ -31,20 +33,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 //'format' => 'dd-MM-YYYY',
                 'years' => range((int) date('Y') - 120, date('Y')),
-                'invalid_message' => 'Please enter a valid birthdate.',
-                'constraints' => [
-                    // new DateTime([
-                    //     'message' => "La date n'est pas valide..."
-                    // ]),
-                    // new NotBlank([
-                    //     'message' => 'Entrer votre date de naissance',
-                    // ]),
-                    // new Length([
-                    //     'min' => 18,
-                    //     'minMessage' => 'Vôtre âge doit être au moins {{ limit }} ans',
-                    //     'max' => 99,
-                    // ]),
-                ],
+                'invalid_message' => 'Please enter a valid birthdate.'
             ])
             ->add('firstName', TextType::class, [
                 'attr' => ['class' => 'tinymce'],
@@ -149,6 +138,11 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Vous devez accepter les conditions d\'utilisations.',
                     ]),
                 ],
+            ])
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'app_register',
+                'locale' => 'fr',
             ])
         ;
     }

@@ -119,7 +119,6 @@
                             }
                         }) }}
                     </div>
-    
                     <button type="submit" value="Inscription" class="bg-blue-800 text-red font-bold text-lg hover:bg-green-700 p-2 mt-8">Inscription</button>
                 {{ form_end(registrationForm) }}
                 </div>
@@ -136,4 +135,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('build/app.js')}}"></script>
 {% endblock %}
