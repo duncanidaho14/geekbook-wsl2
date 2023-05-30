@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use ORM\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
 use Gedmo\Mapping\Annotation\Timestampable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[HasLifecycleCallbacks]
 class Comment
 {
     #[ORM\Id]
@@ -42,6 +44,9 @@ class Comment
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
     #[Groups(["searchable"])]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column]
+    private ?int $rating = null;
 
     public function getId(): ?int
     {
@@ -118,5 +123,23 @@ class Comment
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

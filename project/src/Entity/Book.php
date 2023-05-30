@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use Gedmo\Mapping\Annotation\Slug;
+use Assert\Isbn;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
+use Gedmo\Mapping\Annotation\Slug;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -70,7 +71,7 @@ class Book
     private ?string $dimension = null;
 
     #[Assert\Isbn(
-        type: Assert\Isbn::ISBN_10,
+        type: Isbn::ISBN_10,
         message: 'Cette valeur n\'est pas valide.',
     )]
     #[ORM\Column(length: 50)]
@@ -98,6 +99,9 @@ class Book
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Image::class, orphanRemoval: true)]
     #[Groups(["searchable"])]
     private Collection $images;
+
+    #[ORM\Column]
+    private ?int $rating = null;
 
     public function __construct()
     {
@@ -404,5 +408,29 @@ class Book
        if (!$this->slug || '-' === $this->slug) {
             $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
+    }
+
+    public function getAvgRatings()
+    {
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment)
+        {
+            return $total + $comment->getRating();
+        }, 0);
+
+        if(count($this->comments) > 0 ) return $sum / count($this->comments);
+
+        return 0;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
     }
 }

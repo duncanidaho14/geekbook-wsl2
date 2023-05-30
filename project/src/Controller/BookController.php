@@ -2,16 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
+    public const CREATED = '';
+
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
@@ -37,13 +43,28 @@ class BookController extends AbstractController
     }
 
     #[Route('/livre/{slug}', name: 'app_book_show')]
-    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
+    #[Security("is_granted('ROLE_USER')")]
+    public function show(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
     {
         $books = $bookRepository->findOneBySlug($slug);
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUserComment($this->getUser())
+                    ->setBookComment($books);
+           
+                    
+            $manager->persist($comment);
+            $manager->flush();
+        }
+
         return $this->render('book/show.html.twig', [
             'book' => $books,
             'images' => $imageRepository->findOneByUrl($slug),
-            'comments' => $commentRepository->findByBookComment($books)
+            'comments' => $commentRepository->findByBookComment($books),
+            'form' => $form->createview()
         ]);
     }
 }

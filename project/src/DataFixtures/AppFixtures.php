@@ -83,6 +83,7 @@ class AppFixtures extends Fixture
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
+                ->setRating($faker->numberBetween(0,5))
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
@@ -145,6 +146,7 @@ class AppFixtures extends Fixture
             $comment = new Comment();
             $comment->setTitle($faker->sentence())
                     ->setComment($faker->paragraph(3))
+                    ->setRating($faker->numberBetween(0,5))
                     ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                     ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                     ->setUserComment($users[\mt_rand(0, count($users) - 1)])

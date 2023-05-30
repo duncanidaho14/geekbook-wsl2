@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230528214005 extends AbstractMigration
+final class Version20230530124012 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -37,7 +37,7 @@ final class Version20230528214005 extends AbstractMigration
         $this->addSql('CREATE TABLE author_book (author_id INT NOT NULL, book_id INT NOT NULL, PRIMARY KEY(author_id, book_id))');
         $this->addSql('CREATE INDEX IDX_2F0A2BEEF675F31B ON author_book (author_id)');
         $this->addSql('CREATE INDEX IDX_2F0A2BEE16A2B381 ON author_book (book_id)');
-        $this->addSql('CREATE TABLE book (id INT NOT NULL, title VARCHAR(100) NOT NULL, introduction VARCHAR(255) NOT NULL, description TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, published_at DATE DEFAULT NULL, slug VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, langue VARCHAR(20) NOT NULL, nb_pages INT NOT NULL, dimension VARCHAR(20) DEFAULT NULL, isbn VARCHAR(50) NOT NULL, editor VARCHAR(50) NOT NULL, is_in_stock BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE book (id INT NOT NULL, title VARCHAR(100) NOT NULL, introduction VARCHAR(255) NOT NULL, description TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, published_at DATE DEFAULT NULL, slug VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, langue VARCHAR(20) NOT NULL, nb_pages INT NOT NULL, dimension VARCHAR(20) DEFAULT NULL, isbn VARCHAR(50) NOT NULL, editor VARCHAR(50) NOT NULL, is_in_stock BOOLEAN NOT NULL, rating INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CBE5A331989D9B62 ON book (slug)');
         $this->addSql('COMMENT ON COLUMN book.created_at IS \'(DC2Type:date_immutable)\'');
         $this->addSql('COMMENT ON COLUMN book.updated_at IS \'(DC2Type:datetime_immutable)\'');
@@ -47,7 +47,7 @@ final class Version20230528214005 extends AbstractMigration
         $this->addSql('CREATE TABLE category_book (category_id INT NOT NULL, book_id INT NOT NULL, PRIMARY KEY(category_id, book_id))');
         $this->addSql('CREATE INDEX IDX_407ED97612469DE2 ON category_book (category_id)');
         $this->addSql('CREATE INDEX IDX_407ED97616A2B381 ON category_book (book_id)');
-        $this->addSql('CREATE TABLE comment (id INT NOT NULL, user_comment_id INT NOT NULL, book_comment_id INT NOT NULL, title VARCHAR(100) NOT NULL, comment TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE comment (id INT NOT NULL, user_comment_id INT NOT NULL, book_comment_id INT NOT NULL, title VARCHAR(100) NOT NULL, comment TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, rating INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9474526C5F0EBBFF ON comment (user_comment_id)');
         $this->addSql('CREATE INDEX IDX_9474526C67C437A0 ON comment (book_comment_id)');
         $this->addSql('COMMENT ON COLUMN comment.created_at IS \'(DC2Type:date_immutable)\'');
