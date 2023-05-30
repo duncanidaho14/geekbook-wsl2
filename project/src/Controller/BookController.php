@@ -2,40 +2,23 @@
 
 namespace App\Controller;
 
-<<<<<<< HEAD
-use App\Entity\Comment;
-=======
 use App\Entity\Book;
 use App\Entity\Comment;
 use App\Form\BookType;
->>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 use App\Form\CommentType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-<<<<<<< HEAD
-=======
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
->>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
-<<<<<<< HEAD
-
-    public EntityManagerInterface $manager;
-
-    public function __construct(EntityManagerInterface $manager)
-    {
-        $this->manager = $manager;
-    }
-=======
     public const CREATED = '';
->>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
