@@ -99,6 +99,9 @@ class Book
     #[Groups(["searchable"])]
     private Collection $images;
 
+    #[ORM\Column]
+    private ?int $rating = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -404,5 +407,27 @@ class Book
        if (!$this->slug || '-' === $this->slug) {
             $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getAvgRating()
+    {
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment){
+            return $total + $comment->getRating();
+        }, 0);
+
+        if(count($this->comments) > 0) return $sum / count($this->comments);
+        return 0;
     }
 }

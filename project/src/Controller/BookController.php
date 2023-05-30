@@ -2,16 +2,27 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
+
+    public EntityManagerInterface $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
@@ -37,13 +48,31 @@ class BookController extends AbstractController
     }
 
     #[Route('/livre/{slug}', name: 'app_book_show')]
-    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
+    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, Request $request, string $slug): Response
     {
         $books = $bookRepository->findOneBySlug($slug);
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUserComment($this->getUser());
+            $comment->setBookComment($books);
+
+            $this->manager->persist($comment);
+            $this->manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Vôtre commentaire a bien été pris en compte !'
+            );
+        }
+
+        
         return $this->render('book/show.html.twig', [
             'book' => $books,
             'images' => $imageRepository->findOneByUrl($slug),
-            'comments' => $commentRepository->findByBookComment($books)
+            'comments' => $commentRepository->findByBookComment($books),
+            'form' => $form->createView()
         ]);
     }
 }
