@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un livre sur GeekBook !{% endblock %}
+
+{% block body %}
+<div class="bg-gray-100 dark:bg-gray-800 dark:text-white">
+<div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+{{form_start(form)}}
+{{form_row(form.title)}}
+{{form_row(form.introduction)}}
+{{form_row(form.description)}}
+{{form_row(form.price)}}
+{{form_row(form.langue)}}
+{{form_row(form.nbPages)}}
+{{form_row(form.dimension)}}
+{{form_row(form.isbn)}}
+{{form_row(form.editor)}}
+{{form_row(form.isInStock)}}
+{{form_end(form)}}
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

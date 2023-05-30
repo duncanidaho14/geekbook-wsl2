@@ -9,11 +9,13 @@ use App\Repository\BookRepository;
 use Gedmo\Mapping\Annotation\Slug;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[HasLifecycleCallbacks]
 class Book
 {
     #[ORM\Id]
@@ -432,5 +434,23 @@ class Book
         $this->rating = $rating;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setRatingValue()
+    {
+        $this->rating = 0;
     }
 }

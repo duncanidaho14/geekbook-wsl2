@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -33,6 +34,8 @@ class Author
     #[ORM\Column(length: 255)]
     #[Groups(["searchable"])]
     private ?string $avatar = null;
+
+    private ?string $fullName = null;
 
     #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'authors')]
     private Collection $book;
@@ -124,5 +127,10 @@ class Author
         $this->book->removeElement($book);
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getFirstName() . ' - ' . $this->getLastName();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\Comment;
+use App\Form\BookType;
 use App\Form\CommentType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
@@ -65,6 +67,32 @@ class BookController extends AbstractController
             'images' => $imageRepository->findOneByUrl($slug),
             'comments' => $commentRepository->findByBookComment($books),
             'form' => $form->createview()
+        ]);
+    }
+
+    #[Route('/add/livre', name:'app_add_book')]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function addBook(Request $request, EntityManagerInterface $manager)
+    {
+        $book = new Book();
+
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($book);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre livre a bien été enregistré !'
+            );
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('book/add.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
