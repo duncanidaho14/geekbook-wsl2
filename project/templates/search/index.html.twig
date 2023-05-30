@@ -13,29 +13,26 @@
             🔍Contient {{ results|length }} article pour la recherche  "{{ searchQuery }}"
         </h2>
 
-        {% for post in results %}
-            
-
-                
+        {% for post in results %} 
             <article class="basis-1/4 my-3 {{ loop.index is odd ? 'bg-light' : '' }} py-4 px-2 rounded">
                 <div class=" p-2 mt-96">
                 <h4>
-                    #{{ loop.index }}. <a href="{{ path('app_book_show', {slug: post.slug}) }}" class="text-decoration-none">
+                    #{{ loop.index }}. <a href="{{ path('app_show_book', {slug: post.slug}) }}" class="text-decoration-none">
                         {{ post._formatted.title|raw }}
                     </a>
                 </h4>
                     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         {% for img in post.images %}
-                            <a href="{{path('app_book_show', {'slug': post.slug })}}">
+                            <a href="{{path('app_show_book', {'slug': post.slug })}}">
                                 <img class="rounded-t-lg" src="{{img.url}}" alt="{{img.name}}" />
                             </a>
                         {% endfor %}
                         <div class="p-5 w-auto h-70">
-                            <a href="{{path('app_book_show', {'slug': post.slug })}}">
+                            <a href="{{path('app_show_book', {'slug': post.slug })}}">
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{post.introduction}}</h5>
                             </a>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{post.description}}</p>
-                            <a href="{{path('app_book_show', {'slug': post.slug })}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <a href="{{path('app_show_book', {'slug': post.slug })}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 {{post.price|number_format(2, ',', '.')}} €
                                 <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </a>

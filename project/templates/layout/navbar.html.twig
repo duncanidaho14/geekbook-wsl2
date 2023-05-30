@@ -109,7 +109,6 @@
                                     <a href="{{path('app_basket')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                     <div class="p-2 w-12">
                                       {% for image in cart.book.images %}
-                                      {{dump(image.url)}}
                                         <img src="{{image.url}}" alt="image product">
                                       {% endfor %}
                                     </div>
@@ -133,13 +132,13 @@
                                     </div> 
                                     </a>
                                   </li>
+                                <li>
+                                    <a href="{{path('app_order')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Payer !!!</a>
+                                </li>
                                 {% endfor %}
                             {% else %}
                                 <h2><a href="{{path('app_basket')}}" alt="">Le panier est vide</a></h2>
                             {% endif %}
-                                <li>
-                                    <a href="{{path('app_order')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Payer !!!</a>
-                                </li>
                             </ul>
                             <div class="py-2" id="navAction2">
                                 <a href="{{path('app_logout')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Se déconnecter</a>

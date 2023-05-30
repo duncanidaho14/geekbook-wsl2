@@ -18,8 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
-    public const CREATED = '';
-
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
@@ -44,7 +42,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/livre/{slug}', name: 'app_book_show')]
+    #[Route('/livre/{slug}', name: 'app_show_book')]
     #[Security("is_granted('ROLE_USER')")]
     public function show(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
     {
@@ -111,7 +109,7 @@ class BookController extends AbstractController
                 'Votre livre a bien été édité !'
             );
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_show_book');
         }
 
         return $this->render('book/edit.html.twig', [
@@ -119,8 +117,18 @@ class BookController extends AbstractController
         ]);
     }
 
-    public function deleteBook($id)
+    #[Route('/supprimer/livre/{slug}', name:'app_delete_book')]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function deleteBook(Book $book, EntityManagerInterface $manager)
     {
-        $this->;
+        $manager->remove($book);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            'Votre livre ' . $book->getTitle() . ' a bien été supprimé ! '
+        );
+
+        return $this->redirectToRoute('app_book');
     }
 }
