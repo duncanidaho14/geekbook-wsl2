@@ -2,19 +2,30 @@
 
 namespace App\Controller;
 
+<<<<<<< HEAD
 use App\Entity\Comment;
+=======
+use App\Entity\Book;
+use App\Entity\Comment;
+use App\Form\BookType;
+>>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 use App\Form\CommentType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+<<<<<<< HEAD
+=======
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+>>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
+<<<<<<< HEAD
 
     public EntityManagerInterface $manager;
 
@@ -22,6 +33,9 @@ class BookController extends AbstractController
     {
         $this->manager = $manager;
     }
+=======
+    public const CREATED = '';
+>>>>>>> 81ca1af3ee8f2570174240e7ce21419357663051
 
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
@@ -48,30 +62,53 @@ class BookController extends AbstractController
     }
 
     #[Route('/livre/{slug}', name: 'app_book_show')]
-    public function show(BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, Request $request, string $slug): Response
+    #[Security("is_granted('ROLE_USER')")]
+    public function show(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
     {
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setUserComment($this->getUser());
-            $comment->setBookComment($books);
-
-            $this->manager->persist($comment);
-            $this->manager->flush();
-
-            $this->addFlash(
-                'success',
-                'Vôtre commentaire a bien été pris en compte !'
-            );
+            $comment->setUserComment($this->getUser())
+                    ->setBookComment($books);
+           
+                    
+            $manager->persist($comment);
+            $manager->flush();
         }
 
-        
         return $this->render('book/show.html.twig', [
             'book' => $books,
             'images' => $imageRepository->findOneByUrl($slug),
             'comments' => $commentRepository->findByBookComment($books),
+            'form' => $form->createview()
+        ]);
+    }
+
+    #[Route('/add/livre', name:'app_add_book')]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function addBook(Request $request, EntityManagerInterface $manager)
+    {
+        $book = new Book();
+
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($book);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre livre a bien été enregistré !'
+            );
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('book/add.html.twig', [
             'form' => $form->createView()
         ]);
     }

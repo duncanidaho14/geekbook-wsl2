@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use ORM\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommentRepository;
 use Gedmo\Mapping\Annotation\Timestampable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[HasLifecycleCallbacks]
 class Comment
 {
     #[ORM\Id]
@@ -133,5 +135,11 @@ class Comment
         $this->rating = $rating;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }

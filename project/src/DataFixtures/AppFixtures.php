@@ -83,7 +83,7 @@ class AppFixtures extends Fixture
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
-                ->setRating($faker->numberBetween(1, 5))
+                ->setRating($faker->numberBetween(0,5))
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
@@ -157,7 +157,20 @@ class AppFixtures extends Fixture
             $manager->persist($carrier);
         }
 
-        
+        $comments = [];
+        for ($com=0; $com < 20; $com++) { 
+            $comment = new Comment();
+            $comment->setTitle($faker->sentence())
+                    ->setComment($faker->paragraph(3))
+                    ->setRating($faker->numberBetween(0,5))
+                    ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+                    ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+                    ->setUserComment($users[\mt_rand(0, count($users) - 1)])
+                    ->setBookComment($books[\mt_rand(0, count($books) - 1)])
+            ;
+            $manager->persist($comment);
+            $comments[] = $comment;
+        }
 
         $images = [];
         for ($im=0; $im < 50; $im++) { 

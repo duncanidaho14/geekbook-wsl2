@@ -2,17 +2,20 @@
 
 namespace App\Entity;
 
-use Gedmo\Mapping\Annotation\Slug;
+use Assert\Isbn;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
+use Gedmo\Mapping\Annotation\Slug;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[HasLifecycleCallbacks]
 class Book
 {
     #[ORM\Id]
@@ -70,7 +73,7 @@ class Book
     private ?string $dimension = null;
 
     #[Assert\Isbn(
-        type: Assert\Isbn::ISBN_10,
+        type: Isbn::ISBN_10,
         message: 'Cette valeur n\'est pas valide.',
     )]
     #[ORM\Column(length: 50)]
@@ -409,6 +412,18 @@ class Book
         }
     }
 
+    public function getAvgRatings()
+    {
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment)
+        {
+            return $total + $comment->getRating();
+        }, 0);
+
+        if(count($this->comments) > 0 ) return $sum / count($this->comments);
+
+        return 0;
+    }
+
     public function getRating(): ?int
     {
         return $this->rating;
@@ -421,13 +436,21 @@ class Book
         return $this;
     }
 
-    public function getAvgRating()
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
     {
-        $sum = array_reduce($this->comments->toArray(), function($total, $comment){
-            return $total + $comment->getRating();
-        }, 0);
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
-        if(count($this->comments) > 0) return $sum / count($this->comments);
-        return 0;
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setRatingValue()
+    {
+        $this->rating = 0;
     }
 }

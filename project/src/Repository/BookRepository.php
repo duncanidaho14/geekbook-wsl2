@@ -39,20 +39,20 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Book[] Returns an array of Book objects
-//     */
-//    public function findByBookDate($value): ?Book
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.createdAt = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.createdAt', 'DESC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Book[] Returns an array of Book objects
+    */
+   public function findByBookDate($value): ?array
+   {
+       return $this->createQueryBuilder('b')
+           ->andWhere('b.createdAt = :val')
+           ->setParameter('val', $value)
+           ->orderBy('b.createdAt', 'DESC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneImageByBook(): ?array
 //    {
