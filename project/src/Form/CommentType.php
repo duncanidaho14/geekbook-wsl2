@@ -16,13 +16,24 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
+                'label' => 'Titre du commentaire *',
                 'required' => true
             ])
             ->add('comment', TextareaType::class, [
-                'required' => true
+                'label' => 'commentaire *',
+                'required' => true,
+                'attr' => [
+                    'class' => 'px-0 w-full h-60 text-sm bg-pink-300 text-gray-800 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800',
+                    'placeholder' => 'Ecrire un commentaire'
+                ]
             ])
             ->add('rating', IntegerType::class, [
-                'required' => true
+                'label' => 'Note sur 5 *',
+                'attr' => [
+                    'min' => 0,
+                    'max' => 5,
+                    'step' => 1
+                ]
             ])
         ;
     }
