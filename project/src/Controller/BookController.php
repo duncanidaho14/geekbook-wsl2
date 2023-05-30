@@ -95,4 +95,32 @@ class BookController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/edit/livre/{slug}', name:'app_edit_book')]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function editBook(Request $request, EntityManagerInterface $manager, Book $book, string $slug)
+    {
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre livre a bien été édité !'
+            );
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('book/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function deleteBook($id)
+    {
+        $this->;
+    }
 }
