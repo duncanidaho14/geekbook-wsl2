@@ -62,6 +62,11 @@ class OrderClasse
         return $order;
     }
 
+    public function getLineItems(Basket $basket)
+    {
+        
+    }
+
     public function saveOrder($data, User $user)
     {
         $cart = new Order();
