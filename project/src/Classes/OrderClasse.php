@@ -5,7 +5,9 @@ namespace App\Classes;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Classes\Basket;
+use App\Entity\Book;
 use App\Entity\OrderDetails;
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -20,7 +22,7 @@ class OrderClasse
         $this->entityManager = $entityManager;
     }
 
-    public function createOrder(Basket $basket)
+    public function createOrder(Basket $cart)
     {
         $order = new Order();
         
@@ -36,12 +38,14 @@ class OrderClasse
             ->setSubTotalTTC($cart->getSubTotalTTC())
             ->setUser($cart->getUser())
             ->setCreatedAt($cart->getCreatedAt())
+            ->setPrice($cart->getPrice())
+            ->setUnitPrice($cart->getUnitPrice())
         ;
         
         $this->entityManager->persist($order);
 
         $products = $cart->getCartDetails()->getValues();
-        
+        dd($products);
         foreach ($products as $cartProduct) {
             $orderDetails = new OrderDetails();
             
@@ -52,6 +56,8 @@ class OrderClasse
                         ->setSubTotalHT($cartProduct->getSubTotalHT())
                         ->setTaxe($cartProduct->getTaxe())
                         ->setSubTotalTTC($cartProduct->getSubTotalTTC())
+                        ->setCarrierName($order->getCarrierName())
+                        ->setCarrierPrice($order->getCarrierPrice())
             ;
             
             $this->entityManager->persist($orderDetails);
@@ -62,18 +68,77 @@ class OrderClasse
         return $order;
     }
 
-    public function getLineItems(Basket $basket)
+    public function getLineItems(Order $cart)
     {
+        $orderDetails = $cart->getOrderDetails();
+        $line_items = [];
+        foreach ($orderDetails as $details) {
+            $product = $this->entityManager->getRepository(Book::class)->findOneByTitle($details->getProductName());
+
+            $line_items[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => round($product->getPrice())*100,
+                    'product_data' => [
+                        'name' => 'prix du livre',
+                        'images' => [],
+                    ],
+                ],
+                'quantity' => $details->getQuantity(),
+            ];
+            
+        }
+
+        //carrier
+        $line_items[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'unit_amount' => round($details->getCarrierPrice()*100),
+                'product_data' => [
+                    'name' => 'Transporteur',
+                    'images' => [],
+                ],
+            ],
+            'quantity' => 1,
+        ];
+        
+        //taxe
+        $line_items[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'unit_amount' => round($details->getTaxe())*100,
+                'product_data' => [
+                    'name' => 'tva (20%)',
+                    'images' => [],
+                ],
+            ],
+            'quantity' => 1,
+        ];
+
+        return $line_items;
         
     }
 
     public function saveOrder($data, User $user)
     {
+        $price = 0;
+        $unitPrice = 0;
+
         $cart = new Order();
         $reference = $this->generateUuid();
         $address = $data['checkout']['address'];
         $carrier = $data['checkout']['carrier'];
         $informations = $data['checkout']['moreInformation'];
+        $book = $data['products'][0];
+        foreach ($book['book'] as $myBook) {
+            $price = $myBook['price'];
+            return $price;
+        }
+
+        foreach ($book['book'] as $myBook) {
+            $price = $myBook['unitPrice'];
+            return $price;
+        }
 
         $cart->setReference($reference)
             ->setCarrierName($carrier->getName())
@@ -87,17 +152,18 @@ class OrderClasse
             ->setSubTotalTTC($data['data']['subTotalTTC'])
             ->setUsers($user)
             ->setCreatedAt(new \DateTimeImmutable())
+            ->setPrice($price)
+            ->setUnitPrice($unitPrice)
         ;
 
         $this->entityManager->persist($cart);
 
         $cartDetailsArray = [];
-
+        
         foreach ($data['products'] as $products) {
             $cartDetails = new OrderDetails();
             
             $subTotal = $products['quantity'] * $products['book']->getPrice();
-
             $cartDetails->setOrders($cart)
                         ->setProductName($products['book']->getTitle())
                         ->setProductPrice($products['book']->getPrice())
@@ -105,6 +171,8 @@ class OrderClasse
                         ->setSubTotalHT($subTotal)
                         ->setTaxe($subTotal * 0.2)
                         ->setSubTotalTTC($subTotal * 1.2)
+                        ->setCarrierName($data['checkout']['carrier']->getName())
+                        ->setCarrierPrice($data['checkout']['carrier']->getPrice())
             ;
             $this->entityManager->persist($cartDetails);
             $cartDetailsArray[] = $cartDetails;

@@ -3,8 +3,6 @@
 namespace App\Classes;
 
 use App\Entity\Book;
-use App\Entity\User as EntityUser;
-use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -111,10 +109,10 @@ class Basket
         }
 
         $basketOver['data'] = [
-            "quantityCart" => $quantityCart,
+            'quantityCart' => $quantityCart,
             'subTotalHT' => $subTotal,
-            'taxe' => round($subTotal * self::TVA),
-            'subTotalTTC' => round($subTotal + ($subTotal * self::TVA), 2)
+            'taxe' => $subTotal * self::TVA,
+            'subTotalTTC' => $subTotal + ($subTotal * self::TVA), 2
         ];
 
         return $basketOver;

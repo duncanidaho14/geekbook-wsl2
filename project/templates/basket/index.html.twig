@@ -40,7 +40,7 @@
                                                 <span class="font-semibold">{{cart.book.title}}</span>
                                             </div>
                                         </td>
-                                        <td class="py-4">{{cart.book.price}}</td>
+                                        <td class="py-4">{{cart.book.price|number_format(2, ',', '.')}} €</td>
                                         <td class="py-4">
                                             <div class="flex items-center">
                                                 <a class="border rounded-md py-2 px-4 mr-2" href="{{path('app_decrease_basket', {'id': cart.book.id})}}">-</a>
@@ -48,7 +48,7 @@
                                                 <a class="border rounded-md py-2 px-4 ml-2" href="{{path('app_add_basket', {'id': cart.book.id})}}">+</a>
                                             </div>
                                         </td>
-                                        <td class="py-4">{{basket.data.subTotalHT|number_format(2, ',', '.')}} €</td>
+                                        <td class="py-4">{{cart.book.price * cart.quantity }} €</td>
                                     </tr>
                                 {% endfor %}
                             
@@ -69,8 +69,8 @@
                         <span>{{basket.data.taxe|number_format(2, ',', '.')}} €</span>
                     </div>
                     <div class="flex justify-between mb-2">
-                        <span>Shipping</span>
-                        <span>$0.00</span>
+                        <span>Transporteur</span>
+                        <span>0.00 €</span>
                     </div>
                     <hr class="my-2">
                     <div class="flex justify-between mb-2">

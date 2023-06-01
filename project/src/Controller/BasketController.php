@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Classes\Basket;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -38,6 +39,7 @@ class BasketController extends AbstractController
             return $this->redirectToRoute("app_home");
         }
         //$update = $basket->updateCart($this->getUser(), $cart['data'] );
+       
         return $this->render('basket/index.html.twig', [
             'basket' => $cart,
             // 'update' => $update
@@ -53,7 +55,7 @@ class BasketController extends AbstractController
      */
     #[Route('/mon-panier/add/{id<\d+>}', name:"app_add_basket")]
     #[Security("is_granted('ROLE_USER')")]
-    public function addBasket(Book $book,int $id): Response
+    public function addBasket(int $id): Response
     {
         $this->basket->add($id);
 
@@ -118,6 +120,4 @@ class BasketController extends AbstractController
 
         return $this->redirectToRoute('app_basket');
     }
-
-
 }

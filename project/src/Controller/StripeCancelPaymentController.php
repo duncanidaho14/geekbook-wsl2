@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StripeCancelPaymentController extends AbstractController
 {
-    #[Route('/stripe-cancel-payment', name: 'app_stripe_cancel_payment')]
+    #[Route('/payement-echec/{stripeSessionId}', name: 'app_cancel_payment')]
     public function index(): Response
     {
         return $this->render('stripe_cancel_payment/index.html.twig', [

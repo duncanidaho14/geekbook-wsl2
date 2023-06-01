@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use DateTime;
+
 use App\Classes\OrderClasse;
 use App\Classes\Basket;
 use App\Form\CheckoutType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,11 +46,6 @@ class OrderController extends AbstractController
 
         $form->handleRequest($request);
 
-        foreach($basket->getAllBasket() as $key => $value){
-            $value;
-        }
-
-
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'basket' => $cart
@@ -61,7 +55,7 @@ class OrderController extends AbstractController
 
     #[Route("/commande/recapitulatif", name:"app_order_recap")]
     #[Security("is_granted('ROLE_USER')")]
-    public function add(CacheInterface $cache, Basket $basket, Request $request, OrderClasse $orderClasse): Response
+    public function add(Basket $basket, Request $request, OrderClasse $orderClasse): Response
     {
         
         $user = $this->getUser();
@@ -74,12 +68,6 @@ class OrderController extends AbstractController
         if (!$user->getAddresses()->getValues()) {
             return $this->redirectToRoute('app_add_address');
         }
-        // foreach($basket->getAllBasket() as $key => $value){
-        //     $cache->get($value['data'], function() use ($value) {
-        //         dd($value);
-        //         return $value;
-        //     });
-        // };
 
         $form = $this->createForm(CheckoutType::class, null, [
             'user' => $user
@@ -96,6 +84,7 @@ class OrderController extends AbstractController
             $address = $data['address'];
             $carrier = $data['carrier'];
             $information = $data['moreInformation'];
+           //dd($carrier);
             
             // Save cart
             $cart['checkout'] = $data;
@@ -106,6 +95,7 @@ class OrderController extends AbstractController
                 'address' => $address,
                 'carrier' => $carrier,
                 'informations' => $information,
+                'reference' => $reference,
                 'form' => $form->createView()
             ]);
         }

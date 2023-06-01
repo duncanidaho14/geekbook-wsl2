@@ -35,6 +35,12 @@ class OrderDetails
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $orders = null;
 
+    #[ORM\Column]
+    private ?float $carrierPrice = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $carrierName = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +126,30 @@ class OrderDetails
     public function setOrders(?Order $orders): self
     {
         $this->orders = $orders;
+
+        return $this;
+    }
+
+    public function getCarrierPrice(): ?float
+    {
+        return $this->carrierPrice;
+    }
+
+    public function setCarrierPrice(float $carrierPrice): self
+    {
+        $this->carrierPrice = $carrierPrice;
+
+        return $this;
+    }
+
+    public function getCarrierName(): ?string
+    {
+        return $this->carrierName;
+    }
+
+    public function setCarrierName(string $carrierName): self
+    {
+        $this->carrierName = $carrierName;
 
         return $this;
     }

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StripeSuccessPaymentController extends AbstractController
 {
-    #[Route('/stripe-success-payment', name: 'app_stripe_success_payment')]
+    #[Route('/payement-reussi/{stripeSessionId}', name: 'app_success_payment')]
     public function index(): Response
     {
         return $this->render('stripe_success_payment/index.html.twig', [

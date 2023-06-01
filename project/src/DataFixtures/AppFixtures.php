@@ -192,6 +192,8 @@ class AppFixtures extends Fixture
                 ->setCarrierName($faker->name())
                 ->setCarrierPrice($faker->numberBetween(0, 25))
                 ->setDeliveryAddress($faker->address())
+                ->setPrice($price = $faker->numberBetween(1, 75))
+                ->setUnitPrice($faker->numberBetween(1, 75)< $price)
                 ->setIsPaid($faker->boolean(\mt_rand(0, 1)))
                 ->setMoreInformation($faker->sentence())
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
@@ -212,6 +214,8 @@ class AppFixtures extends Fixture
                         ->setSubTotalTTC($subTotalTTC)
                         ->setTaxe($taxe)
                         ->setOrders($order)
+                        ->setCarrierName($order->getFullName())
+                        ->setCarrierPrice($order->getCarrierPrice())
                     ;
                     
                     $manager->persist($orderDetail);
