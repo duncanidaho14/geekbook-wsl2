@@ -83,10 +83,11 @@
                             <p class="text-sm font-medium text-gray-900">Total</p>
                             <p class="text-2xl font-semibold text-gray-900">{{ basket.data.subTotalTTC + carrier.price }} €</p>
                         </div>
-                        
-                            <form action="{{ path('app_stripe_checkout', {'reference': reference }) }}" method="POST">
-                                <button type="submit" id="checkout-button">Checkout</button>
-                            </form>
+                        <form action="{{ path('app_stripe_checkout', {'reference': reference }) }}" method="POST">
+                            <button type="submit" id="checkout-button" class="Payer mt-4 mb-8 w-full block text-center rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+                                Payer
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

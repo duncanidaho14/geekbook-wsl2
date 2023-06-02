@@ -14,12 +14,12 @@ class StripeSuccessPaymentController extends AbstractController
     #[Route('/payement-reussi/{stripeSessionId}', name: 'app_success_payment')]
     public function index(?Order $order, Basket $cart, EntityManagerInterface $manager): Response
     {
-        if (!$order || $order->getUsers() !== $this->getUser()) {
+        if(!$order || $order->getUsers() !== $this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
         
 
-        if (!$order->getIsPaid()) {
+        if(!$order->getIsPaid()) {
             $order->setIsPaid(true);
             $manager->flush();
             
