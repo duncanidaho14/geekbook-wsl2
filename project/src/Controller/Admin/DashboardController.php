@@ -3,15 +3,16 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Book;
-use App\Entity\Address;
-use App\Entity\Author;
-use App\Entity\Carrier;
-use App\Entity\Category;
-use App\Entity\Comment;
+use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Order;
+use App\Entity\Author;
+use App\Entity\Address;
+use App\Entity\Carrier;
+use App\Entity\Comment;
+use App\Entity\Category;
 use App\Entity\OrderDetails;
-use App\Entity\User;
+use App\Entity\ResetPasswordRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -54,26 +55,25 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         
-        yield MenuItem::section('Utilisateurs');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
-        yield MenuItem::linkToCrud('Commentaires', 'fas fa-comment', Comment::class);
-
-        yield MenuItem::section('Livres');
-        yield MenuItem::linkToCrud('Livres', 'fas fa-book', Book::class);
-        yield MenuItem::subMenu('Commande', 'fas fa-shop', Order::class);
-        yield MenuItem::subMenu('Détails de la commande', 'fas fa-cart-shopping', OrderDetails::class);
-        yield MenuItem::linkToCrud('Author', 'fas fa-list', Author::class);
-        yield MenuItem::linkToCrud('Image', 'fas fa-list', Image::class);
-        yield MenuItem::linkToCrud('Categorie', 'fas fa-category', Category::class);
-        yield MenuItem::linkToCrud('Transporteur', 'fas fa-list', Carrier::class);
-        yield MenuItem::linkToCrud('Adresse', 'fas fa-list', Address::class);
-        
         return [
-            yield MenuItem::section('commerce'),
-            yield MenuItem::subMenu('Commandes', 'fa fa-article')->setSubItems([
-                MenuItem::linkToCrud('Commande', 'fa fa-tags', Order::class),
+            yield MenuItem::section('Commerces'),
+            yield MenuItem::subMenu('Commerce', 'fa fa-article')->setSubItems([
+                MenuItem::linkToCrud('Commandes', 'fa fa-shop', Order::class),
                 MenuItem::linkToCrud('Détails de la commande', 'fa fa-file-text', OrderDetails::class),
-                MenuItem::linkToCrud('Transporteur', 'fa fa-truck', Carrier::class),
+                MenuItem::linkToCrud('Transporteurs', 'fa fa-truck', Carrier::class),
+            ]),
+            yield MenuItem::section('Produits'),
+            yield MenuItem::subMenu('Livres', 'fa fa-article')->setSubItems([
+                MenuItem::linkToCrud('Livres', 'fa fa-book', Book::class),
+                MenuItem::linkToCrud('Images', 'fas fa-image', Image::class),
+                MenuItem::linkToCrud('Categories', 'fa fa-file-text', Category::class),
+                MenuItem::linkToCrud('Auteurs', 'fa fa-user-secret', Author::class),
+            ]),
+            yield MenuItem::section('Utilisateurs'),
+            yield MenuItem::subMenu('Utilisateurs', 'fa fa-users')->setSubItems([
+                MenuItem::linkToCrud('Utilisateurs', 'fa fa-user-secret', User::class),
+                MenuItem::linkToCrud('Commentaires', 'fas fa-comment', Comment::class),
+                MenuItem::linkToCrud('Adresse', 'fa fa-house', Address::class),
             ]),
         ];
     }

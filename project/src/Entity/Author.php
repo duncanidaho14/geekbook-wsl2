@@ -7,7 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]

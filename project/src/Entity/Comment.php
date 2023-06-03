@@ -48,6 +48,11 @@ class Comment
     #[ORM\Column]
     private ?int $rating = null;
 
+    public function __toString()
+    {
+        return $this->getTitle();    
+    }
+
     public function getId(): ?int
     {
         return $this->id;

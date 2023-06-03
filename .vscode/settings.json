@@ -9,5 +9,6 @@
             "database": "geekbook",
             "username": "postgres"
         }
-    ]
+    ],
+    "php.validate.executablePath": "docker exec www_geek_book php"
 }
