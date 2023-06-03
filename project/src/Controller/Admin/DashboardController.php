@@ -57,13 +57,13 @@ class DashboardController extends AbstractDashboardController
         
         return [
             yield MenuItem::section('Commerces'),
-            yield MenuItem::subMenu('Commerce', 'fa fa-article')->setSubItems([
+            yield MenuItem::subMenu('Commerce', 'fa fa-shop')->setSubItems([
                 MenuItem::linkToCrud('Commandes', 'fa fa-shop', Order::class),
                 MenuItem::linkToCrud('Détails de la commande', 'fa fa-file-text', OrderDetails::class),
                 MenuItem::linkToCrud('Transporteurs', 'fa fa-truck', Carrier::class),
             ]),
             yield MenuItem::section('Produits'),
-            yield MenuItem::subMenu('Livres', 'fa fa-article')->setSubItems([
+            yield MenuItem::subMenu('Livres', 'fa fa-book')->setSubItems([
                 MenuItem::linkToCrud('Livres', 'fa fa-book', Book::class),
                 MenuItem::linkToCrud('Images', 'fas fa-image', Image::class),
                 MenuItem::linkToCrud('Categories', 'fa fa-file-text', Category::class),
