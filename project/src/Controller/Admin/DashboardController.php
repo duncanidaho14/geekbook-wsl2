@@ -74,6 +74,7 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Utilisateurs', 'fa fa-user-secret', User::class),
                 MenuItem::linkToCrud('Commentaires', 'fas fa-comment', Comment::class),
                 MenuItem::linkToCrud('Adresse', 'fa fa-house', Address::class),
+                MenuItem::linkToCrud('Mot de passe oublié', 'fa fa-lock', ResetPasswordRequest::class),
             ]),
         ];
     }
