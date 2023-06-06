@@ -26,7 +26,7 @@ class HomeController extends AbstractController
         `Image`, `slug` and `id` of the `Book`, `firstName` and `lastName` of the `Author`, `name`
         and `image` of the `Category`. Finally, it orders the results by the `publishedAt` property
         of the `Book` entity in descending order. The result is stored in the `lastBooks` variable. */
-        $lastBooks = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, b.price
+        $lastBooks = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, b.price, b.rating
                                             FROM App\Entity\Image i
                                             JOIN  App\Entity\Book b WITH i.id = b.id
                                         ")->setMaxResults(12)->getResult();
@@ -67,7 +67,8 @@ class HomeController extends AbstractController
             'authors' => $lastAuthors,
             'imageRepo' => $imageRepository->findByUrl([]),
             'categories' => $categoriesRepository->findAll(),
-            'find' => $bookRepository->findByBookDate($request->query->get('publishedAt'))
+            'find' => $bookRepository->findByBookDate($request->query->get('publishedAt')),
+            'bookAll' => $bookRepository->findAll()
             
         ]);
     }
