@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public EntityManagerInterface $manager;
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Order::class);
+        $this->manager = $manager;
     }
 
     public function save(Order $entity, bool $flush = false): void
@@ -53,6 +56,20 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function CountOrderByDay($startOfDay, $endOfDay)
+    {
+        return $this->createQueryBuilder('o')
+                    ->select('count(o.createdAt)')
+                    ->andWhere('o.createdAt >= :startOfDay')
+                    ->andWhere('o.createdAt <= :endOfDay')
+                    ->setParameter('startOfDay', $startOfDay)
+                    ->setParameter('endOfDay', $endOfDay)
+                    ->orderBy('o.createdAt', 'DESC')
+                    ->groupBy('o.createdAt')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return Order[] Returns an array of Order objects
