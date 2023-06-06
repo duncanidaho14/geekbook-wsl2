@@ -2,14 +2,13 @@
 
 namespace App\Controller\Account;
 
+
 use App\Entity\Order;
+use App\Repository\CarrierRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -34,7 +33,7 @@ class AccountController extends AbstractController
     public function myOrdersAccount(EntityManagerInterface $manager)
     {
         $orders = $manager->getRepository(Order::class)->findOrdersSuccess($this->getUser());
-
+       
         return $this->render('account/myorders.html.twig', [
             'orders' => $orders
         ]);
