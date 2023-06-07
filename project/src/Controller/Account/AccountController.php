@@ -2,6 +2,7 @@
 
 namespace App\Controller\Account;
 
+use App\Entity\Book;
 use App\Entity\Order;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,9 +35,10 @@ class AccountController extends AbstractController
     public function myOrdersAccount(EntityManagerInterface $manager)
     {
         $orders = $manager->getRepository(Order::class)->findOrdersSuccess($this->getUser());
-
+        $books = $manager->getRepository(Book::class)->findOrdersSuccess($this->getUser(), $orders);
         return $this->render('account/myorders.html.twig', [
-            'orders' => $orders
+            'orders' => $orders,
+            'books' => $books
         ]);
     }
 

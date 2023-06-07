@@ -54,6 +54,18 @@ class BookRepository extends ServiceEntityRepository
        ;
    }
 
+   public function findOrdersSuccess($user, $order)
+   {
+        return $this->createQueryBuilder('b')
+                    //->select('')
+                    // ->join('user u', $user)
+                    ->join('App\Entity\Order o', $order)
+                    ->setParameter('order', $order)
+                    ->getQuery()
+                    ->getSQL()
+        ;
+   }
+
 //    public function findOneImageByBook(): ?array
 //    {
 //        return $this->createQueryBuilder('b')
