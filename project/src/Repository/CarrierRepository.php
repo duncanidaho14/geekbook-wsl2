@@ -39,6 +39,19 @@ class CarrierRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByShipping($user)
+    {
+        return $this->createQueryBuilder('c')
+                    ->andWhere('o.isPaid = true')
+                    ->andWhere('o.users = :user')            
+                    ->setParameter('user', $user)
+                    ->orderBy('o.id', 'DESC')
+                    ->setMaxResults(12)
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Carrier[] Returns an array of Carrier objects
 //     */
