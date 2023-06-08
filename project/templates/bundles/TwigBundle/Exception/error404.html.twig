@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container w-full mt-40 mx-auto">
+    <h1>Page non trouvé</h1>
+
+    <p>
+        Nous n'arrivons à trouver cette page. Vérifier <strong>l'url</strong> de la page
+        où <a href="{{ path('app_home') }}" alt="retour à la page d'accueil" class="text-blue-600">retourner à la page d'accueil</a>.
+    </p>
+</div>
+{% endblock %}
