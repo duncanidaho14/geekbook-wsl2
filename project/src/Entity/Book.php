@@ -105,6 +105,13 @@ class Book
     #[ORM\Column]
     private ?int $rating = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $firstCover = null;
+
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Order $command = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -452,5 +459,29 @@ class Book
     public function setRatingValue()
     {
         $this->rating = 0;
+    }
+
+    public function getFirstCover(): ?string
+    {
+        return $this->firstCover;
+    }
+
+    public function setFirstCover(string $firstCover): self
+    {
+        $this->firstCover = $firstCover;
+
+        return $this;
+    }
+
+    public function getCommand(): ?Order
+    {
+        return $this->command;
+    }
+
+    public function setCommand(?Order $command): self
+    {
+        $this->command = $command;
+
+        return $this;
     }
 }

@@ -85,7 +85,7 @@ class DashboardController extends AbstractDashboardController
         $dates = [];
         $orderCount = [];
         foreach ($orderByDay as $orderDay) {
-           dd($orderByDay);
+           
         }
 
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [

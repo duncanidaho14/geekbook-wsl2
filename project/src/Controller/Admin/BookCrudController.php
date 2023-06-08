@@ -8,10 +8,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -30,6 +30,9 @@ class BookCrudController extends AbstractCrudController
             IdField::new('id'),
             TextField::new('title'),
             TextField::new('introduction'),
+            ImageField::new('firstCover')
+                ->setBasePath('build/images')
+                ->setUploadDir('public/build/images'),
             TextEditorField::new('description'),
             DateTimeField::new('publishedAt'),
             SlugField::new('slug')->setTargetFieldName('title'),
@@ -40,10 +43,13 @@ class BookCrudController extends AbstractCrudController
             TextField::new('isbn'),
             TextField::new('editor'),
             BooleanField::new('isInStock'),
+            IntegerField::new('rating'),
             AssociationField::new('comments'),
-            AssociationField::new('images'),
-            CollectionField::new('categories'),
-            CollectionField::new('authors'),
+            CollectionField::new('images'),
+            AssociationField::new('command'),
+            AssociationField::new('categories'),
+            AssociationField::new('authors'),
+
         ];
     }
     

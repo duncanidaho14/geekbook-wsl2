@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230601135121 extends AbstractMigration
+final class Version20230608073002 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -37,8 +37,9 @@ final class Version20230601135121 extends AbstractMigration
         $this->addSql('CREATE TABLE author_book (author_id INT NOT NULL, book_id INT NOT NULL, PRIMARY KEY(author_id, book_id))');
         $this->addSql('CREATE INDEX IDX_2F0A2BEEF675F31B ON author_book (author_id)');
         $this->addSql('CREATE INDEX IDX_2F0A2BEE16A2B381 ON author_book (book_id)');
-        $this->addSql('CREATE TABLE book (id INT NOT NULL, title VARCHAR(100) NOT NULL, introduction VARCHAR(255) NOT NULL, description TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, published_at DATE DEFAULT NULL, slug VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, langue VARCHAR(20) NOT NULL, nb_pages INT NOT NULL, dimension VARCHAR(20) DEFAULT NULL, isbn VARCHAR(50) NOT NULL, editor VARCHAR(50) NOT NULL, is_in_stock BOOLEAN NOT NULL, rating INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE book (id INT NOT NULL, command_id INT NOT NULL, title VARCHAR(100) NOT NULL, introduction VARCHAR(255) NOT NULL, description TEXT NOT NULL, created_at DATE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, published_at DATE DEFAULT NULL, slug VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, langue VARCHAR(20) NOT NULL, nb_pages INT NOT NULL, dimension VARCHAR(20) DEFAULT NULL, isbn VARCHAR(50) NOT NULL, editor VARCHAR(50) NOT NULL, is_in_stock BOOLEAN NOT NULL, rating INT NOT NULL, first_cover VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_CBE5A331989D9B62 ON book (slug)');
+        $this->addSql('CREATE INDEX IDX_CBE5A33133E1689A ON book (command_id)');
         $this->addSql('COMMENT ON COLUMN book.created_at IS \'(DC2Type:date_immutable)\'');
         $this->addSql('COMMENT ON COLUMN book.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN book.published_at IS \'(DC2Type:date_immutable)\'');
@@ -84,6 +85,7 @@ final class Version20230601135121 extends AbstractMigration
         $this->addSql('ALTER TABLE address ADD CONSTRAINT FK_D4E6F817E3C61F9 FOREIGN KEY (owner_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE author_book ADD CONSTRAINT FK_2F0A2BEEF675F31B FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE author_book ADD CONSTRAINT FK_2F0A2BEE16A2B381 FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE book ADD CONSTRAINT FK_CBE5A33133E1689A FOREIGN KEY (command_id) REFERENCES "order" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE category_book ADD CONSTRAINT FK_407ED97612469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE category_book ADD CONSTRAINT FK_407ED97616A2B381 FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C5F0EBBFF FOREIGN KEY (user_comment_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -112,6 +114,7 @@ final class Version20230601135121 extends AbstractMigration
         $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F817E3C61F9');
         $this->addSql('ALTER TABLE author_book DROP CONSTRAINT FK_2F0A2BEEF675F31B');
         $this->addSql('ALTER TABLE author_book DROP CONSTRAINT FK_2F0A2BEE16A2B381');
+        $this->addSql('ALTER TABLE book DROP CONSTRAINT FK_CBE5A33133E1689A');
         $this->addSql('ALTER TABLE category_book DROP CONSTRAINT FK_407ED97612469DE2');
         $this->addSql('ALTER TABLE category_book DROP CONSTRAINT FK_407ED97616A2B381');
         $this->addSql('ALTER TABLE comment DROP CONSTRAINT FK_9474526C5F0EBBFF');

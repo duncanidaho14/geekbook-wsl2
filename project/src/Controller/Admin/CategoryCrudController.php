@@ -22,7 +22,8 @@ class CategoryCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('name'),
-            ImageField::new('image'),
+            ImageField::new('image')->setBasePath('build/images')
+                                    ->setUploadDir('public/build/images'),
             CollectionField::new('book'),
         ];
     }

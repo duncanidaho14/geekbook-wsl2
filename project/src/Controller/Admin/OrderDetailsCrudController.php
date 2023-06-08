@@ -29,7 +29,6 @@ class OrderDetailsCrudController extends AbstractCrudController
             MoneyField::new('subTotalTTC')->setCurrency('EUR')->setNumDecimals(2),
             MoneyField::new('subTotalHT')->setCurrency('EUR'),
             MoneyField::new('taxe')->setCurrency('EUR'),
-            TextEditorField::new('description'),
             AssociationField::new('orders'),
             MoneyField::new('carrierPrice')->setCurrency('EUR'),
             TextField::new('carrierName'),

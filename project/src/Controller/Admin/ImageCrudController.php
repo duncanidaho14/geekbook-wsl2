@@ -22,7 +22,10 @@ class ImageCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('name'),
-            ImageField::new('url'),
+            ImageField::new('url')
+                                ->setBasePath('build/images')
+                                ->setUploadDir('public/build/images')
+            ,
             AssociationField::new('book'),
         ];
     }

@@ -42,6 +42,7 @@ class OrderCrudController extends AbstractCrudController
             MoneyField::new('price')->setCurrency('EUR'),
             MoneyField::new('unitPrice')->setCurrency('EUR'),
             TextField::new('stripeSessionId'),
+            AssociationField::new('books')
         ];
     }
     
