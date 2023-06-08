@@ -96,6 +96,10 @@ class AppFixtures extends Fixture
             $manager->persist($carrier);
         }
 
+        
+
+        
+
         $books = [];
         for ($bo=0; $bo < 50; $bo++) { 
             $book = new Book();
@@ -110,14 +114,50 @@ class AppFixtures extends Fixture
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
-                ->setRating($faker->numberBetween(0,5))
+                ->setRating($faker->numberBetween(1,5))
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setFirstCover($faker->imageUrl())
                 
             ;
+        
+            $categories = [];
+            for ($cat=0; $cat < 5; $cat++) { 
+                $category = new Category();
+                $category->setName($faker->name())
+                    ->setImage($faker->imageUrl())
+                    ->addBook($book)
+                ;
+                $manager->persist($category);
+                $categories[] = $category;
+            }
 
+            $images = [];
+            for ($im=0; $im < 4; $im++) { 
+                $image = new Image();
+                $image->setName($faker->name())
+                    ->setUrl($faker->imageUrl())
+                    ->setBook($book)
+                ;
+                $manager->persist($image);
+                $images[] = $image;
+            }
+            
+            $comments = [];
+            for ($com=0; $com < 20; $com++) { 
+                $comment = new Comment();
+                $comment->setTitle($faker->sentence())
+                        ->setComment($faker->paragraph(3))
+                        ->setRating($faker->numberBetween(1, 5))
+                        ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+                        ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+                        ->setUserComment($user)
+                        ->setBookComment($book)
+                ;
+                $manager->persist($comment);
+                $comments[] = $comment;
+            }
             $orders = [];
             
             for ($or=0; $or < 10; $or++) { 
@@ -165,67 +205,24 @@ class AppFixtures extends Fixture
                 $manager->persist($order);
                 $orders[] = $order;
             }
+
+
+            $authors = [];
+            for ($au=0; $au < 2; $au++) { 
+                $author = new Author();
+                $author->setFirstName($faker->firstName())
+                    ->setLastName($faker->lastName())
+                    ->setDescription($faker->paragraph(2))
+                    ->setAvatar($faker->imageUrl())
+                    ->addBook($book)
+                ;
+                $manager->persist($author);
+                $authors[] = $author;
+            }
+
+           
             
             $book->setCommand($order);
-            $manager->persist($book);
-            $books[] = $book;
-        }
-
-        
-
-        $images = [];
-        for ($im=0; $im < 50; $im++) { 
-            $image = new Image();
-            $image->setName($faker->name())
-                ->setUrl($faker->imageUrl())
-                ->setBook($book)
-            ;
-            $manager->persist($image);
-            $images[] = $image;
-        }
-
-
-        $comments = [];
-        for ($com=0; $com < 20; $com++) { 
-            $comment = new Comment();
-            $comment->setTitle($faker->sentence())
-                    ->setComment($faker->paragraph(3))
-                    ->setRating($faker->numberBetween(1, 5))
-                    ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                    ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                    ->setUserComment($user)
-                    ->setBookComment($book)
-            ;
-            $manager->persist($comment);
-            $comments[] = $comment;
-        }
-
-        $authors = [];
-        for ($au=0; $au < 10; $au++) { 
-            $author = new Author();
-            $author->setFirstName($faker->firstName())
-                ->setLastName($faker->lastName())
-                ->setDescription($faker->paragraph(2))
-                ->setAvatar($faker->imageUrl())
-                ->addBook($book)
-            ;
-            $manager->persist($author);
-            $authors[] = $author;
-        }
-
-        $categories = [];
-        for ($cat=0; $cat < 5; $cat++) { 
-            $category = new Category();
-            $category->setName($faker->name())
-                ->setImage($faker->imageUrl())
-                ->addBook($book)
-            ;
-            $manager->persist($category);
-            $categories[] = $category;
-        }
-
-        for ($addB=0; $addB < 50; $addB++) { 
-            
             $book->addAuthor($author)
                     ->addCategory($category)
                     ->addComment($comment)
@@ -233,6 +230,8 @@ class AppFixtures extends Fixture
 
             $manager->persist($book);
 
+            $manager->persist($book);
+            $books[] = $book;
         }
         
         $manager->flush();

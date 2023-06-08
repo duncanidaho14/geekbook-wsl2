@@ -68,7 +68,9 @@ class HomeController extends AbstractController
             'imageRepo' => $imageRepository->findByUrl([]),
             'categories' => $categoriesRepository->findAll(),
             'find' => $bookRepository->findByBookDate($request->query->get('publishedAt')),
-            'bookAll' => $bookRepository->findAll()
+            'booksAll' => $bookRepository->findAll(),
+            'bookslessexpensive' => $bookRepository->findBy([], ['price' => 'ASC'], 12),
+            'booksmorestars' => $bookRepository->findBy([], ['rating' => 'ASC'], 12)
             
         ]);
     }
