@@ -96,12 +96,8 @@ class AppFixtures extends Fixture
             $manager->persist($carrier);
         }
 
-        
-
-        
-
         $books = [];
-        for ($bo=0; $bo < 50; $bo++) { 
+        for ($bo=0; $bo < 30; $bo++) { 
             $book = new Book();
             $book->setTitle($title = $faker->sentence())
                 ->setIntroduction($faker->sentence())
@@ -114,7 +110,7 @@ class AppFixtures extends Fixture
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
-                ->setRating($faker->numberBetween(1,5))
+                
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
@@ -145,17 +141,19 @@ class AppFixtures extends Fixture
             }
             
             $comments = [];
-            for ($com=0; $com < 20; $com++) { 
+            for ($com=0; $com < 10; $com++) { 
                 $comment = new Comment();
+                $book->setRating($rating = $faker->numberBetween(1,5));
                 $comment->setTitle($faker->sentence())
                         ->setComment($faker->paragraph(3))
-                        ->setRating($faker->numberBetween(1, 5))
+                        ->setRating($rating)
                         ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                         ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                         ->setUserComment($user)
                         ->setBookComment($book)
                 ;
                 $manager->persist($comment);
+                $manager->persist($book);
                 $comments[] = $comment;
             }
             $orders = [];
@@ -221,7 +219,7 @@ class AppFixtures extends Fixture
             }
 
            
-            
+            $book->setRating($rating);
             $book->setCommand($order);
             $book->addAuthor($author)
                     ->addCategory($category)
@@ -230,7 +228,6 @@ class AppFixtures extends Fixture
 
             $manager->persist($book);
 
-            $manager->persist($book);
             $books[] = $book;
         }
         

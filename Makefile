@@ -44,7 +44,7 @@ https: ## Install ca
 tests: ## Run all tests
 	$(MAKE) database-init-test
 	$(PHP) bin/phpunit --testdox tests/Unit/
-	$(PHP) bin/phpunit --testdox tests/Functional/
+	$(PHP) bin/phpunit --testdox tests/Func/
 	$(PHP) bin/phpunit --testdox tests/E2E/
 
 database-init-test: ## Init database for test
@@ -59,7 +59,7 @@ unit-test: ## Run unit tests
 
 functional-test: ## Run functional tests
 	$(MAKE) database-init-test
-	$(PHP) bin/phpunit --testdox tests/Functional/
+	$(PHP) bin/phpunit --testdox tests/Func/
 
 # PANTHER_NO_HEADLESS=1 ./bin/phpunit --filter LikeTest --debug to debug with Chrome
 e2e-test: ## Run E2E tests

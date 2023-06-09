@@ -88,11 +88,22 @@ class DashboardController extends AbstractDashboardController
            
         }
 
+        $booksmorestars = $this->bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12);
+        $bookstarName = [];
+        $bookstarRating = [];
+        foreach ($booksmorestars as $bookstar) {
+            $bookstarName[] = $bookstar->getTitle();
+            $bookstarRating[] = $bookstar->getRating();         
+        }
+        $cbookstarName = count($bookstarName);
+        $cBooksRating = count($bookstarRating);
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
             'orderName' => json_encode($orderName),
             'orderColor' => json_encode($orderColor),
             'orderCount' => json_encode($orderCount),
-            'orderByDay' => json_encode($orderByDay)
+            'orderByDay' => json_encode($orderByDay),
+            'bookstarName' => json_encode($cbookstarName),
+            'bookstarRating' => json_encode($cBooksRating)
         ]);
     }
 

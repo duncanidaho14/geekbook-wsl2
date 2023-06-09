@@ -15,14 +15,13 @@
 
 <script>
   const ctx = document.getElementById('myChart');
-
   new Chart(ctx, {
     type: 'pie',
     data: {
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [{
         label: '# of Votes',
-        data: [ {{orderName|raw}}, {{orderByDay|raw}}, 3, 5, 2, 3],
+        data: [ {{bookstarName|raw}}, {{bookstarRating|raw}}, 3, 5, 2, 3],
         borderWidth: 1
       }]
     },

@@ -70,7 +70,7 @@ class HomeController extends AbstractController
             'find' => $bookRepository->findByBookDate($request->query->get('publishedAt')),
             'booksAll' => $bookRepository->findAll(),
             'bookslessexpensive' => $bookRepository->findBy([], ['price' => 'ASC'], 12),
-            'booksmorestars' => $bookRepository->findBy([], ['rating' => 'ASC'], 12)
+            'booksmorestars' => $bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12)
             
         ]);
     }

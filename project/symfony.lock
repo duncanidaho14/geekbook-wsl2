@@ -77,6 +77,9 @@
             "config/packages/karser_recaptcha3.yaml"
         ]
     },
+    "liip/test-fixtures-bundle": {
+        "version": "2.6.0"
+    },
     "meilisearch/search-bundle": {
         "version": "0.12",
         "recipe": {

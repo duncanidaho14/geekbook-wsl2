@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class BooksTest extends KernelTestCase
 {
+
+    
     public function testEntityIsValid(): void
     {
         $kernel = self::bootKernel();
