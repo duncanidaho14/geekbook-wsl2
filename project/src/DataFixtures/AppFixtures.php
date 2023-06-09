@@ -70,7 +70,7 @@ class AppFixtures extends Fixture
         }
 
         
-
+        $addresses = [];
         for ($addr=0; $addr < 20; $addr++) { 
             $address = new Address();
             $address->setName($faker->name())
@@ -85,6 +85,7 @@ class AppFixtures extends Fixture
                 ->setOwner($user)
             ;
             $manager->persist($address);
+            $addresses[] = $address;
         }
 
         for ($car=0; $car < 4; $car++) { 
@@ -149,7 +150,7 @@ class AppFixtures extends Fixture
                         ->setRating($rating)
                         ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                         ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                        ->setUserComment($user)
+                        ->setUserComment($users[mt_rand(0, count($users) - 1)])
                         ->setBookComment($book)
                 ;
                 $manager->persist($comment);
@@ -218,14 +219,19 @@ class AppFixtures extends Fixture
                 $authors[] = $author;
             }
 
-           
+            $user->addAddress($addresses[\mt_rand(0, count($addresses) - 1)])
+                ->addComment($comment)
+                ->addOrder($order)
+            ;
             $book->setRating($rating);
             $book->setCommand($order);
             $book->addAuthor($author)
                     ->addCategory($category)
                     ->addComment($comment)
-                    ->addImage($image);
+                    ->addImage($image)
+            ;
 
+            $manager->persist($user);
             $manager->persist($book);
 
             $books[] = $book;

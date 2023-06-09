@@ -33,6 +33,7 @@ class DashboardController extends AbstractDashboardController
     public CategoryRepository $categoryRepository;
     public OrderDetailsRepository $orderDetailsRepository;
 
+
     public function __construct(OrderDetailsRepository $orderDetailsRepository, CategoryRepository $categoryRepository, UserRepository $userRepository, BookRepository $bookRepository, OrderRepository $orderRepository)
     {
         $this->userRepository = $userRepository;
@@ -88,22 +89,51 @@ class DashboardController extends AbstractDashboardController
            
         }
 
-        $booksmorestars = $this->bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12);
+        $booksmorestars = $this->bookRepository->findBy([], []);
         $bookstarName = [];
         $bookstarRating = [];
+        $booksComment = [];
+        $booksOrder = [];
+
         foreach ($booksmorestars as $bookstar) {
             $bookstarName[] = $bookstar->getTitle();
-            $bookstarRating[] = $bookstar->getRating();         
+            $bookstarRating[] = $bookstar->getRating();
+            $booksComment[] = $bookstar->getComments(); 
+            $booksAvgRating[] = $bookstar->getAvgRatings();     
         }
         $cbookstarName = count($bookstarName);
         $cBooksRating = count($bookstarRating);
+        $cbooksComment = count($booksComment);
+        $cbooksAvgRating = count($booksAvgRating);
+
+        $userInfo = $this->userRepository->findBy([]);
+
+        $userFullName = [];
+        $userOrder = [];
+
+        foreach ($userInfo as $user) {
+            $userFullName[] = $user->getEmail();
+            $userOrder[] = $user->getOrders();
+        }
+
+        $cuserFullName = count($userFullName);
+        $cuserOrder = count($userOrder);
+
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
             'orderName' => json_encode($orderName),
             'orderColor' => json_encode($orderColor),
             'orderCount' => json_encode($orderCount),
             'orderByDay' => json_encode($orderByDay),
-            'bookstarName' => json_encode($cbookstarName),
-            'bookstarRating' => json_encode($cBooksRating)
+
+            'bookstarName' => json_encode($cuserOrder),
+            'bookstarRating' => json_encode($cuserFullName),
+
+            'cbookstarName' => json_encode($cbookstarName),
+            'cbookstarRating' => json_encode($cBooksRating),
+            'cbooksComment' => json_encode($cbooksComment),
+            'cbooksAvgRating' => json_encode($cbooksAvgRating),
+
+            'namebookstar' => json_encode($bookstarName),
         ]);
     }
 

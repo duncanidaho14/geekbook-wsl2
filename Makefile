@@ -42,7 +42,7 @@ https: ## Install ca
 
 .PHONY: tests
 tests: ## Run all tests
-	$(MAKE) database-init-test
+	
 	$(PHP) bin/phpunit --testdox tests/Unit/
 	$(PHP) bin/phpunit --testdox tests/Func/
 	$(PHP) bin/phpunit --testdox tests/E2E/

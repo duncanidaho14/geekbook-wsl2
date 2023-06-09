@@ -2,11 +2,13 @@
 
 namespace App\Tests\Func;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 
 class BookTest extends WebTestCase
 {
-    
+   
      /**
      * @var AbstractDatabaseTool
      */
@@ -15,7 +17,6 @@ class BookTest extends WebTestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
     }
 
@@ -26,17 +27,18 @@ class BookTest extends WebTestCase
     {
         // If you need a client, you must create it before loading fixtures because
         // creating the client boots the kernel, which is used by loadFixtures
+        $this->databaseTool->loadFixtures(User::class);
         $client = static::createClient();
-        $this->databaseTool->loadFixtures(['Liip\FooBundle\Tests\Fixtures\LoadUserData']);
 
-        $crawler = $client->request('GET', '/users/foo');
-        
+        $crawler = $client->request('GET', '/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController');
+        $crawler->
         // …
     }
 
     public function testSomething(): void
     {
         $client = static::createClient();
+
         $crawler = $client->request('GET', '/livres');
 
         $this->assertResponseIsSuccessful();
@@ -47,6 +49,7 @@ class BookTest extends WebTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
+        
         unset($this->databaseTool);
     }
 }
