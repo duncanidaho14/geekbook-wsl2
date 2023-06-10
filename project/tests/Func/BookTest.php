@@ -2,7 +2,7 @@
 
 namespace App\Tests\Func;
 
-use App\Entity\User;
+use App\DataFixtures\AppFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 
@@ -25,18 +25,20 @@ class BookTest extends WebTestCase
      */
     public function testUserFooIndex(): void
     {
+        self::bootKernel();
         // If you need a client, you must create it before loading fixtures because
         // creating the client boots the kernel, which is used by loadFixtures
-        $this->databaseTool->loadFixtures(User::class);
+        $this->databaseTool->loadFixtures([AppFixtures::class]);
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController');
-        $crawler->
+        
         // …
     }
 
     public function testSomething(): void
     {
+        self::bootKernel();
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/livres');

@@ -9,7 +9,7 @@
 }
 
 body {
-    background-color: white;
+    @apply bg-red-500 #{!important};
 }
 
 .tinymce {

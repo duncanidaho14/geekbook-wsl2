@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const postcssPresetEnv = require('postcss-preset-env');
 module.exports = {
   mode: 'jit',
   purge: [
@@ -8,6 +9,8 @@ module.exports = {
     './templates/**/*.html.twig'
   ],
   content: [
+    "/vendor/symfony/twig-bridge/Resources/views/Form/tailwind_2_layout.html.twig",
+    "/assets/**/*.scss",
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
     "./node_modules/flowbite/**/*.js"
@@ -24,6 +27,7 @@ module.exports = {
     },
   },
   plugins: [
+    postcssPresetEnv(/* pluginOptions */),
     require("tw-elements/dist/plugin.cjs"),
     require('flowbite/plugin'),
     require('@tailwindcss/forms'),
