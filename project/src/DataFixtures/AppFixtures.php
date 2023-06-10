@@ -164,9 +164,9 @@ class AppFixtures extends Fixture
             for ($or=0; $or < 10; $or++) { 
                 $order = new Order();
                 $order->setReference($faker->randomNumber())
-                    ->setFullName($faker->name())
+                    ->setFullName($name = $faker->name())
                     ->setCarrierName($faker->name())
-                    ->setCarrierPrice($faker->numberBetween(0, 25))
+                    ->setCarrierPrice($cCarrierPrice = $faker->numberBetween(0, 25))
                     ->setDeliveryAddress($faker->address())
                     ->setPrice($price = $faker->numberBetween(1, 75))
                     ->setUnitPrice($faker->numberBetween(1, 75)< $price)
@@ -178,15 +178,16 @@ class AppFixtures extends Fixture
                     ->setSubTotalHT($subTotalHT = $faker->numberBetween(0, 100))
                     ->setTaxe($taxe = $faker->numberBetween(0, 100))
                     ->setSubTotalTTC($subTotalTTC = $faker->numberBetween(0, 100))
+                    ->addBook($books[\mt_rand(0, count($books) - 1)])
                 ;
                     
                     $orderDetails = [];
                     for ($ordd=0; $ordd < 10; $ordd++) { 
                         $orderDetail = new OrderDetails();
                         $orderDetail->setQuantity($quantity)
-                            ->setProductPrice($faker->numberBetween(0, 100))
+                            ->setProductPrice($cCarrierPrice)
                             ->setSubTotalHT($subTotalHT)
-                            ->setProductName($faker->name())
+                            ->setProductName($name)
                             ->setSubTotalTTC($subTotalTTC)
                             ->setTaxe($taxe)
                             ->setOrders($order)

@@ -63,78 +63,79 @@ class DashboardController extends AbstractDashboardController
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
 
-        $orders = $this->orderRepository->findAll();
-        $books = $this->bookRepository->findAll();
-        $orderDetails = $this->orderDetailsRepository->findAll();
-        $users = count($this->userRepository->findAll());
-        $categories = count($this->categoryRepository->findAll());
+        // $orders = $this->orderRepository->findAll();
+        // $books = $this->bookRepository->findAll();
+        // $orderDetails = $this->orderDetailsRepository->findAll();
+        // $users = count($this->userRepository->findAll());
+        // $categories = count($this->categoryRepository->findAll());
 
-        $orderName = [];
-        $orderColor = [];
-        $orderCount = [];
+        // $orderName = [];
+        // $orderColor = [];
+        // $orderCount = [];
         
-        $startOfDay = new \DateTimeImmutable('2000-01-19 12:41:20.000');
-        $endOfDay = new \DateTimeImmutable('2006-06-15 06:56:04.000');
-        $orderByDay = $this->orderRepository->CountOrderByDay($startOfDay, $endOfDay);
+        // $startOfDay = new \DateTimeImmutable('2000-01-19 12:41:20.000');
+        // $endOfDay = new \DateTimeImmutable('2006-06-15 06:56:04.000');
+        // $orderByDay = $this->orderRepository->CountOrderByDay($startOfDay, $endOfDay);
         
-        foreach ($orders as $order) {
-            $orderName[] = $order->getFullName();
-            $orderColor[] = $order->getCarrierName();
-            $orderCount[] = count($order->getOrderDetails());
-        }
+        // foreach ($orders as $order) {
+        //     $orderName[] = $order->getFullName();
+        //     $orderColor[] = $order->getCarrierName();
+        //     $orderCount[] = count($order->getOrderDetails());
+        // }
         
-        $dates = [];
-        $orderCount = [];
-        foreach ($orderByDay as $orderDay) {
+        // $dates = [];
+        // $orderCount = [];
+        // foreach ($orderByDay as $orderDay) {
            
-        }
+        // }
 
-        $booksmorestars = $this->bookRepository->findBy([], []);
-        $bookstarName = [];
-        $bookstarRating = [];
-        $booksComment = [];
-        $booksOrder = [];
+        // $booksmorestars = $this->bookRepository->findBy([], []);
+        // $bookstarName = [];
+        // $bookstarRating = [];
+        // $booksComment = [];
+        // $booksOrder = [];
 
-        foreach ($booksmorestars as $bookstar) {
-            $bookstarName[] = $bookstar->getTitle();
-            $bookstarRating[] = $bookstar->getRating();
-            $booksComment[] = $bookstar->getComments(); 
-            $booksAvgRating[] = $bookstar->getAvgRatings();     
-        }
-        $cbookstarName = count($bookstarName);
-        $cBooksRating = count($bookstarRating);
-        $cbooksComment = count($booksComment);
-        $cbooksAvgRating = count($booksAvgRating);
+        // foreach ($booksmorestars as $bookstar) {
+        //     $bookstarName[] = $bookstar->getTitle();
+        //     $bookstarRating[] = $bookstar->getRating();
+        //     $booksComment[] = $bookstar->getComments(); 
+        //     $booksAvgRating[] = $bookstar->getAvgRatings();     
+        // }
+        // $cbookstarName = count($bookstarName);
+        // $cBooksRating = count($bookstarRating);
+        // $cbooksComment = count($booksComment);
+        // $cbooksAvgRating = count($booksAvgRating);
 
-        $userInfo = $this->userRepository->findBy([]);
+        // $userInfo = $this->userRepository->findBy([]);
 
-        $userFullName = [];
-        $userOrder = [];
+        // $userFullName = [];
+        // $userOrder = [];
 
-        foreach ($userInfo as $user) {
-            $userFullName[] = $user->getEmail();
-            $userOrder[] = $user->getOrders();
-        }
+        // foreach ($userInfo as $user) {
+        //     $userFullName[] = $user->getEmail();
+        //     $userOrder[] = $user->getOrders();
+        // }
 
-        $cuserFullName = count($userFullName);
-        $cuserOrder = count($userOrder);
+        // $cuserFullName = count($userFullName);
+        // $cuserOrder = count($userOrder);
 
-        return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
-            'orderName' => json_encode($orderName),
-            'orderColor' => json_encode($orderColor),
-            'orderCount' => json_encode($orderCount),
-            'orderByDay' => json_encode($orderByDay),
+        // return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
+        //     'orderName' => json_encode($orderName),
+        //     'orderColor' => json_encode($orderColor),
+        //     'orderCount' => json_encode($orderCount),
+        //     'orderByDay' => json_encode($orderByDay),
 
-            'bookstarName' => json_encode($cuserOrder),
-            'bookstarRating' => json_encode($cuserFullName),
+        //     'bookstarName' => json_encode($cuserOrder),
+        //     'bookstarRating' => json_encode($cuserFullName),
 
-            'cbookstarName' => json_encode($cbookstarName),
-            'cbookstarRating' => json_encode($cBooksRating),
-            'cbooksComment' => json_encode($cbooksComment),
-            'cbooksAvgRating' => json_encode($cbooksAvgRating),
+        //     'cbookstarName' => json_encode($cbookstarName),
+        //     'cbookstarRating' => json_encode($cBooksRating),
+        //     'cbooksComment' => json_encode($cbooksComment),
+        //     'cbooksAvgRating' => json_encode($cbooksAvgRating),
 
-            'namebookstar' => json_encode($bookstarName),
-        ]);
+        //     'namebookstar' => json_encode($bookstarName),
+        // ]);
+        return $this->render('bundles/EasyAdminBundle/page/login.html.twig');
     }
 
     public function configureDashboard(): Dashboard
