@@ -63,30 +63,32 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setBirthday($faker->dateTime())
             ;
+                $addresses = [];
+                for ($addr=0; $addr < 3; $addr++) { 
+                    $address = new Address();
+                    $address->setName($faker->name())
+                        ->setFirstName($faker->firstName())
+                        ->setLastName($faker->lastName())
+                        ->setCompany($faker->company())
+                        ->setAddress($faker->streetAddress())
+                        ->setZip($faker->postcode())
+                        ->setCity($faker->city())
+                        ->setCountry($faker->country())
+                        ->setPhone($faker->phoneNumber())
+                        ->setOwner($user)
+                    ;
+                    $manager->persist($address);
+                    $manager->persist($user);
+                    $addresses[] = $address;
+                }
             $password = $this->hasher->hashPassword($user, 'password');
             $user->setPassword($password);
+            $user->addAddress($address);
             $manager->persist($user);
             $users[] = $user;
         }
 
         
-        $addresses = [];
-        for ($addr=0; $addr < 20; $addr++) { 
-            $address = new Address();
-            $address->setName($faker->name())
-                ->setFirstName($faker->firstName())
-                ->setLastName($faker->lastName())
-                ->setCompany($faker->company())
-                ->setAddress($faker->streetAddress())
-                ->setZip($faker->postcode())
-                ->setCity($faker->city())
-                ->setCountry($faker->country())
-                ->setPhone($faker->phoneNumber())
-                ->setOwner($user)
-            ;
-            $manager->persist($address);
-            $addresses[] = $address;
-        }
 
         for ($car=0; $car < 4; $car++) { 
             $carrier = new Carrier();
@@ -219,8 +221,8 @@ class AppFixtures extends Fixture
                 $authors[] = $author;
             }
 
-            $user->addAddress($addresses[\mt_rand(0, count($addresses) - 1)])
-                ->addComment($comment)
+           
+            $user->addComment($comment)
                 ->addOrder($order)
             ;
             $book->setRating($rating);
