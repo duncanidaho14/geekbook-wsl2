@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const postcssPresetEnv = require('postcss-preset-env');
 module.exports = {
   mode: 'jit',
   purge: [
@@ -27,7 +26,6 @@ module.exports = {
     },
   },
   plugins: [
-    postcssPresetEnv(/* pluginOptions */),
     require("tw-elements/dist/plugin.cjs"),
     require('flowbite/plugin'),
     require('@tailwindcss/forms'),
