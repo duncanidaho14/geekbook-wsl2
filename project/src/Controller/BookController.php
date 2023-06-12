@@ -45,13 +45,14 @@ class BookController extends AbstractController
 
     #[Route('/livre/{slug}', name: 'app_show_book')]
     #[Security("is_granted('ROLE_USER')")]
-    public function show(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
+    public function show(Book $bookCount, Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
     {
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $emptyForm = clone $form;
         $form->handleRequest($request);
+        $comments = $bookCount->getComments();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUserComment($this->getUser())
@@ -62,10 +63,11 @@ class BookController extends AbstractController
              if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-                
+
                 return $this->render('book/success.stream.html.twig', [
                     'book' => $books,
-                    'comment' => $comment, 
+                    'comment' => $comment,
+                    'commentsCount' => $comments->count() + 1, 
                     'form' => $emptyForm
                 ]);
             }
