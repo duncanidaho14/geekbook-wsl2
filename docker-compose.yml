@@ -69,6 +69,17 @@ services:
     networks:
       - dev
 
+  mercure:
+    image: dunglas/mercure
+    command: caddy run -config /etc/caddy/Caddyfile.dev
+    ports: ['80']
+    environment:
+        SERVER_NAME: ':80'
+        MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+        MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+    networks:
+      - dev
+
 networks:
   dev:
 

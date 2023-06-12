@@ -1,5 +1,14 @@
 
-<div id="task-form">
-    {# render your form however you want #}
-    {{ form(form) }}
+<div id="new-comment-form">
+    {{form_start(form)}}
+    <div class="mb-6">
+        <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            {{form_widget(form)}}
+        </div>
+        <button type="submit"
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 dark:text-white">
+            Post comment
+        </button>
+    </div>
+    {{form_end(form)}}
 </div>
