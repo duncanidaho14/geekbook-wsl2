@@ -265,6 +265,7 @@
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:bg-gray-800 dark:text-white">Discussion ({{book.comments|length}})</h2>
     </div>
+    <turbo-frame id="new-comment-form">
     {{form_start(form)}}
     <div class="mb-6">
         <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
@@ -276,11 +277,13 @@
         </button>
     </div>
     {{form_end(form)}}
+    </turbo-frame>
     {% if book.comments|length > 0 %}
     <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
+
     {% if book.comments|length > 0 %}
       {% for comment in comments %}
-
+        <turbo-frame action="replace" target="new-comment-refresh">
         <footer class="flex justify-between items-center mb-2">
             <div class="flex items-center">
               
@@ -322,16 +325,18 @@
               </div>
             {% endif %}
 
+
         </footer>
         <p class="text-gray-500 dark:text-gray-400">{{comment.comment}}</p>
         <div class="flex items-center mt-4 space-x-4">
             {% include 'layout/rating.html.twig' with {'rating': comment.rating} %}
         </div>
+        </turbo-frame>
       {% endfor %}
     {% else %}
       <h1>Il n'y a pas de commentaires</h1>
     {% endif %}
-          </article>
+    </article>
     {% else %}
       <h1>Il n'y a pas de commentaire</h1>
     {% endif %}

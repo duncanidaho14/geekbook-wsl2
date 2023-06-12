@@ -3,17 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Entity\Comment;
 use App\Form\BookType;
+use App\Entity\Comment;
 use App\Form\CommentType;
+use Symfony\UX\Turbo\TurboBundle;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
@@ -49,16 +50,28 @@ class BookController extends AbstractController
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
+        $emptyForm = clone $form;
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUserComment($this->getUser())
-                    ->setBookComment($books);
-           
-                    
+                    ->setBookComment($books);           
             $manager->persist($comment);
             $manager->flush();
+             // 🔥 The magic happens here! 🔥
+             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+                // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                
+                return $this->render('book/success.stream.html.twig', [
+                    'books' => $books,
+                    'comment' => $comment, 
+                    'form' => $emptyForm
+                ]);
+            }
+            return $this->redirectToRoute('task_success', [], Response::HTTP_SEE_OTHER);
         }
+        
 
         return $this->render('book/show.html.twig', [
             'book' => $books,
