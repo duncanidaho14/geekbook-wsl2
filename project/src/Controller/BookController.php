@@ -64,12 +64,12 @@ class BookController extends AbstractController
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                 
                 return $this->render('book/success.stream.html.twig', [
-                    'books' => $books,
+                    'book' => $books,
                     'comment' => $comment, 
                     'form' => $emptyForm
                 ]);
             }
-            return $this->redirectToRoute('task_success', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_show_book', ['slug' => $books->getSlug()], Response::HTTP_SEE_OTHER);
         }
         
 

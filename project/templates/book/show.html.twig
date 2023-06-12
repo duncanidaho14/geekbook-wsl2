@@ -265,26 +265,31 @@
     <div class="flex justify-between items-center mb-6">
       <h2 id="comment-length-refresh" class="text-lg lg:text-2xl font-bold text-gray-900 dark:bg-gray-800 dark:text-white">Discussion ({{book.comments|length}})</h2>
     </div>
-    <turbo-frame id="new-comment-form">
+    <div id="new-comment-form">
       {{ include('book/_form.html.twig', {form})}}
-    </turbo-frame>
+    </div>
     
-    {% if book.comments|length > 0 %}
+    {# {% if book.comments|length > 0 %} #}
     <article class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900">
-
+  
     {% if book.comments|length > 0 %}
+    <div id="comment-length-refresh">
+    </div>
     <div id="comment-content-refresh">
       {% for comment in comments %}
-        {{ include('book/_comment.html.twig', {comment: comment, book: book, index: loop.index}) }}  
+        {{ include('book/_comment.html.twig', {comment: comment, book: book}) }}  
+        {% else %}
+                <p>Il n'y a pas encore de commentaire.</p> 
       {% endfor %}
+
     </div>
     {% else %}
       <h1>Il n'y a pas de commentaires</h1>
     {% endif %}
     </article>
-    {% else %}
+    {# {% else %}
       <h1>Il n'y a pas de commentaire</h1>
-    {% endif %}
+    {% endif %} #}
   </div>
 </section>
 
