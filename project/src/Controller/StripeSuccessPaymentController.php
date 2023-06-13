@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use App\Classes\Basket;
+use Knp\Snappy\Pdf;
 use App\Entity\Order;
+use App\Classes\Basket;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeSuccessPaymentController extends AbstractController
 {
     #[Route('/payement-reussi/{stripeSessionId}', name: 'app_success_payment')]
-    public function index(?Order $order, Basket $cart, EntityManagerInterface $manager): Response
+    public function index(Pdf $knpSnappyPdf, PdfController $pdf, ?Order $order, Basket $cart, EntityManagerInterface $manager): Response
     {
         if(!$order || $order->getUsers() !== $this->getUser()) {
             return $this->redirectToRoute('app_home');
@@ -21,10 +22,14 @@ class StripeSuccessPaymentController extends AbstractController
 
         if(!$order->getIsPaid()) {
             $order->setIsPaid(true);
+            $knpSnappyPdf->setOption('enable-local-file-access', true);
+            $knpSnappyPdf->generate('http://127.0.0.1/payement-reussi/'.$order->getStripeSessionId().'', '/var/www/project/assets/pdf/invoice.pdf');
             $manager->flush();
             
             $cart->remove();
         }
+        
+        
 
         return $this->render('stripe_success_payment/index.html.twig', [
             'order' => $order,

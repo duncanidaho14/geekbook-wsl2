@@ -39,15 +39,16 @@ services:
       - meilisearch
 
   apache:
-        image: httpd:2.4
-        ports:
-            - "443:443"
-        volumes:
-            - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
-            - ./ssl:/usr/local/apache2/ssl
-            - ./html:/var/www/html
-        depends_on:
-            - gkbook
+    image: httpd:2.4
+    container_name: apache
+    ports:
+        - "443:443"
+    volumes:
+        - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
+        - ./ssl:/usr/local/apache2/ssl
+        - ./html:/var/www/html
+    depends_on:
+        - gkbook
 
   mailer:
     image: schickling/mailcatcher
