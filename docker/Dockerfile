@@ -14,7 +14,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   &&  mv composer.phar /usr/local/bin/composer \
   \
   && curl -sL https://deb.nodesource.com/setup_18.x | bash \
-  && apt-get install nodejs \
+  && apt-get install -y nodejs \
   \
   &&  curl -sS https://get.symfony.com/cli/installer | bash \
   &&  mv /root/.symfony5/bin/symfony /usr/local/bin \ 
@@ -23,12 +23,39 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   &&  docker-php-ext-install \
   pdo pdo_pgsql opcache intl zip calendar dom mbstring gd xsl \
   \
-  &&  pecl install apcu && docker-php-ext-enable apcu
+  &&  pecl install apcu && docker-php-ext-enable apcu 
+
+RUN apt-get install -y \
+    libxrender1 \
+    libfontconfig1 \
+    libx11-dev \
+    libjpeg62 \
+    libxtst6 \
+    wget \
+    && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/bin/wkhtmltopdf \
+    && chmod +x /usr/bin/wkhtmltopdf \
+    && wget https://github.com/h4cc/wkhtmltoimage-amd64/blob/master/bin/wkhtmltoimage-amd64?raw=true -O /usr/bin/wkhtmltoimage \
+    && chmod +x /usr/bin/wkhtmltoimage
+
+RUN apt install -y openssl
 
 COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
+COPY ./vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf
+ENV FONTCONFIG_PATH=/tmp/fontconfig
+
 COPY . /var/www/
 
+
 WORKDIR /var/www/
+
+RUN mkdir -p /var/www/project/assets/pdf \
+    && chown -R www-data:www-data /var/www/project/assets/pdf \
+    && chmod -R 755 /var/www/project/assets/pdf
+
+RUN mkdir -p /etc/ssl/traefik/ \
+  && chown -R www-data:www-data /etc/ssl/traefik/ \
+  && chmod -R 755 /etc/ssl/traefik/
+
 
 EXPOSE 80

@@ -30,10 +30,24 @@ cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
 
 ssl: ## Install ssl
-	$(EXEC2) mkdir docker
-	$(EXEC2) cd docker
-	$(EXEC2) openssl genrsa -out client.key 4096
-	$(EXEC2) openssl req -new -x509 -text -key client.key -out client.cert
+	$(EXEC2) mkdir -p /ssl/root_ca/{certs,crl,newcerts,private}
+	$(EXEC2) mkdir -p /ssl/core_ca/{certs,crl,newcerts,private}
+	$(EXEC2) touch /ssl/root_ca/index.txt
+	$(EXEC2) touch /ssl/core_ca/index.txt
+	$(EXEC2) touch /ssl/root_ca/serial
+	$(EXEC2) touch /ssl/core_ca/serial
+	$(EXEC2) cd /ssl openssl genrsa -out client.key 4096
+	$(EXEC2) cd /ssl openssl req -new -x509 -text -key client.key -out client.cert
+	$(EXEC2) chmod -R 600 /ssl/root_ca/private
+	$(EXEC2) cd /ssl/core_ca openssl req -newkey rsa:8192 -sha256 -keyout private/core_ca.key -out core_ca.req
+	$(EXEC2) cd /ssl openssl ca -rand_serial -extensions CORE_CA -in core_ca.req -out core_ca.pem
+	$(EXEC2) cd /ssl openssl x509 -serial -noout -in core_ca.pem | cut -d= -f2 > serial
+	$(EXEC2) chmod -R 600 private/
+	$(EXEC2) cd /ssl openssl req -newkey rsa:4096 -sha256 -keyout cle-privee.key -out cle-publique.req
+	$(EXEC2) cd /ssl openssl ca -name core_ca -in cle-publique.req -out certificat.pem
+	$(EXEC2) cd /ssl openssl req -newkey rsa:4096 -sha256 -keyout cle-privee.key -out cle-publique.req
+	$(EXEC2) cd /ssl openssl ca -name core_ca -extensions SERVER_SSL -in cle-publique.req -out certificat.pem
+	$(EXEC2) cd /ssl/certs/ chmod o+r myca.pem ln -s myca.pem `openssl x509 -hash -noout -in myca.pem`.0
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install

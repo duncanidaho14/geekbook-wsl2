@@ -39,35 +39,36 @@
                         <h2 class="">le panier est vide</h2>
                     {% endif %}
                     </div>
-                    <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+                    <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0" data-turbo="false">
                         <p class="text-xl font-medium">Adresse & Transporteur</p>
                         <p class="text-gray-400">Choisisser votre adresse et votre transporteur</p>
                         <div class="">
-                            {{form_start(form, {action: path('app_order_recap')})}}
+                        
+                            {{form_start(form, {action: path('app_order_recap'), data: {turbo: false}})}}
                                 {{form_row(form.address)|replace({'[eol]' : '<br/>'})|raw}}
                                 {{form_row(form.carrier)|replace({'[eol]' : '<br/>'})|raw}}
                                 {{form_row(form.moreInformation)}}
-                            
-                        <!-- Total -->
-                        <div class="mt-6 border-t border-b py-2">
-                            <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                            <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
+                         
+                            <!-- Total -->
+                            <div class="mt-6 border-t border-b py-2">
+                                <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Subtotal</p>
+                                <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Taxe</p>
+                                <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
+                                </div>
                             </div>
-                            <div class="flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Taxe</p>
-                            <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
+                            <div class="mt-6 flex items-center justify-between">
+                                <p class="text-sm font-medium text-gray-900">Total</p>
+                                <p class="text-2xl font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
                             </div>
-                        </div>
-                        <div class="mt-6 flex items-center justify-between">
-                            <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
+                            {{form_end(form)}}
                         </div>
                     </div>
-                    {{form_end(form)}}
                 </div>
             </div>
-
         </div>
     </div>
 </div>

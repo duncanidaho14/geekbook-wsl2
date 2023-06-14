@@ -47,7 +47,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         return $this->render('order/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
             'basket' => $cart
         ]);
     }
