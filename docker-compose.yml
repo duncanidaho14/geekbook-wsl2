@@ -26,8 +26,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
     ports:
-      - '8000:80'
-
+      - '7000:80'
+    labels:
+      - "traefik.http.routers.app1.rule=Host(`app1.traefik.me`)"
+      - "traefik.http.routers.app1-tls.tls.domains[0].main=app1.traefik.me"
+      - "traefik.http.routers.app1-tls.tls.domains[0].sans=app1-*.traefik.me"
+      - "traefik.http.routers.app1.tls=true"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
       - ./:/var/www
@@ -38,17 +42,47 @@ services:
       - db
       - meilisearch
 
+  traefik:
+    restart: unless-stopped
+    image: traefik:v2.0.2
+    ports:
+      - "8000:8000"
+      - "443:443"
+    labels:
+      - "traefik.http.services.traefik.loadbalancer.server.port=8090"
+    volumes:
+      - ./traefik.yml:/etc/ssl/traefik/traefik.yml
+      - ./tls.yml:/etc/ssl/traefik/tls.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - certs:/etc/ssl/traefik
+    networks:
+      - dev
+
+  reverse-proxy-https-helper:
+    image: alpine
+    command: sh -c "cd /etc/ssl/traefik
+      && wget traefik.me/cert.pem -O cert.pem
+      && wget traefik.me/privkey.pem -O privkey.pem"
+    volumes:
+      - certs:/etc/ssl/traefik
+    networks:
+      - dev
+
+  
+
   apache:
     image: httpd:2.4
     container_name: apache
     ports:
-        - "443:443"
+      - "8001:8001"
+      - "444:444"
     volumes:
-        - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
-        - ./ssl:/usr/local/apache2/ssl
-        - ./html:/var/www/html
+      - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
+      - ./ssl:/usr/local/apache2/ssl
+      - ./html:/var/www/html
     depends_on:
-        - gkbook
+      - gkbook
+      - traefik
 
   mailer:
     image: schickling/mailcatcher
@@ -81,6 +115,8 @@ services:
     networks:
       - dev
 
+  
+
 networks:
   dev:
 
@@ -88,3 +124,4 @@ volumes:
   database_data:
   apache:
   meilisearch_data:
+  certs:
