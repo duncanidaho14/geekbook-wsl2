@@ -58,4 +58,6 @@ RUN mkdir -p /etc/ssl/traefik/ \
   && chmod -R 755 /etc/ssl/traefik/
 
 
-EXPOSE 80
+EXPOSE 7000
+
+CMD ["/usr/sbin/apache2ctl", "-DFOREGROUND"]
