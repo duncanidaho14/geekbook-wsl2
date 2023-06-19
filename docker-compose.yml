@@ -75,9 +75,13 @@ services:
     depends_on:
       - gkbook
       - traefik
+    networks:
+      - dev
 
   mailer:
-    image: schickling/mailcatcher 
+    image: schickling/mailcatcher
+    networks:
+      - dev 
       # vérifier le port 1080
 
   meilisearch:

@@ -24,7 +24,7 @@ init: ## 💥 Init the project
 	$(MAKE) npm-install
 	$(MAKE) ssl
 	$(MAKE) https
-	@$(call GREEN,"The application is available at: http://127.0.0.1:8000/.")
+	@$(call GREEN,"The application is available at: https://app1.traefik.me/.")
 	
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear

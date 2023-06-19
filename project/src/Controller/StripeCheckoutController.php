@@ -8,7 +8,6 @@ use App\Classes\OrderClasse;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

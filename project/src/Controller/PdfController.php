@@ -2,22 +2,23 @@
 
 namespace App\Controller;
 
+use App\Classes\PdfGen;
 use App\Entity\Order;
-use Knp\Snappy\Pdf;
+use Symfony\Component\Routing\Annotation\Route;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class PdfController extends AbstractController
 {
-    #[Route("/account/order/pdf", name:"app_account_pdf_order")]
-    public function pdfAction(Pdf $knpSnappyPdf)
+        
+    #[Route("/pdf/{stripeSessionId}", name:"app_account_pdf_order")]
+    public function pdfAction(Order $order, PdfGen $pdf)
     {
-        $pageUrl = $this->generateUrl('app_success_payment', array(), true);
+        // $pageUrl = $this->generateUrl('app_success_payment', array(), true);
+        $html = $this->render('/stripe_success_payment/index.html.twig', [
+            'order' => $order
+        ]);
 
-        return new PdfResponse(
-            $knpSnappyPdf->getOutput($pageUrl),
-            'file.pdf'
-        );
+        $pdf->showPdfFile($html);
     }
 }
