@@ -18,6 +18,17 @@ services:
     networks:
       - dev
 
+  reverse-proxy-https-helper:
+    image: alpine
+    container_name: www_reverse_proxy
+    command: sh -c "cd /etc/ssl/traefik
+      && wget traefik.me/cert.pem -O cert.pem
+      && wget traefik.me/privkey.pem -O privkey.pem"
+    volumes:
+      - certs:/etc/ssl/traefik
+    networks:
+      - dev 
+
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
     container_name: db_geekbook_app
@@ -55,16 +66,6 @@ services:
       - db
       - meilisearch
 
-  reverse-proxy-https-helper:
-    image: alpine
-    command: sh -c "cd /etc/ssl/traefik
-      && wget traefik.me/cert.pem -O cert.pem
-      && wget traefik.me/privkey.pem -O privkey.pem"
-    volumes:
-      - certs:/etc/ssl/traefik
-    networks:
-      - dev 
-
   apache:
     image: httpd:2.4
     container_name: apache
@@ -74,6 +75,7 @@ services:
       - ./html:/var/www/html
     depends_on:
       - gkbook
+      - db
       - traefik
     networks:
       - dev
@@ -110,6 +112,5 @@ networks:
 
 volumes:
   database_data:
-  apache:
   meilisearch_data:
   certs:
