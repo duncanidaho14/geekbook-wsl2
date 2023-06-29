@@ -1,0 +1,3 @@
+easy_admin:
+    # ...
+    base_url: https://app1.traefik.me

@@ -43,7 +43,7 @@ class DashboardController extends AbstractDashboardController
         $this->orderDetailsRepository = $orderDetailsRepository;  
     }
 
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'admin', schemes:['https'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
@@ -151,23 +151,23 @@ class DashboardController extends AbstractDashboardController
         return [
             yield MenuItem::section('Commerces'),
             yield MenuItem::subMenu('Commerce', 'fa fa-shop')->setSubItems([
-                MenuItem::linkToCrud('Commandes', 'fa fa-shop', Order::class),
-                MenuItem::linkToCrud('Détails de la commande', 'fa fa-file-text', OrderDetails::class),
-                MenuItem::linkToCrud('Transporteurs', 'fa fa-truck', Carrier::class),
+                MenuItem::linkToCrud('Commandes', 'fa fa-shop', Order::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Détails de la commande', 'fa fa-file-text', OrderDetails::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Transporteurs', 'fa fa-truck', Carrier::class)->setPermission('ROLE_ADMIN'),
             ]),
             yield MenuItem::section('Produits'),
             yield MenuItem::subMenu('Livres', 'fa fa-book')->setSubItems([
-                MenuItem::linkToCrud('Livres', 'fa fa-book', Book::class),
-                MenuItem::linkToCrud('Images', 'fas fa-image', Image::class),
-                MenuItem::linkToCrud('Categories', 'fa fa-file-text', Category::class),
-                MenuItem::linkToCrud('Auteurs', 'fa fa-user-secret', Author::class),
+                MenuItem::linkToCrud('Livres', 'fa fa-book', Book::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Images', 'fas fa-image', Image::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Categories', 'fa fa-file-text', Category::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Auteurs', 'fa fa-user-secret', Author::class)->setPermission('ROLE_ADMIN'),
             ]),
             yield MenuItem::section('Utilisateurs'),
             yield MenuItem::subMenu('Utilisateurs', 'fa fa-users')->setSubItems([
-                MenuItem::linkToCrud('Utilisateurs', 'fa fa-user-secret', User::class),
-                MenuItem::linkToCrud('Commentaires', 'fas fa-comment', Comment::class),
-                MenuItem::linkToCrud('Adresse', 'fa fa-house', Address::class),
-                MenuItem::linkToCrud('Mot de passe oublié', 'fa fa-lock', ResetPasswordRequest::class),
+                MenuItem::linkToCrud('Utilisateurs', 'fa fa-user-secret', User::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Commentaires', 'fas fa-comment', Comment::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Adresse', 'fa fa-house', Address::class)->setPermission('ROLE_ADMIN'),
+                MenuItem::linkToCrud('Mot de passe oublié', 'fa fa-lock', ResetPasswordRequest::class)->setPermission('ROLE_ADMIN'),
             ]),
         ];
     }
