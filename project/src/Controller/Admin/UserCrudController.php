@@ -25,7 +25,6 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             ArrayField::new('roles'),
             TextField::new('firstName'),
             TextField::new('lastName'),

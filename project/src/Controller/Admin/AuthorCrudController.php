@@ -21,12 +21,10 @@ class AuthorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('firstName'),
             TextField::new('lastName'),
             TextEditorField::new('description'),
             AvatarField::new('avatar'),
-            CollectionField::new('book'),
         ];
     }
     

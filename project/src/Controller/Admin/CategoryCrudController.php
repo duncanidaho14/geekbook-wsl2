@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class CategoryCrudController extends AbstractCrudController
@@ -20,11 +21,8 @@ class CategoryCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('name'),
-            ImageField::new('image')->setBasePath('build/images')
-                                    ->setUploadDir('public/build/images'),
-            CollectionField::new('book'),
+            AvatarField::new('image'),
         ];
     }
     

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class ImageCrudController extends AbstractCrudController
@@ -20,12 +21,8 @@ class ImageCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('name'),
-            ImageField::new('url')
-                                ->setBasePath('build/images')
-                                ->setUploadDir('public/build/images')
-            ,
+            AvatarField::new('url'),
             AssociationField::new('book'),
         ];
     }

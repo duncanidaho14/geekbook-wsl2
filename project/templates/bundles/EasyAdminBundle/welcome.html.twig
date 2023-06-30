@@ -6,22 +6,46 @@
 {% endblock %}
 
 {% block main %}
-<div>
-  <canvas id="myChart" width="50" height="10"></canvas>
-
+<div style="display: flex;">
+<div class="chart-container" style="position: relative; height:500px; width:500px; margin: 25px;">
+  <canvas id="star" width="500px" height="500px"></canvas>
 </div>
 
+<div class="chart-container" style="height:500px; width:500px">
+  <canvas id="comments" width="500px" height="500px"></canvas>
+</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('star');
   new Chart(ctx, {
+    type: 'bar', // pie, line, bar, 
+    data: {
+      labels: [{{bookstarName|raw}}, {{bookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}],
+      datasets: [{
+        label: ['# of Votes'],
+        data: [ {{bookstarRating|raw}}, {{bookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbooksComment|raw}}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  const ctxc = document.getElementById('comments');
+  new Chart(ctxc, {
     type: 'pie', // pie, line, bar, 
     data: {
-      labels: [{{bookstarName|raw}}, {{bookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}, 'Orange'],
+      labels: [{{bookstarName|raw}}, {{bookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}, {{cbookstarName|raw}}],
       datasets: [{
-        label: ['# of Votes', ' salut all'],
-        data: [ {{bookstarRating|raw}}, {{bookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbooksComment|raw}}, 2],
+        label: ['# of Votes'],
+        data: [ {{bookstarRating|raw}}, {{bookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbookstarRating|raw}}, {{cbooksComment|raw}}],
         borderWidth: 1
       }]
     },
