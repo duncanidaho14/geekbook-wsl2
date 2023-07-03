@@ -21,6 +21,15 @@ body {
     background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 }
 
+.chart-block {
+    display: flex;
+    
+}
+
+canvas#star {
+    width: 500px;
+    height: 500px;
+}
 footer {
     margin-bottom: 0;
 }

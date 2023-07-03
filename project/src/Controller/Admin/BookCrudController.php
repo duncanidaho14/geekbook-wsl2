@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -27,12 +28,9 @@ class BookCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('title'),
             TextField::new('introduction'),
-            ImageField::new('firstCover')
-                ->setBasePath('build/images')
-                ->setUploadDir('public/build/images'),
+            AvatarField::new('firstCover'),
             TextEditorField::new('description'),
             DateTimeField::new('publishedAt'),
             SlugField::new('slug')->setTargetFieldName('title'),
@@ -44,8 +42,8 @@ class BookCrudController extends AbstractCrudController
             TextField::new('editor'),
             BooleanField::new('isInStock'),
             IntegerField::new('rating'),
-            AssociationField::new('comments'),
-            CollectionField::new('images'),
+            //AssociationField::new('comments'),
+            //CollectionField::new('images'),
             AssociationField::new('command'),
             AssociationField::new('categories'),
             AssociationField::new('authors'),

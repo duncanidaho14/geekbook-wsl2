@@ -3,7 +3,7 @@
 DOCKER = docker
 DOCKER_COMPOSE = docker-compose
 EXEC = $(DOCKER) exec -w /var/www/project www_geek_book
-EXEC2 = $(DOCKER) exec -w /etc www_geek_book
+EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik www_geek_book
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
 NPM = $(EXEC) npm
@@ -22,7 +22,6 @@ init: ## 💥 Init the project
 	$(MAKE) start
 	$(MAKE) composer-install
 	$(MAKE) npm-install
-	$(MAKE) ssl
 	$(MAKE) https
 	@$(call GREEN,"The application is available at: https://app1.traefik.me/.")
 	
@@ -30,27 +29,12 @@ cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
 
 ssl: ## Install ssl
-	$(EXEC2) mkdir -p /ssl/root_ca/{certs,crl,newcerts,private}
-	$(EXEC2) mkdir -p /ssl/core_ca/{certs,crl,newcerts,private}
-	$(EXEC2) touch /ssl/root_ca/index.txt
-	$(EXEC2) touch /ssl/core_ca/index.txt
-	$(EXEC2) touch /ssl/root_ca/serial
-	$(EXEC2) touch /ssl/core_ca/serial
-	$(EXEC2) cd /ssl openssl genrsa -out client.key 4096
-	$(EXEC2) cd /ssl openssl req -new -x509 -text -key client.key -out client.cert
-	$(EXEC2) chmod -R 600 /ssl/root_ca/private
-	$(EXEC2) cd /ssl/core_ca openssl req -newkey rsa:8192 -sha256 -keyout private/core_ca.key -out core_ca.req
-	$(EXEC2) cd /ssl openssl ca -rand_serial -extensions CORE_CA -in core_ca.req -out core_ca.pem
-	$(EXEC2) cd /ssl openssl x509 -serial -noout -in core_ca.pem | cut -d= -f2 > serial
-	$(EXEC2) chmod -R 600 private/
-	$(EXEC2) cd /ssl openssl req -newkey rsa:4096 -sha256 -keyout cle-privee.key -out cle-publique.req
-	$(EXEC2) cd /ssl openssl ca -name core_ca -in cle-publique.req -out certificat.pem
-	$(EXEC2) cd /ssl openssl req -newkey rsa:4096 -sha256 -keyout cle-privee.key -out cle-publique.req
-	$(EXEC2) cd /ssl openssl ca -name core_ca -extensions SERVER_SSL -in cle-publique.req -out certificat.pem
-	$(EXEC2) cd /ssl/certs/ chmod o+r myca.pem ln -s myca.pem `openssl x509 -hash -noout -in myca.pem`.0
+	
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
+	$(EXEC2) wget traefik.me/cert.pem -O cert.pem
+	$(EXEC2) wget traefik.me/privkey.pem -O privkey.pem
 
 ## Test 💯 ------------------------
 
