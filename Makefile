@@ -95,8 +95,11 @@ npm-install: ## Install all npm dependencies
 npm-update: ## Update all npm dependencies
 	$(NPM) update
 
-npm-watch: ## Update all npm dependencies
+npm-watch: ## Watch files
 	$(NPM) run watch
+
+npm-build: ## Build files
+	$(NPM) run build
 
 ##--- 🖥️   Database -------------------------------------------------------------------
 database-init: ## Init database
