@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use Meilisearch\Client;
 use App\Form\SearchFormType;
 use Meilisearch\Bundle\SearchService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,14 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchController extends AbstractController
 {
-    #[Route('/search', name: 'app_search')]
+    #[Route('/rechercher', name: 'app_search')]
     public function index(SearchService $searchService, Request $request, EntityManagerInterface $manager): Response
     {        
-        // $client = new Client("http://meilisearch:7700", '!ChangeMe!');
-        // $books = $client->createIndex('app_dev_books', ['primaryKey' => 'id']);
-        // $client->index('app_dev_books')->addDocuments($books);
-        //$client->getTask(0);
-        
         $searchForm = $this->createForm(SearchFormType::class, null, [
             'method' => 'GET',
             'csrf_protection' => false

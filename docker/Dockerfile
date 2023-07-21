@@ -39,6 +39,9 @@ RUN apt-get install -y \
 
 RUN apt install -y openssl
 
+RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
+  chmod +x mkcert-v1.4.4-linux-amd64
+
 COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
 COPY ./vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf

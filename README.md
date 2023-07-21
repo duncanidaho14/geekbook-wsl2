@@ -25,3 +25,9 @@
 ### 🏛️ Build JS and CSS files in production
 
 ```make npm-build```
+
+### 📧  Messenger consume
+
+```make messenger```
+
+

@@ -41,6 +41,8 @@ security:
         - { path: ^/categorie, roles: PUBLIC_ACCESS }
         - { path: ^/livres, roles: PUBLIC_ACCESS }
         - { path: ^/mon-panier, roles: PUBLIC_ACCESS }
+        - { path: ^/inscription, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
 
     role_hierarchy:

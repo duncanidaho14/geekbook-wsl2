@@ -22,13 +22,6 @@ class BookController extends AbstractController
     #[Route('/livres', name: 'app_book')]
     public function index(EntityManagerInterface $manager, BookRepository $bookRepository): Response
     {
-
-        /* This code is creating a query to retrieve data from the database using Doctrine's
-        EntityManager. The query selects specific fields from the Image, Book, and Author entities
-        and joins them together based on their relationships. It also filters the results to only
-        include records where the book ID matches the image's book ID. Finally, it groups the
-        results by specific fields and limits the number of results to 1. The result of the query is
-        stored in the `books` variable. */
         $books = $manager->createQuery("SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, u.firstName, u.lastName
                                             FROM App\Entity\Image i 
                                             JOIN i.book b
@@ -45,7 +38,10 @@ class BookController extends AbstractController
 
     #[Route('/livre/{slug}', name: 'app_show_book')]
     #[Security("is_granted('ROLE_USER')")]
-    public function show(Book $bookCount, Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CommentRepository $commentRepository, string $slug): Response
+    public function show(Book $bookCount, Request $request, EntityManagerInterface $manager, 
+        BookRepository $bookRepository, ImageRepository $imageRepository, 
+        CommentRepository $commentRepository, string $slug
+    ): Response
     {
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
