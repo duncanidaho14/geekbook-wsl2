@@ -7,11 +7,15 @@
   <div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
       <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+      <h1>Référence : {{order.reference}}</h1>
+       {% for img in order.books %}
+            <a href="#">
+                <img class="p-8 rounded-t-lg" src="{{img.firstCover}}" alt="product image" width="400"/>
+            </a>
+          {% endfor %}
       {% for details in order.orderDetails %}
         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="p-8 rounded-t-lg" src="/docs/images/products/apple-watch.png" alt="product image" />
-            </a>
+         
             <div class="px-5 pb-5">
                 <a href="#">
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{details.productName}}</h5>
@@ -48,6 +52,9 @@
             </div>
         </div>
       </div>
+      <a href="{{path('app_account_pdf_order', {'stripeSessionId': order.stripeSessionId})}}" alt="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        Génération de facture en format PDF
+      </a>
     </div>
   </div>
 </div>

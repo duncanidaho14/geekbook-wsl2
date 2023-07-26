@@ -20,6 +20,7 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+                target: app_home
                 clear_site_data:
                     - cookies
                     - storage

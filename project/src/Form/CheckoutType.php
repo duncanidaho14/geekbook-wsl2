@@ -23,21 +23,34 @@ class CheckoutType extends AbstractType
                 'required' => true,
                 'choices' => $user->getAddresses(),
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'text-white dark:bg-gray-800 dark:text-white',
+                    
+                ],
+                'label' => 'Choisissez une adresse',
+                'label_format' => 'text-white dark:bg-gray-800 dark:text-white'
             ])
             ->add('carrier', EntityType::class, [
                 'class' => Carrier::class,
                 'required' => true,
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'text-white dark:bg-gray-800 dark:text-white'
+                ],
+                'label' => 'Choisissez un transporteur'
             ])
             ->add('moreInformation', TextareaType::class, [
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'text-white dark:bg-gray-800 dark:text-white'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Payer',
                 'attr' => [
-                    'class' => 'Payer mt-4 mb-8 w-full block text-center rounded-md bg-gray-900 px-6 py-3 font-medium text-white',
+                    'class' => 'Payer mt-4 mb-8 w-full block text-center rounded-md bg-gray-900 px-6 py-3 font-medium text-white dark:bg-gray-800 dark:text-white',
                 ]
             ])
         ;

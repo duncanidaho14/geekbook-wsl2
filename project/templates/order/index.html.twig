@@ -14,18 +14,18 @@
                         <p class="text-xl font-medium">Résumer commande</p>
                         <p class="text-gray-400">Vérifier vos articles</p>
                         {% for cart in basket.products %} 
-                        <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+                        <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 dark:bg-gray-800 dark:text-white">
                             <div class="flex flex-col rounded-lg bg-white sm:flex-row">
                                 {% for img in cart.book.images|slice(0,1) %}
                                     <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="{{img.url}}" alt="{{cart.book.title}}" />
                                 {% endfor %}
-                                <div class="flex w-full flex-col px-4 py-4">
+                                <div class="flex w-full flex-col px-4 py-4 dark:bg-gray-800 dark:text-white">
                                     <span class="font-semibold">{{cart.book.title}}</span>
                                     <span class="float-right text-gray-400">Qte : {{cart.quantity}}</span>
                                     <p class="text-lg font-bold">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €<p>
                                 </div>
                             </div>
-                            <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+                            <div class="flex flex-col rounded-lg bg-white sm:flex-row dark:bg-gray-800 dark:text-white">
                                 <div class="m-2 h-24 w-28" src="" alt=""></div>
                                 <div class="flex w-full flex-col px-4 py-4">
                                     <span class="font-semibold"></span>
@@ -36,28 +36,28 @@
                         </div>
                         {% endfor %}
                     {% else %}
-                        <h2 class="">le panier est vide</h2>
+                        <h2 class="dark:bg-gray-800 dark:text-white">le panier est vide</h2>
                     {% endif %}
                     </div>
-                    <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0" data-turbo="false">
+                    <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 dark:bg-gray-800 dark:text-white" data-turbo="false">
                         <p class="text-xl font-medium">Adresse & Transporteur</p>
-                        <p class="text-gray-400">Choisisser votre adresse et votre transporteur</p>
-                        <div class="">
+                        <p class="text-gray-400 dark:bg-gray-800 dark:text-white">Choisisser votre adresse et votre transporteur</p>
+                        <div class="dark:bg-gray-800 dark:text-white">
                         
                             {{form_start(form, {action: path('app_order_recap'), data: {turbo: false}})}}
-                                {{form_row(form.address)|replace({'[eol]' : '<br/>'})|raw}}
+                                {{form_row(form.address, {'attr': {'class': 'dark:bg-gray-800 dark:text-white'}})|replace({'[eol]' : '<br/>'})|raw}}
                                 {{form_row(form.carrier)|replace({'[eol]' : '<br/>'})|raw}}
-                                {{form_row(form.moreInformation)}}
+                                {{form_row(form.moreInformation, {'attr': {'class': 'dark:bg-gray-800 dark:text-white'}})}}
                          
                             <!-- Total -->
-                            <div class="mt-6 border-t border-b py-2">
+                            <div class="mt-6 border-t border-b py-2 dark:bg-gray-800 dark:text-white">
                                 <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
+                                    <p class="text-sm font-medium text-gray-900">Sous total</p>
+                                    <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-gray-900">Taxe</p>
-                                <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
+                                    <p class="text-sm font-medium text-gray-900">Taxe</p>
+                                    <p class="font-semibold text-gray-900">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
                                 </div>
                             </div>
                             <div class="mt-6 flex items-center justify-between">
