@@ -32,5 +32,6 @@ class SecurityController extends AbstractController
     {
         $eventDispatcher->dispatch(new CacheControleListener($request));
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        return $this->redirect('https://app1.traefik.me');
     }
 }

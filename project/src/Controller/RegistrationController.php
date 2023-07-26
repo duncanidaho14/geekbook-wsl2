@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -32,7 +33,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, VerifyEmailHelperInterface $verifyEmailHelper, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         
         $user = new User();
@@ -40,44 +41,66 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
         
+
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
+
+            if (str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html')) {
+                
+                // encode the password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $user->setFirstName(ucfirst($form->get('firstName')->getData()));
+                $user->setLastName(ucfirst($form->get('lastName')->getData()));
+    
+                $entityManager->persist($user);
+                $entityManager->flush();
+                
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('admin@geekbook.com', 'Geek Book Mail Bot'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                        ->context([
+                            'sender_email' => 'admin@geekbook.com',
+                            'receiver_email' => $user->getFirstName() . ' ' . $user->getLastName()
+                        ])
+                );
+                
+                
+                $this->addFlash(
+                    'success',
+                    'confirmer votre email %s '
+                );
+    
+                $userAuthenticator->authenticateUser(
                     $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $user->setFirstName(ucfirst($form->get('firstName')->getData()));
-            $user->setLastName(ucfirst($form->get('lastName')->getData()));
+                    $authenticator,
+                    $request
+                );
+                
+                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-            
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('admin@geekbook.com', 'Geek Book Mail Bot'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-                    ->context([
-                        'sender_email' => 'admin@geekbook.com',
-                        'receiver_email' => $user->getFirstName() . ' ' . $user->getLastName()
-                    ])
-            );
-            
-            
-            $this->addFlash(
-                'success',
-                'confirmer votre email %s '
-            );
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $content = $this->renderView('registration/register.html.twig', [
+                'registrationForm' => $form->createView()
+            ]);
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            $response = new Response();
+
+            $response->setContent($content);
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            
+            return $response;
         }
 
         return $this->render('registration/register.html.twig', [
