@@ -49,7 +49,6 @@ ENV FONTCONFIG_PATH=/tmp/fontconfig
 
 COPY . /var/www/
 
-
 WORKDIR /var/www/
 
 RUN mkdir -p /var/www/project/assets/pdf \
