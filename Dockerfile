@@ -48,12 +48,12 @@ COPY ./docker/vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf
 COPY ./Dockerfile /var/lib/docker/tmp/buildkit-mount2144672729/Dockerfile
 ENV FONTCONFIG_PATH=/tmp/fontconfig
 
-COPY . /var/www/
+COPY . /var/lib/
 
-WORKDIR /var/www/
+WORKDIR /var/lib/
 
-RUN mkdir -p /var/www/project/assets/pdf \
-    && chown -R www-data:www-data /var/www/project/assets/pdf \
+RUN mkdir -p /var/lib/project/assets/pdf \
+    && chown -R www-data:www-data /var/lib/project/assets/pdf \
     && chmod -R 755 /var/www/project/assets/pdf
 
 RUN mkdir -p /etc/ssl/traefik/ \
