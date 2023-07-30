@@ -45,6 +45,7 @@ RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
 COPY ./docker/vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./docker/vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
 COPY ./docker/vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf
+COPY ./Dockerfile /var/lib/docker/tmp/buildkit-mount2144672729/Dockerfile
 ENV FONTCONFIG_PATH=/tmp/fontconfig
 
 COPY . /var/www/
