@@ -58,7 +58,7 @@ services:
       - "traefik.http.routers.app1.tls=true"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
-      - ./:/var/www
+      - ./:/var/lib
     restart: always
     networks:
       - dev
@@ -72,7 +72,7 @@ services:
     volumes:
       - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
       - ./ssl:/usr/local/apache2/ssl
-      - ./html:/var/www/html
+      - ./html:/var/lib/html
     depends_on:
       - gkbook
       - db
