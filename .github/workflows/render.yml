@@ -1,7 +1,7 @@
-- name: Deploy to Render.com
+name: Deploy to Render.com
   # You may pin to the exact commit or the version.
   # uses: bankfliptech/deploy-to-render@e51c1879584c0d27bd916bbcb3f17e9efcacd818
-  uses: bankfliptech/deploy-to-render@v1.0.2
+uses: bankfliptech/deploy-to-render@v1.0.2
   with:
     # The deploy hook url for the service you want to deploy
     deployHookURL: 
