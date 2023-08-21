@@ -3,7 +3,7 @@
 {% block title %} {{book.title}} !{% endblock %}
 
 {% block body %}
-<div class="bg-white mt-96">
+<div class="mt-20 dark:bg-gray-800 dark:text-white">
   {% for message in app.flashes('success') %}
       <div class="alert alert-success">
           {{ message }}
@@ -14,7 +14,7 @@
       <ol role="list" class="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <li>
           <div class="flex items-center">
-            <a href="{{path('app_home')}}" class="mr-2 text-sm font-medium text-gray-900">Accueil</a>
+            <a href="{{path('app_home')}}" class="mr-2 text-sm font-medium text-gray-900 dark:bg-gray-800 dark:text-white">Accueil</a>
             <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
               <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
             </svg>
@@ -22,7 +22,7 @@
         </li>
         <li>
           <div class="flex items-center">
-            <a href="{{path('app_book')}}" class="mr-2 text-sm font-medium text-gray-900">Book</a>
+            <a href="{{path('app_book')}}" class="mr-2 text-sm font-medium text-gray-900 dark:bg-gray-800 dark:text-white">Livre</a>
             <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" class="h-5 w-4 text-gray-300">
               <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
             </svg>
@@ -30,13 +30,14 @@
         </li>
 
         <li class="text-sm">
-          <a href="{{path('app_show_book', {'slug': book.slug })}}" aria-current="page" class="font-medium text-gray-500 hover:text-gray-600">{{book.title}}</a>
+          <a href="{{path('app_show_book', {'slug': book.slug })}}" aria-current="page" class="font-medium text-gray-500 hover:text-gray-600 dark:bg-gray-800 dark:text-white">{{book.title}}</a>
         </li>
       </ol>
     </div>
 
+    
     <!-- Image gallery -->
-    <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+    {# <div class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
         {% for img in book.images %}
       <div class="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
         <img src="{{img.url}}" alt="" class="h-full w-full object-cover object-center">
@@ -54,166 +55,43 @@
         <img src="{{img.url}}" alt="Model wearing plain white basic tee." class="h-full w-full object-cover object-center">
       </div> 
       {% endfor %}
-    </div>
+    </div> #}
 
     <!-- Product info -->
-    <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+    <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16 dark:bg-gray-800 dark:text-white">
       <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{book.title}}</h1>
+        <h1 class="text-2xl font-bold tracking-tight text-gray-800 sm:text-3xl dark:bg-gray-800 dark:text-white">{{book.title}}</h1>
       </div>
 
       <!-- Options -->
       <div class="mt-4 lg:row-span-3 lg:mt-0">
-        <h2 class="sr-only">Product information</h2>
-        <p class="text-3xl tracking-tight text-gray-900">{{book.price|number_format(2, ',', '.')}} €</p>
+        <h2 class="sr-only dark:bg-gray-800 dark:text-white">Prix du produit {{book.title}}</h2>
+        <p class="text-3xl tracking-tight text-gray-900 dark:bg-gray-800 dark:text-white">{{book.price|number_format(2, ',', '.')}} €</p>
 
         <!-- Reviews -->
         <div class="mt-6">
-          <h3 class="sr-only">Reviews</h3>
+          <h3 class="sr-only dark:bg-gray-800 dark:text-white">Reviews</h3>
           <div class="flex items-center">
             <div class="flex items-center">
               <!-- Active: "text-gray-900", Default: "text-gray-200" -->
               {% include 'layout/rating.html.twig' with {'rating': book.getAvgRatings} %}
             </div>
-            <p class="sr-only">{{book.rating}}</p>
-            <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">{{book.rating}} note</a>
+            <p class="sr-only dark:bg-gray-800 dark:text-white">{{book.rating}}</p>
+            <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:bg-gray-800 dark:text-white">{{book.rating}} note</a>
           </div>
         </div>
 
         <div class="mt-10">
           <!-- Colors -->
           <div>
-            <h3 class="text-sm font-medium text-gray-900">ISBN</h3>
-
-            <fieldset class="mt-4">
-              <legend class="sr-only">Choisissez un format</legend>
-              <div class="flex items-center space-x-3">
-                <!--
-                  Active and Checked: "ring ring-offset-1"
-                  Not Active and Checked: "ring-2"
-                -->
-                <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                  <input type="radio" name="color-choice" value="White" class="sr-only" aria-labelledby="color-choice-0-label">
-                  <span id="color-choice-0-label" class="sr-only">White</span>
-                  <span aria-hidden="true" class="h-8 w-8 bg-white rounded-full border border-black border-opacity-10"></span>
-                </label>
-                <!--
-                  Active and Checked: "ring ring-offset-1"
-                  Not Active and Checked: "ring-2"
-                -->
-                <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                  <input type="radio" name="color-choice" value="Gray" class="sr-only" aria-labelledby="color-choice-1-label">
-                  <span id="color-choice-1-label" class="sr-only">Gray</span>
-                  <span aria-hidden="true" class="h-8 w-8 bg-gray-200 rounded-full border border-black border-opacity-10"></span>
-                </label>
-                <!--
-                  Active and Checked: "ring ring-offset-1"
-                  Not Active and Checked: "ring-2"
-                -->
-                <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
-                  <input type="radio" name="color-choice" value="Black" class="sr-only" aria-labelledby="color-choice-2-label">
-                  <span id="color-choice-2-label" class="sr-only">Black</span>
-                  <span aria-hidden="true" class="h-8 w-8 bg-gray-900 rounded-full border border-black border-opacity-10"></span>
-                </label>
-              </div>
-            </fieldset>
+            <h3 class="text-sm font-medium text-gray-800 dark:bg-gray-800 dark:text-white">Première de couverture</h3>
           </div>
-
-          <!-- Sizes -->
+          {# image du produit #}
           <div class="mt-10">
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-medium text-gray-900">Size</h3>
-              <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size guide</a>
-            </div>
-
-            <fieldset class="mt-4">
-              <legend class="sr-only">Choose a size</legend>
-              <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-not-allowed bg-gray-50 text-gray-200">
-                  <input type="radio" name="size-choice" value="XXS" disabled class="sr-only" aria-labelledby="size-choice-0-label">
-                  <span id="size-choice-0-label">XXS</span>
-                  <span aria-hidden="true" class="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200">
-                    <svg class="absolute inset-0 h-full w-full stroke-2 text-gray-200" viewBox="0 0 100 100" preserveAspectRatio="none" stroke="currentColor">
-                      <line x1="0" y1="100" x2="100" y2="0" vector-effect="non-scaling-stroke" />
-                    </svg>
-                  </span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="XS" class="sr-only" aria-labelledby="size-choice-1-label">
-                  <span id="size-choice-1-label">XS</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="S" class="sr-only" aria-labelledby="size-choice-2-label">
-                  <span id="size-choice-2-label">S</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="M" class="sr-only" aria-labelledby="size-choice-3-label">
-                  <span id="size-choice-3-label">M</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="L" class="sr-only" aria-labelledby="size-choice-4-label">
-                  <span id="size-choice-4-label">L</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="XL" class="sr-only" aria-labelledby="size-choice-5-label">
-                  <span id="size-choice-5-label">XL</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="2XL" class="sr-only" aria-labelledby="size-choice-6-label">
-                  <span id="size-choice-6-label">2XL</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-                <!-- Active: "ring-2 ring-indigo-500" -->
-                <label class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                  <input type="radio" name="size-choice" value="3XL" class="sr-only" aria-labelledby="size-choice-7-label">
-                  <span id="size-choice-7-label">3XL</span>
-                  <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                </label>
-              </div>
-            </fieldset>
+            <img src="{{book.firstCover}}" alt="{{book.title}}" class=""/>
           </div>
           <a href="{{path('app_add_basket', {'id': book.id })}}" alt="ajouter ce livre : {{book.title}}" 
-            class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-gray-800 dark:text-white"
             >Ajouter au panier ce livre : {{book.title}}
           </a>
         </div>
@@ -225,33 +103,32 @@
           <h3 class="sr-only">Description</h3>
 
           <div class="space-y-6">
-            <p class="text-base text-gray-900">{{book.introduction}}</p>
+            <p class="text-base text-gray-900 dark:bg-gray-800 dark:text-white">{{book.introduction}}</p>
           </div>
         </div>
 
         <div class="mt-10">
-          <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
+          <h3 class="text-sm font-medium text-gray-900 dark:bg-gray-800 dark:text-white">Détails</h3>
 
           <div class="mt-4">
             <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-              <li class="text-gray-400"><span class="text-gray-600">{{book.editor}}</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">{{book.nbPages}}</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">{{book.langue}}</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">{{book.dimension}}</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">{{book.isbn}}</span></li>
+              <li class="text-gray-400 dark:bg-gray-800 dark:text-white"><span class="text-gray-600 dark:bg-gray-800 dark:text-white">Nom de l'Editeur : {{book.editor}}</span></li>
+              <li class="text-gray-400 dark:bg-gray-800 dark:text-white"><span class="text-gray-600 dark:bg-gray-800 dark:text-white">Nombre de pages : {{book.nbPages}}</span></li>
+              <li class="text-gray-400 dark:bg-gray-800 dark:text-white"><span class="text-gray-600 dark:bg-gray-800 dark:text-white">Langue : {{book.langue}}</span></li>
+              <li class="text-gray-400 dark:bg-gray-800 dark:text-white"><span class="text-gray-600 dark:bg-gray-800 dark:text-white">Dimension : {{book.dimension}}</span></li>
+              <li class="text-gray-400 dark:bg-gray-800 dark:text-white"><span class="text-gray-600 dark:bg-gray-800 dark:text-white">ISBN : {{book.isbn}}</span></li>
             </ul>
           </div>
         </div>
 
         <div class="mt-10">
-          <h2 class="text-sm font-medium text-gray-900">Details</h2>
-
+          <h2 class="text-sm font-medium text-gray-900 dark:bg-gray-800 dark:text-white">Description</h2>
           <div class="mt-4 space-y-6">
-            <p class="text-sm text-gray-600">{{book.description}}</p>
+            <p class="text-sm text-gray-600 dark:bg-gray-800 dark:text-white">{{book.description}}</p>
           </div>
           <div class="flex items-center">
             <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-            <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{book.isInStock}}</label>
+            <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:bg-gray-800 dark:text-white">{{book.isInStock}}</label>
           </div>
         </div>
       </div>
@@ -259,7 +136,7 @@
   </div>
 </div>
 <hr>
-<section class="bg-white dark:bg-gray-900 py-8 lg:py-16">
+<section class="bg-white dark:bg-gray-900 py-8 lg:py-16 dark:text-white">
   <div class="max-w-2xl mx-auto px-4">
     <h2>Commentaire de nos clients</h2>
     <div class="flex justify-between items-center mb-6">
@@ -287,9 +164,6 @@
       <h1>Il n'y a pas de commentaires</h1>
     {% endif %}
     </article>
-    {# {% else %}
-      <h1>Il n'y a pas de commentaire</h1>
-    {% endif %} #}
   </div>
 </section>
 

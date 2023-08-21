@@ -39,7 +39,7 @@ services:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/www/postgresql/data:rw
     networks:
       - dev
 
@@ -58,7 +58,7 @@ services:
       - "traefik.http.routers.app1.tls=true"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
-      - ./:/var/lib
+      - ./:/var/www
     restart: always
     networks:
       - dev
@@ -72,7 +72,7 @@ services:
     volumes:
       - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
       - ./ssl:/usr/local/apache2/ssl
-      - ./html:/var/lib/html
+      - ./html:/var/www/html
     depends_on:
       - gkbook
       - db
