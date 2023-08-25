@@ -1,22 +1,38 @@
 version: '3'
 
+networks:
+  proxy:
+    name: proxy
+    external: true
+
 services:
   traefik:
     restart: unless-stopped
     image: traefik:v2.0.2
     container_name: traefik_hub_symfony
     ports:
-      - "80:80"
       - "443:443"
+      - "8080:8080"
     labels:
       - "traefik.http.services.traefik.loadbalancer.server.port=8090"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=postmaster@example.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     volumes:
+      - "./letsencrypt:/letsencrypt"
       - ./traefik.yml:/etc/traefik/traefik.yml
       - ./tls.yml:/etc/traefik/tls.yml
       - /var/run/docker.sock:/var/run/docker.sock
       - certs:/etc/ssl/traefik
     networks:
-      - dev
+      - proxy
 
   reverse-proxy-https-helper:
     image: alpine
@@ -27,7 +43,7 @@ services:
     volumes:
       - certs:/etc/ssl/traefik
     networks:
-      - dev 
+      - proxy 
 
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
@@ -39,29 +55,30 @@ services:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/www/postgresql/data:rw
     networks:
-      - dev
+      - proxy
 
-  gkbook:
+  whoami:
     build: docker
-    container_name: www_geek_book
-    image: 'postgres:15'
+    image: traefik/whoami
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
     labels:
-      - "traefik.http.routers.app1.rule=Host(`app1.traefik.me`)"
+      - "traefik.http.routers.app1.rule=Host(`app1.traefik.me`) || Host(`blog.example.org`)"
       - "traefik.http.routers.app1-tls.tls.domains[0].main=app1.traefik.me"
       - "traefik.http.routers.app1-tls.tls.domains[0].sans=app1-*.traefik.me"
       - "traefik.http.routers.app1.tls=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
-      - ./:/var/lib
+      - ./:/var/www
     restart: always
     networks:
-      - dev
+      - proxy
     depends_on:
       - db
       - meilisearch
@@ -72,18 +89,18 @@ services:
     volumes:
       - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
       - ./ssl:/usr/local/apache2/ssl
-      - ./html:/var/lib/html
+      - ./html:/var/www/html
     depends_on:
-      - gkbook
+      - whoami
       - db
       - traefik
     networks:
-      - dev
+      - proxy
 
   mailer:
     image: schickling/mailcatcher
     networks:
-      - dev 
+      - proxy 
       # vérifier le port 1080
 
   meilisearch:
@@ -95,7 +112,7 @@ services:
     volumes:
       - ./meilisearch_data:/meili_data
     networks:
-      - dev
+      - proxy
 
   mercure:
     image: dunglas/mercure
@@ -105,12 +122,10 @@ services:
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
         MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
     networks:
-      - dev
-
-networks:
-  dev:
+      - proxy
 
 volumes:
   database_data:
   meilisearch_data:
   certs:
+

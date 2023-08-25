@@ -10,5 +10,5 @@
             "username": "postgres"
         }
     ],
-    "php.validate.executablePath": "docker exec www_geek_book php"
+    "php.validate.executablePath": "docker exec whoami php"
 }

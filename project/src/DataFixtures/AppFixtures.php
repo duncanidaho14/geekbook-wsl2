@@ -178,7 +178,7 @@ class AppFixtures extends Fixture
                     ->setSubTotalHT($subTotalHT = $faker->numberBetween(0, 100))
                     ->setTaxe($taxe = $faker->numberBetween(0, 100))
                     ->setSubTotalTTC($subTotalTTC = $faker->numberBetween(0, 100))
-                    ->addBook($books[\mt_rand(0, count($books) - 1)])
+                    ->addBook($book)
                 ;
                     
                     $orderDetails = [];

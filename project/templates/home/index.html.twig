@@ -1,24 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil GeekBook!{% endblock %}
+{% block title %}La maison de GeekBook!{% endblock %}
 
 {% block body %}
-<div class="body relative isolate px-6 pt-14 lg:px-8">
+<div class="body relative isolate px-6 pt-14 lg:px-8 dark:bg-gray-800 dark:text-white">
   <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
     <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
       <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-        <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-          Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
+        <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 dark:text-white">
+          Qui sommes-nous ? <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>En savoir plus <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
       <div class="text-center">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Data to enrich your online business</h1>
-        <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-white">La maison du livre</h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-white">Explorez notre vaste sélection de livres soigneusement choisis pour leur capacité à inspirer, à enseigner et à élever votre jeu dans l'art subtil de convaincre et de convertir.</p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
-          <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Learn more <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -28,19 +28,20 @@
   </div>
 </div>
 
-<div class="bg-white py-24 sm:py-32 dark:bg-gray-800">
+<div class="bg-white py-24 sm:py-32 dark:bg-gray-800 dark:text-white">
   <div class="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
     <div class="max-w-2xl">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Les auteurs</h2>
-      <p class="mt-6 text-lg leading-8 text-gray-600">Libero fames augue nisl porttitor nisi, quis. Id ac elit odio vitae elementum enim vitae ullamcorper suspendisse.</p>
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-white">Les auteurs</h2>
+      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-white">Nos auteurs sont connues ou pas.</p>
     </div>
-    <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+  
+   <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
     {% for author in authors %}
       <li>
         <div class="flex items-center gap-x-6">
           <img class="h-16 w-16 rounded-full" src="{{author.url}}" alt="{{author.name}}">
           <div>
-            <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">{{author.firstName}} {{author.lastName}} </h3>
+            <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900 dark:text-white">{{author.firstName}} {{author.lastName}} </h3>
             <p class="text-sm font-semibold leading-6 text-indigo-600">{{author.introduction}}</p>
           </div>
         </div>
@@ -50,53 +51,26 @@
   </div>
 </div>
 
-{# <div class="bg-white dark:bg-gray-800">
-  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-    <h2 class="text-2xl font-bold tracking-tight text-gray-900">les livres</h2>
 
-    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-      {% for book in books %}
-      <div class="group relative">
-        <div class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-          <img src="{{book.url}}" alt="{{book.title}}" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-        </div>
-        <div class="mt-4 flex justify-between">
-          <div>
-            <h3 class="text-sm text-gray-700">
-              <a href="{{path('app_show_book', {'slug': book.slug })}}">
-                <span aria-hidden="true" class="absolute inset-0"></span>
-                {{book.title}}
-              </a>
-            </h3>
-            <p class="mt-1 text-sm text-gray-500">{{book.introduction}}</p>
-          </div>
-          <p class="text-sm font-medium text-gray-900">{{book.price|number_format(2, ',', '.')}}€</p>
-          <hr>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</div> #}
-<div class="bg-white text-gray-600">
-  <section class="bg-white py-8">
+<div class="bg-white text-gray-600 dark:bg-gray-800 dark:text-white">
+  <section class="bg-white py-8 dark:bg-gray-800 dark:text-white">
     <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
       {% for book in booksAll %}
         <div class="md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="{{path('app_show_book', {'slug': book.slug })}}">             
-                <img class="hover:grow hover:shadow-lg" src="{{book.firstCover}}">
+                <img class="hover:grow hover:shadow-lg w-7 h-7" src="{{book.firstCover}}">
  
                 <div class="pt-3 flex items-center justify-between">
-                    <h3 class="">{{book.title}}</h3>
+                    <h3 class="dark:text-white">{{book.title}}</h3>
                     {% include 'layout/rating.html.twig' with {'rating': book.getAvgRatings} %}
                 </div>
-                <p class="pt-1 text-gray-900">{{book.price}} €</p>
+                <p class="pt-1 text-gray-900 dark:text-white">{{book.price}} €</p>
             </a>
         </div>
         {% endfor %}
      </div>
-      <h3>Qui est le moins cher</h3>
-     <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+      <h3 class="text-center">Qui est le moins cher</h3>
+     <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12 dark:bg-gray-800 dark:text-white">
       {% for booksexpens in bookslessexpensive %}
         <div class="md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="{{path('app_show_book', {'slug': booksexpens.slug })}}">             
@@ -111,8 +85,8 @@
         </div>
         {% endfor %}
      </div>
-    <h3>Qui a le plus d'étoiles</h3>
-    <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+    <h3 class="text-center">Qui a le plus d'étoiles</h3>
+    <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12 dark:bg-gray-800 dark:text-white">
       {% for morestars in booksmorestars %}
         <div class="md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="{{path('app_show_book', {'slug': morestars.slug })}}">             

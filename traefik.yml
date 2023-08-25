@@ -18,3 +18,11 @@ providers:
     watch: true
     exposedByDefault: true
     defaultRule: "HostRegexp(`{{ index .Labels \"com.docker.compose.service\"}}.traefik.me`,`{{ index .Labels \"com.docker.compose.service\"}}-{dashed-ip:.*}.traefik.me`)"
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: elhadibeddarem@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web
