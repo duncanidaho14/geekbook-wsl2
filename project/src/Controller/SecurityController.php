@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/déconnexion', name: 'app_logout')]
+    #[Route(path: '/déconnexion', name: 'app_logout', schemes:['https'])]
     public function logout(AuthenticationUtils $authenticationUtils, EventDispatcherInterface $eventDispatcher, Request $request): Response
     {
         $eventDispatcher->dispatch(new CacheControleListener($request));
