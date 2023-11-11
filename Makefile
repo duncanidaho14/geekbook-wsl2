@@ -2,8 +2,8 @@
 # Variables
 DOCKER = docker
 DOCKER_COMPOSE = docker-compose
-EXEC = $(DOCKER) exec -w /var/www/project geekbook-whoami-1
-EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik geekbook-whoami-1
+EXEC = $(DOCKER) exec -w /var/www/project www_geekbook_app
+EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik www_geekbook_app
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
 NPM = $(EXEC) npm
@@ -25,7 +25,7 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
-	@$(call GREEN,"The application is available at: https://app1.traefik.me/.")
+	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
@@ -35,9 +35,10 @@ ssl: ## Install ssl
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
-	$(DOCKER_COMPOSE) up -d --scale whoami=2
+	$(DOCKER_COMPOSE) up -d --scale whoami=1
 	$(EXEC) wget traefik.me/cert.pem -O cert.pem
 	$(EXEC) wget traefik.me/privkey.pem -O privkey.pem
+
 
 ## Test 💯 ------------------------
 

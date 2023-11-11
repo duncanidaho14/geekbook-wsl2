@@ -59,7 +59,7 @@ class HomeController extends AbstractController
                                                 WHERE a.firstName = a.firstName AND a.lastName = a.lastName
                                                 GROUP BY a.id, a.firstName, a.lastName, a.description, b.id, b.title, b.introduction, b.publishedAt, i.name, i.url, c.name, c.image
                                                 ORDER BY b.publishedAt DESC
-                                        ')->setMaxResults(3)->getResult();
+                                        ')->setMaxResults(4)->getResult();
 
 
         return $this->render('home/index.html.twig', [

@@ -40,17 +40,12 @@ RUN apt-get install -y \
 RUN apt install -y openssl
 
 RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
-  chmod +x mkcert-v1.4.4-linux-amd64
+    chmod +x mkcert-v1.4.4-linux-amd64 \
+    && cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
 
-COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
-COPY ./vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf
-
-# ENV FONTCONFIG_PATH=/tmp/fontconfig
-
-COPY . /var/www/
-
-WORKDIR /var/www/
+RUN curl -LO https://deployer.org/deployer.phar  && \
+    mv deployer.phar /usr/local/bin/dep  && \
+    chmod +x /usr/local/bin/dep
 
 RUN mkdir -p /var/www/project/assets/pdf \
     && chown -R www-data:www-data /var/www/project/assets/pdf \
@@ -60,6 +55,15 @@ RUN mkdir -p /etc/ssl/traefik/ \
   && chown -R www-data:www-data /etc/ssl/traefik/ \
   && chmod -R 755 /etc/ssl/traefik/
 
+COPY ./vhosts/vhosts.conf ./etc/apache2/sites-enabled/000-default.conf
+COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-enabled/ssl/000-default-ssl.conf
+COPY ./vhosts/openssl.cnf ./etc/apache2/sites-enabled/ssl/openssl.cnf
+
+# ENV FONTCONFIG_PATH=/tmp/fontconfig
+
+COPY . /var/www/
+
+WORKDIR /var/www/
 
 EXPOSE 7000
 

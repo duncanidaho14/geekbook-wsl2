@@ -3,90 +3,88 @@
 {% block title %}Mon panier GeekBook !{% endblock %}
 
 {% block body %}
-{% if basket.data.quantityCart == 0 %}
-<div class="w-full mt-96 dark:bg-gray-800 dark:text-white">
-  <h1>le panier est vide</h1>
-</div>
-<div class"w-full mt-96 border-2-green"></div>
-{% else %}
-<div class="bg-gray-100 dark:bg-gray-800 dark:text-white">
-<div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-<div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-<div class="bg-gray-100 h-screen py-8 dark:bg-gray-800 dark:text-white">
-    <div class="container mx-auto px-4 ">
-        <h1 class="text-2xl font-semibold mb-4">Mon Panier</h1>
-        <div class="flex flex-col md:flex-row gap-4">
-            <div class="md:w-3/4">
-                <div class="bg-white rounded-lg shadow-md p-6 mb-4 dark:bg-gray-800 dark:text-white">
-                    <table class="w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-left font-semibold">Produit</th>
-                                <th class="text-left font-semibold">Prix</th>
-                                <th class="text-left font-semibold">Quantité</th>
-                                <th class="text-left font-semibold">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                                {% for cart in basket.products %}
-                                    <tr>
-                                        <td class="py-4">
-                                            <div class="flex items-center">
-                                            <!-- Slice découpe le tableau par exemple là je récupère la premiere image -->
-                                            {% for image in cart.book.images|slice(0,1) %}
-                                                <img class="h-16 w-16 mr-4" src="{{image.url}}" alt="Product image">
-                                            {% endfor %}
-                                                <span class="font-semibold">{{cart.book.title}}</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-4">{{cart.book.price|number_format(2, ',', '.')}} €</td>
-                                        <td class="py-4">
-                                            <div class="flex items-center">
-                                                <a class="border rounded-md py-2 px-4 mr-2" href="{{path('app_decrease_basket', {'id': cart.book.id})}}">-</a>
-                                                <span class="text-center w-8">{{cart.quantity}}</span>
-                                                <a class="border rounded-md py-2 px-4 ml-2" href="{{path('app_add_basket', {'id': cart.book.id})}}">+</a>
-                                            </div>
-                                        </td>
-                                        <td class="py-4">{{cart.book.price * cart.quantity }} €</td>
-                                    </tr>
-                                {% endfor %}
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="md:w-1/4">
-                <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:text-white">
-                    <h2 class="text-lg font-semibold mb-4">Résumer</h2>
-                    
-                    <div class="flex justify-between mb-2">
-                        <span>Sous Total</span>
-                        <span>{{basket.data.subTotalHT|number_format(2, ',', '.')}} €</span>
+    {% if basket.data.quantityCart == 0 %}
+        <div class="w-full mt-96 dark:bg-gray-800 dark:text-white">
+            <h1>le panier est vide</h1>
+        </div>
+        <div class"w-full mt-96 border-2-green"></div>
+    {% else %}
+        <div class="bg-gray-100 dark:bg-gray-800 dark:text-white">
+            <div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+                    <div class="bg-gray-100 h-screen py-8 dark:bg-gray-800 dark:text-white">
+                        <div class="container mx-auto px-4 ">
+                            <h1 class="text-2xl font-semibold mb-4">Mon Panier</h1>
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="md:w-3/4">
+                                    <div class="bg-white rounded-lg shadow-md p-6 mb-4 dark:bg-gray-800 dark:text-white">
+                                        <table class="w-full">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left font-semibold">Produit</th>
+                                                    <th class="text-left font-semibold">Prix</th>
+                                                    <th class="text-left font-semibold">Quantité</th>
+                                                    <th class="text-left font-semibold">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for cart in basket.products %}
+                                                    <tr>
+                                                        <td class="py-4">
+                                                            <div class="flex items-center">
+                                                                <!-- Slice découpe le tableau par exemple là je récupère la premiere image -->
+                                                                {% for image in cart.book.images|slice(0,1) %}
+                                                                    <img class="h-16 w-16 mr-4" src="{{image.url}}" alt="Product image">
+                                                                {% endfor %}
+                                                                    <span class="font-semibold">{{cart.book.title}}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-4">{{cart.book.price|number_format(2, ',', '.')}} €</td>
+                                                        <td class="py-4">
+                                                            <div class="flex items-center">
+                                                                <a class="border rounded-md py-2 px-4 mr-2" href="{{path('app_decrease_basket', {'id': cart.book.id})}}">-</a>
+                                                                <span class="text-center w-8">{{cart.quantity}}</span>
+                                                                <a class="border rounded-md py-2 px-4 ml-2" href="{{path('app_add_basket', {'id': cart.book.id})}}">+</a>
+                                                            </div>
+                                                        </td>
+                                                        <td class="py-4">{{cart.book.price * cart.quantity }} €</td>
+                                                    </tr>
+                                                {% endfor %}
+                                    
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/4">
+                                    <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:text-white">
+                                        <h2 class="text-lg font-semibold mb-4">Résumer</h2>
+                                        
+                                        <div class="flex justify-between mb-2">
+                                            <span>Sous Total</span>
+                                            <span>{{basket.data.subTotalHT|number_format(2, ',', '.')}} €</span>
+                                        </div>
+                                        <div class="flex justify-between mb-2">
+                                            <span>Taxe (20%)</span>
+                                            <span>{{basket.data.taxe|number_format(2, ',', '.')}} €</span>
+                                        </div>
+                                        <div class="flex justify-between mb-2">
+                                            <span>Transporteur</span>
+                                            <span>0.00 €</span>
+                                        </div>
+                                        <hr class="my-2">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="font-semibold">Total</span>
+                                            <span class="font-semibold">{{basket.data.subTotalTTC|number_format(2, ',', '.') }} €</span>
+                                        </div>
+                                        
+                                        <a href="{{path('app_order')}}" class="block bg-blue-500 text-white text-center py-2 px-4 rounded-lg mt-4 w-full">Payer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex justify-between mb-2">
-                        <span>Taxe (20%)</span>
-                        <span>{{basket.data.taxe|number_format(2, ',', '.')}} €</span>
-                    </div>
-                    <div class="flex justify-between mb-2">
-                        <span>Transporteur</span>
-                        <span>0.00 €</span>
-                    </div>
-                    <hr class="my-2">
-                    <div class="flex justify-between mb-2">
-                        <span class="font-semibold">Total</span>
-                        <span class="font-semibold">{{basket.data.subTotalTTC|number_format(2, ',', '.') }} €</span>
-                    </div>
-                    
-                    <a href="{{path('app_order')}}" class="block bg-blue-500 text-white text-center py-2 px-4 rounded-lg mt-4 w-full">Payer</a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-          <a href="{{path('app_order_recap', {'methods': "POST"})}}" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Payer</a>
-{% endif %}
+    {% endif %}
 {% endblock %}

@@ -11,22 +11,23 @@ services:
     image: traefik:v2.0.2
     container_name: traefik_hub_symfony
     ports:
+      - "80:80"
       - "443:443"
       - "8080:8080"
     labels:
       - "traefik.http.services.traefik.loadbalancer.server.port=8090"
     command:
-      #- "--log.level=DEBUG"
+      - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myresolver.acme.email=postmaster@example.com"
+      # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=elhadibeddarem@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     volumes:
-      - "./letsencrypt:/letsencrypt"
+      - ./letsencrypt:/letsencrypt
       - ./traefik.yml:/etc/traefik/traefik.yml
       - ./tls.yml:/etc/traefik/tls.yml
       - /var/run/docker.sock:/var/run/docker.sock
@@ -37,13 +38,19 @@ services:
   reverse-proxy-https-helper:
     image: alpine
     container_name: www_reverse_proxy
-    command: sh -c "cd /etc/ssl/traefik
-      && wget traefik.me/cert.pem -O cert.pem
-      && wget traefik.me/privkey.pem -O privkey.pem"
+    command: sh -c "cd /etc/ssl/traefik && wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem"
     volumes:
       - certs:/etc/ssl/traefik
     networks:
       - proxy 
+
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: containous/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.traefik.me`)"
+    networks:
+      - proxy
 
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
@@ -59,20 +66,21 @@ services:
     networks:
       - proxy
 
-  whoami:
+  gkbook:
     build: docker
-    image: traefik/whoami
+    image: gkbook
+    container_name: www_geekbook_app
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
     labels:
-      - "traefik.http.routers.app1.rule=Host(`app1.traefik.me`) || Host(`blog.example.org`)"
-      - "traefik.http.routers.app1-tls.tls.domains[0].main=app1.traefik.me"
-      - "traefik.http.routers.app1-tls.tls.domains[0].sans=app1-*.traefik.me"
-      - "traefik.http.routers.app1.tls=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
+      - "traefik.http.routers.gkbook.tls.certresolver=myresolver"
+      - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
+      - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
+      - "traefik.http.routers.gkbook.tls=true"
+      # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
       - ./:/var/www
@@ -116,11 +124,14 @@ services:
 
   mercure:
     image: dunglas/mercure
-    command: caddy run -config /etc/caddy/Caddyfile.dev
+    command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
     environment:
         SERVER_NAME: ':7000'
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
         MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
     networks:
       - proxy
 
@@ -128,4 +139,5 @@ volumes:
   database_data:
   meilisearch_data:
   certs:
-
+  mercure_data:
+  mercure_config:
