@@ -39,6 +39,8 @@ RUN apt-get install -y \
 
 RUN apt install -y openssl
 
+RUN apt install -y openssh-server
+
 RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
     chmod +x mkcert-v1.4.4-linux-amd64 \
     && cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert

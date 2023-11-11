@@ -28,15 +28,41 @@ host('gate.hidora.net')
     ->set('deploy_path', '/var/deployer');
 
 // Tasks
+task('deploy', [
+    'deploy:info',
+    'deploy:prepare',
+    'deploy:lock',
+    'deploy:release',
+    'deploy:update_code',
+    'deploy:shared',
+    'deploy:writable',
+    'sf:vendors',
+    'sf:clear_cache',
+    'deploy:clear_paths',
+    'deploy:symlink',
+    'deploy:unlock',
+    'cleanup',
+    'success'
+]);
 
-task('build', function () {
-    run('cd {{release_path}} && build');
-});
+
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
+task('sf:vendors', function () {
+    run('cd {{release_path}} && composer install');
+});
+
+task('sf:clear_cache', function () {
+    run('php {{release_path}}/bin/console cache:clear --env=prod');
+});
+
+// task('sf:migrate', function () {
+//     run('php {{release_path}}/bin/console doctrine:migrations:migrate --env=prod');
+// });
+
 // Migrate database before symlink new release.
 
-before('deploy:symlink', 'database:migrate');
+// before('deploy:symlink', 'database:migrate');
 
