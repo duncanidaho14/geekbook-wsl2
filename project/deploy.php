@@ -4,7 +4,7 @@ namespace Deployer;
 require 'recipe/symfony.php';
 
 // Project name
-set('application', 'my_project');
+set('application', 'project');
 
 // Project repository
 set('repository', 'git@github.com:duncanidaho14/geekbook-wsl2.git');
@@ -25,7 +25,7 @@ set('allow_anonymous_stats', false);
 host('gate.hidora.net')
     ->user('172883-7602')
     ->port('3022')
-    ->set('deploy_path', '~/{{application}}');
+    ->set('deploy_path', '/var/deployer');
 
 // Tasks
 
