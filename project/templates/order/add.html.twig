@@ -8,7 +8,7 @@
             <h1 class="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800 dark:bg-gray-800 dark:text-white">Commande #{{reference}}</h1>
             {% for cart in basket.products %}
             <div class="flex justify-start item-start space-y-2 flex-col ">
-                <p class="text-base font-medium leading-6 text-gray-600">A date du : <strong>{{cart.book}}</strong></p>
+                <p class="text-base font-medium leading-6 text-gray-600">A nom du : <strong>{{cart.book}}</strong> vous souhaitez acheter ce livre ?</p>
             </div>
             <div class="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                 <div class="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
@@ -24,71 +24,74 @@
                                 <div class="w-full flex flex-col justify-start items-start space-y-8">
                                     <h3 class="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">{{cart.book.title}}</h3>
                                     <div class="flex justify-start items-start flex-col space-y-2">
-                                        <p class="text-sm leading-none text-gray-800">
-                                            <span class="text-gray-300">Nb Pages: </span> {{cart.book.NbPages}}
+                                        <p class="text-sm leading-none text-gray-800 dark:bg-gray-800 dark:text-white">
+                                            <span class="text-gray-300 dark:bg-gray-800 dark:text-white">Nb Pages: </span> {{cart.book.NbPages}}
                                         </p>
-                                        <p class="text-sm leading-none text-gray-800">
-                                            <span class="text-gray-300">Langue: </span> {{cart.book.langue}}
+                                        <p class="text-sm leading-none text-gray-800 dark:bg-gray-800 dark:text-white">
+                                            <span class="text-gray-300 dark:bg-gray-800 dark:text-white">Langue: </span> {{cart.book.langue}}
                                         </p>
-                                        <p class="text-sm leading-none text-gray-800">
-                                            <span class="text-gray-300">Color: </span> Light Blue
+                                        <p class="text-sm leading-none text-gray-800 dark:bg-gray-800 dark:text-white">
+                                            <span class="text-gray-300 dark:bg-gray-800 dark:text-white">ISBN: </span> {{cart.book.isbn}}
                                         </p>
                                     </div>
                                 </div>
-                                <div class="flex justify-between space-x-8 items-start w-full">
-                                    <p class="text-base xl:text-lg leading-6">
-                                        {{cart.book.price}} €<span class="text-red-300 line-through"> {{cart.book.price + 20 }} €</span>
+                                <div class="flex justify-between space-x-8 items-start w-full dark:bg-gray-800 dark:text-white">
+                                    <p class="text-base xl:text-lg leading-6 dark:bg-gray-800 dark:text-white">
+                                        {{cart.book.price}} €<span class="text-red-300 line-through dark:bg-gray-800 dark:text-white"> {{cart.book.price + 20 }} €</span>
                                     </p>
-                                    <p class="text-base xl:text-lg leading-6 text-gray-800">{{cart.quantity}}</p>
-                                    <p class="text-base xl:text-lg font-semibold leading-6 text-gray-800">{{cart.book.price * cart.quantity }} €</p>
+                                    <p class="text-base xl:text-lg leading-6 text-gray-800 dark:bg-gray-800 dark:text-white">{{cart.quantity}}</p>
+                                    <p class="text-base xl:text-lg font-semibold leading-6 text-gray-800 dark:bg-gray-800 dark:text-white">{{cart.book.price * cart.quantity }} €</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-                        <div class="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
-                            <h3 class="text-xl font-semibold leading-5 text-gray-800">Résumer</h3>
+                    </div> 
+                </div>
+            </div>
+                {% endfor %}
+                    <div class="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8 dark:bg-gray-800 dark:text-white">
+                        <div class="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6 dark:bg-gray-800 dark:text-white">
+                            <h3 class="text-xl font-semibold leading-5 text-gray-800 dark:bg-gray-800 dark:text-white">Résumer</h3>
                             <div class="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-                                <div class="flex justify-between  w-full">
-                                    <p class="text-base leading-4 text-gray-800">Subtotal</p>
-                                    <p class="text-base leading-4 text-gray-600">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
+                                <div class="flex justify-between  w-full dark:bg-gray-800 dark:text-white">
+                                    <p class="text-base leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Subtotal</p>
+                                    <p class="text-base leading-4 text-gray-600 dark:bg-gray-800 dark:text-white">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
                                 </div>
-                                <div class="flex justify-between items-center w-full">
-                                    <p class="text-base leading-4 text-gray-800">
-                                        Taxe <span class="bg-gray-200 p-1 text-xs font-medium leading-3  text-gray-800">(20%)</span>
+                                <div class="flex justify-between items-center w-full dark:bg-gray-800 dark:text-white">
+                                    <p class="text-base leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">
+                                        Taxe <span class="bg-gray-200 p-1 text-xs font-medium leading-3 text-gray-800 dark:bg-gray-800 dark:text-white">(20%)</span>
                                     </p>
                                     <p class="text-base leading-4 text-gray-600">{{app.session.get('cartData').data.taxe|number_format(2, ',', '.')}} €</p>
                                 </div>
-                                <div class="flex justify-between items-center w-full">
+                                <div class="flex justify-between items-center w-full dark:bg-gray-800 dark:text-white">
                                     <p class="text-base leading-4 text-gray-800">Transporteur</p>
                                     <p class="text-base leading-4 text-gray-600">{{carrier.price}} €</p>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center w-full">
-                                <p class="text-base font-semibold leading-4 text-gray-800">Total</p>
-                                <p class="text-base font-semibold leading-4 text-gray-600">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
+                                <p class="text-base font-semibold leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Total</p>
+                                <p class="text-base font-semibold leading-4 text-gray-600 dark:bg-gray-800 dark:text-white">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
                             </div>
                         </div>
-                        <div class="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
-                            <h3 class="text-xl font-semibold leading-5 text-gray-800">Transporteur</h3>
-                            <div class="flex justify-between items-start w-full">
-                                <div class="flex justify-center items-center space-x-4">
-                                    <div class="w-8 h-8">
+                        <div class="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6 dark:bg-gray-800 dark:text-white">
+                            <h3 class="text-xl font-semibold leading-5 text-gray-800 dark:bg-gray-800 dark:text-white">Transporteur</h3>
+                            <div class="flex justify-between items-start w-full dark:bg-gray-800 dark:text-white">
+                                <div class="flex justify-center items-center space-x-4 dark:bg-gray-800 dark:text-white">
+                                    <div class="w-8 h-8 dark:bg-gray-800 dark:text-white">
                                         <img class="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" width="20px"/>
                                     </div>
                                     <div class="flex flex-col justify-start items-center">
                                         <p class="text-lg leading-6 font-semibold text-gray-800">
-                                            DPD Delivery
+                                           {{carrier.name}}
                                             <br />
-                                            <span class="font-normal">Delivery with 24 Hours</span>
+                                            <span class="font-normal dark:bg-gray-800 dark:text-white">{{carrier.description}}</span>
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-lg font-semibold leading-6 text-gray-800">{{carrier.price}} €</p>
+                                <p class="text-lg font-semibold leading-6 text-gray-800 dark:bg-gray-800 dark:text-white">{{carrier.price}} €</p>
                             </div>
                             <form action="{{ path('app_stripe_checkout', {'reference': reference }) }}" method="POST">
-                                <div class="w-full flex justify-center items-center">
-                                    <button type="submit" id="checkout-button" class="hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white">
+                                <div class="w-full flex justify-center items-center dark:bg-gray-800 dark:text-white">
+                                    <button type="submit" id="checkout-button" class="hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white dark:bg-gray-800 dark:text-white">
                                         Payer
                                     </button>
                                 </div>
@@ -104,7 +107,7 @@
                                 <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
                                 <div class=" flex justify-start items-start flex-col space-y-2">
                                     <p class="text-base font-semibold leading-4 text-left text-gray-800">{{app.user.firstName}} {{app.user.lastName}}</p>
-                                    <p class="text-sm leading-5 text-gray-600">10 Previous Orders</p>
+                                    <p class="text-sm leading-5 text-gray-600">10 dernière commandes</p>
                                 </div>
                             </div>
 
@@ -134,8 +137,9 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
+    {% else %}
+        <h2>Circulez il n'y a rien à voir !</h2>
     {% endif %}
 {% endblock %}
 
