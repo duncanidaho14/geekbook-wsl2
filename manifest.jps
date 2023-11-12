@@ -1,0 +1,32 @@
+type: install
+name: AFFiNE
+id: AFFiNE
+categories: ["apps/dev-and-admin-tools"]
+homepage: https://affine.pro/
+
+description: |
+  AFFiNE deployment manifest file for Jelastic
+  
+ssl: true
+
+nodes:
+  - nodeType: apache2
+    nodeGroup: bl
+    count: 1
+    cloudlets: 8
+    fixedCloudlets: 1
+    displayName: LoadBalancer
+    
+  - image: ghcr.io/duncanidaho/geekbook:latest
+    count: 1
+    cloudlets: 16
+    fixedCloudlets: 1
+    nodeGroup: cp
+    displayName: AFFiNE
+    isSLBAccessEnabled: false
+    volumes:
+      - /var/www
+
+
+success: |
+  Your AFFiNE environment is ready to go!
