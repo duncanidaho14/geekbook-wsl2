@@ -2,7 +2,7 @@
 # Variables
 DOCKER = docker
 DOCKER_COMPOSE = docker-compose
-EXEC = $(DOCKER) exec -w /var/www/project www_geekbook_app
+EXEC = $(DOCKER) exec -w /var/www/html/project www_geekbook_app
 EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik www_geekbook_app
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer

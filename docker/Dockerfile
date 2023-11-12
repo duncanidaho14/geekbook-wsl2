@@ -49,9 +49,9 @@ RUN curl -LO https://deployer.org/deployer.phar  && \
     mv deployer.phar /usr/local/bin/dep  && \
     chmod +x /usr/local/bin/dep
 
-RUN mkdir -p /var/www/project/assets/pdf \
-    && chown -R www-data:www-data /var/www/project/assets/pdf \
-    && chmod -R 755 /var/www/project/assets/pdf
+RUN mkdir -p /var/www/html/project/assets/pdf \
+    && chown -R www-data:www-data /var/www/html/project/assets/pdf \
+    && chmod -R 755 /var/www/html/project/assets/pdf
 
 RUN mkdir -p /etc/ssl/traefik/ \
   && chown -R www-data:www-data /etc/ssl/traefik/ \
@@ -63,9 +63,9 @@ COPY ./vhosts/openssl.cnf ./etc/apache2/sites-enabled/ssl/openssl.cnf
 
 # ENV FONTCONFIG_PATH=/tmp/fontconfig
 
-COPY . /var/www/
+COPY . /var/www/html/
 
-WORKDIR /var/www/
+WORKDIR /var/www/html/
 
 EXPOSE 7000
 

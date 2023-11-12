@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 networks:
   proxy:
@@ -62,7 +62,7 @@ services:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
     volumes:
-      - database_data:/var/www/postgresql/data:rw
+      - database_data:/var/www/html/postgresql/data:rw
     networks:
       - proxy
 
@@ -83,7 +83,7 @@ services:
       # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
-      - ./:/var/www
+      - ./:/var/www/html
     restart: always
     networks:
       - proxy
@@ -126,7 +126,7 @@ services:
     image: dunglas/mercure
     command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
     environment:
-        SERVER_NAME: ':7000'
+        SERVER_NAME: ':7001'
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
         MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
     volumes:
