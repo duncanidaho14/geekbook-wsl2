@@ -1,6 +1,6 @@
 type: install
 name: GeekBook
-id: GeekBook
+id: geekbook
 categories: ["apps/dev-and-admin-tools"]
 
 description: |
@@ -9,7 +9,7 @@ description: |
 ssl: true
 
 nodes:
-  - image: ghcr.io/duncanidaho/geekbook:latest
+  - image: duncanidaho/geekbook:latest
     count: 1
     cloudlets: 8
     fixedCloudlets: 1
