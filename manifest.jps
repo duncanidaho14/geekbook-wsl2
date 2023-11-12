@@ -1,8 +1,7 @@
 type: install
-name: AFFiNE
-id: AFFiNE
+name: GeekBook
+id: GeekBook
 categories: ["apps/dev-and-admin-tools"]
-homepage: https://affine.pro/
 
 description: |
   AFFiNE deployment manifest file for Jelastic
@@ -22,7 +21,7 @@ nodes:
     cloudlets: 16
     fixedCloudlets: 1
     nodeGroup: cp
-    displayName: AFFiNE
+    displayName: GeekBook
     isSLBAccessEnabled: false
     volumes:
       - /var/www
