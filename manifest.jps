@@ -11,7 +11,7 @@ ssl: true
 nodes:
   - image: ghcr.io/duncanidaho/geekbook:latest
     count: 1
-    cloudlets: 16
+    cloudlets: 8
     fixedCloudlets: 1
     nodeGroup: cp
     displayName: GeekBook
