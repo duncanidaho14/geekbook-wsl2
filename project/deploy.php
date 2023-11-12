@@ -23,7 +23,7 @@ set('allow_anonymous_stats', false);
 // Hosts
 
 host('gate.hidora.net')
-    ->user('172883-7602')
+    ->user('172884-7602')
     ->port('3022')
     ->set('deploy_path', '/var/deployer');
 
