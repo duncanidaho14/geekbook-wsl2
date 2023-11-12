@@ -9,13 +9,6 @@ description: |
 ssl: true
 
 nodes:
-  - nodeType: apache2
-    nodeGroup: bl
-    count: 1
-    cloudlets: 8
-    fixedCloudlets: 1
-    displayName: LoadBalancer
-    
   - image: ghcr.io/duncanidaho/geekbook:latest
     count: 1
     cloudlets: 16
