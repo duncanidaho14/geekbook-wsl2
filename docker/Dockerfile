@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   \
@@ -39,25 +39,33 @@ RUN apt-get install -y \
 
 RUN apt install -y openssl
 
+RUN apt install -y openssh-server
+
 RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
-  chmod +x mkcert-v1.4.4-linux-amd64
+    chmod +x mkcert-v1.4.4-linux-amd64 \
+    && cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
 
-WORKDIR /var/www/
+RUN curl -LO https://deployer.org/deployer.phar  && \
+    mv deployer.phar /usr/local/bin/dep  && \
+    chmod +x /usr/local/bin/dep
 
-COPY . /var/www/
-
-COPY ./vhosts/vhosts.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./vhosts/default-ssl.conf /etc/apache2/sites-enabled/ssl/000-default-ssl.conf
-COPY ./vhosts/openssl.cnf /etc/apache2/sites-enabled/ssl/openssl.cnf
-
-RUN mkdir -p /var/www/project/assets/pdf \
-    && chown -R www-data:www-data /var/www/project/assets/pdf \
-    && chmod -R 755 /var/www/project/assets/pdf
+RUN mkdir -p /var/www/html/project/assets/pdf \
+    && chown -R www-data:www-data /var/www/html/project/assets/pdf \
+    && chmod -R 755 /var/www/html/project/assets/pdf
 
 RUN mkdir -p /etc/ssl/traefik/ \
   && chown -R www-data:www-data /etc/ssl/traefik/ \
   && chmod -R 755 /etc/ssl/traefik/
 
+COPY ./vhosts/vhosts.conf ./etc/apache2/sites-enabled/000-default.conf
+COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-enabled/ssl/000-default-ssl.conf
+COPY ./vhosts/openssl.cnf ./etc/apache2/sites-enabled/ssl/openssl.cnf
+
+# ENV FONTCONFIG_PATH=/tmp/fontconfig
+
+COPY . /var/www/html/
+
+WORKDIR /var/www/html/
 
 EXPOSE 7000
 

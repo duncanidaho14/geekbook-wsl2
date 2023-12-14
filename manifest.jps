@@ -1,0 +1,24 @@
+type: install
+name: GeekBook
+id: geekbook
+categories: ["apps/dev-and-admin-tools"]
+
+description: |
+  AFFiNE deployment manifest file for Jelastic
+  
+ssl: true
+
+nodes:
+  - image: duncanidaho/geekbook:latest
+    count: 1
+    cloudlets: 8
+    fixedCloudlets: 1
+    nodeGroup: cp
+    displayName: GeekBook
+    isSLBAccessEnabled: false
+    volumes:
+      - /var/www/html/
+
+
+success: |
+  Your AFFiNE environment is ready to go!
