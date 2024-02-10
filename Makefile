@@ -134,10 +134,10 @@ migrate: ## Alias : database-migrate
 	$(MAKE) database-migrate
 
 database-fixtures-load: ## Load fixtures
-	$(SYMFONY_CONSOLE) d:f:l --no-interaction
+	$(SYMFONY_CONSOLE) d:f:l -n --purge-with-truncate --no-interaction
 
 fixtures: ## Alias : database-fixtures-load
-	$(MAKE) database-fixtures-load
+	$(MAKE) database-fixtures-load -n --purge-with-truncate
 
 ##-- 🀄   Messenger consume ---------------------------------------------------------------------------------
 messenger: ## Consuming message
