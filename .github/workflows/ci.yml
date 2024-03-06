@@ -15,7 +15,19 @@ jobs:
         with:
           # Setup PHP extensions.
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, dom, filter, gd, json
-          
+
+      - name: Cache
+        uses: actions/cache@v4.0.1
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: |
+            vendor
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
+
+      - name: "Composer install"
+        run: composer install --no-interaction --no-progress
+        
       -  name: LS
          run: ls
     
