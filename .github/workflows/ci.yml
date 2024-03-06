@@ -47,6 +47,7 @@ jobs:
           # options: -v ${{ github.workspace }}:/var/www/html/project/
           # Run command in container
           run: |
+            cd ./project/ &&
             composer install
             npm install
             npm run build        
