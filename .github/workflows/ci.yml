@@ -40,14 +40,14 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: duncanidaho/geekbook:latest
-          options: -v ${{ github.workspace }}:/var/www/html
+          options: -v ${{ github.workspace }}:/var/www/html/project
           run: /
             composer install
             npm install
             npm run build
             
       - name: Verify assets
-        run: ls -l assets
+        run: ls -l public/build
         
           
         
