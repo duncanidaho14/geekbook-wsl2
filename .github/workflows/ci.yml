@@ -25,8 +25,33 @@ jobs:
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
-      - name: "Composer"
-        run: docker exec -w /var/www/html/project www_geekbook_app composer install --no-interaction --no-progress
+      - name: Execute-in-windows-docker-container
+        # You may pin to the exact commit or the version.
+        # uses: philips-software/run-windows-docker-container-action@b48fca0d8bace84b89bae473e055fc747d135ac8
+        uses: philips-software/run-windows-docker-container-action@v1.1.0
+        with:
+          # Docker image.
+          image: www_geekbook_app
+          # Command to execute.
+          run: docker exec -w /var/www/html/project www_geekbook_app composer install --no-interaction --no-progress
+          # # Workspace path. Default is root workspace path.
+          # workspace_path: # optional
+          # # Mapping path, i.e. path to where the workspace path is mapped in the docker container. Defaults to workspace_path.
+          # mapping_path: # optional
+          # # Work path, i.e. path where the command in the docker container is executed. Defaults to workspace_path.
+          # work_path: # optional
+          # # Memory limit. See docker documentation on --memory.
+          # memory: # optional, default is 4GB
+          # # Overrides the default ENTRYPOINT in docker image.
+          # entrypoint: # optional, default is 
+          # # Environment variable names passed to docker image as comma separated list, for example: NAME1, NAME2, NAME3
+          # env_names: # optional, default is 
+          # # Extra arguments for docker run command.
+          # extra_args: # optional, default is 
+          # # Run a warming-up container (which might crash due to first time use failure)
+          # pre-warm: # optional, default is true
+          # # Pre warm command to run inside the container
+          # pre-warm-cmd: # optional, default is echo "warming up!"
         
       -  name: LS
          run: ls
