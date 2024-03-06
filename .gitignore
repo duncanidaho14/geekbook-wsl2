@@ -1,2 +1,5 @@
 /meilisearch_data/**
 *.pem
+.platform/
+letsencrypt/
+/project/.platform/
