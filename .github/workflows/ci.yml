@@ -52,7 +52,7 @@ jobs:
             npm install
             npm run build        
           # Use a specific shell
-          # shell: docker exec -w /var/www/html/project/ www_geekbook_app composer install
+          shell: bash
           # Registry
           # registry: geekbook-wsl2
           # Username
