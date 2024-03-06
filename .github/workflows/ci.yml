@@ -81,7 +81,7 @@ jobs:
       ## PHPSTAN
       -   name: PHP Stan
           run: |
-            ./vendor/bin/simple-phpunit install
+            ./vendor/bin/phpunit install
             composer require phpstan/phpstan
             composer require phpstan/extension-installer
             composer config --no-plugins allow-plugins.phpstan/extension-installer true
