@@ -36,8 +36,15 @@ jobs:
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
-      - name: "Composer install"
-        run: composer install
+      - name: Run docker container to compile assets
+        uses: docker://aschmelyun/cleaver:latest
+        with:
+          args: >-
+            -v ${{ github.workspace }}:/var/www/html/
+            /bin/sh -c "composer install && npm install && npm run build"
+            
+      - name: Verify assets
+        run: ls -l dist
         
           
         
