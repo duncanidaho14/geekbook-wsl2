@@ -26,7 +26,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
 
       - name: "Composer"
-        run: composer install --no-interaction --no-progress
+        run: docker exec -w /var/www/html/project www_geekbook_app composer install --no-interaction --no-progress
         
       -  name: LS
          run: ls
