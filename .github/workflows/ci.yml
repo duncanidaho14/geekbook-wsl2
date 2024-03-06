@@ -7,6 +7,7 @@ env:
 jobs: 
   ci:
     runs-on: ubuntu-latest
+    continue-on-error: false
     container:
       image: duncanidaho/geekbook
       volumes:
