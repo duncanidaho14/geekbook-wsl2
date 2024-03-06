@@ -1,5 +1,8 @@
 # geekbook-wsl2
 
+[![Pipeline-CI](https://github.com/duncanidaho14/geekbook-wsl2/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/duncanidaho14/geekbook-wsl2/actions/workflows/ci.yml)
+
+
 ##  🛥 Install docker
 
 ###  📲 If you are on windows you can install Wsl2
