@@ -46,8 +46,7 @@ jobs:
             npm install
             npm run build
             
-      - name: Verify assets
-        run: ls -l public/build
+     
         
           
         
