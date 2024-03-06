@@ -86,6 +86,20 @@ jobs:
             composer require phpstan/extension-installer
             composer require phpstan/phpstan-symfony
             ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+
+      ## Linteurs
+      -   name:  Lint YAML files
+          run: ./bin/console lint:yaml config --parse-tags
+
+      -   name: Lint Twig templates
+          run: ./bin/console lint:twig templates --env=prod
+
+      -   name: Lint Parameters and Services
+          run: ./bin/console lint:container --no-debug
+
+      -   name: Lint Doctrine entities
+          run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+          
       -  name: LS
          run: ls
     
