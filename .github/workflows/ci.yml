@@ -59,7 +59,7 @@ jobs:
           # Password
           password: Mourad3945#
           # Docker Network ID
-          docker_network: proxy
+          # docker_network: proxy
 
           
       # - name: Run docker container to compile assets
