@@ -62,17 +62,16 @@ jobs:
           # Docker Network ID
           # docker_network: 66d4395d4d4b
 
-          
-      # - name: Run docker container to compile assets
-      #   uses: addnab/docker-run-action@v3
-      #   with:
-      #     image: duncanidaho/geekbook:latest
-      #     options: -v ${{ github.workspace }}:/var/www/html/project
-      #     run: |
-      #       composer install
-      #       npm install
-      #       npm run build        
-        
+      ## Install Symfony Cli
+      -   name: Symfony CLI
+          run: |
+            curl -sS https://get.symfony.com/cli/installer | bash
+            mv /home/runner/.symfony/bin/symfony /usr/local/bin/symfony
+
+      ## Check vunlerabilities
+      -   name: Symfony Check Vulnerabilities
+          run: symfony check:security
+
       -  name: LS
          run: ls
     
