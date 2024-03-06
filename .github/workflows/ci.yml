@@ -1,0 +1,78 @@
+name: Pipeline-CI
+on:
+  push:
+    branches: [ main ]
+env:
+  IMAGE_NAME: duncanidaho/geekbook
+jobs: 
+  ci:
+    runs-on: ubuntu-latest
+    container:
+      image: duncanidaho/geekbook
+      volumes:
+        - ${{ github.workspace }}:/database_data
+        - ${{ github.workspace }}:/meilisearch_data
+        - ${{ github.workspace }}:/certs
+        - ${{ github.workspace }}:/mercure_data
+        - ${{ github.workspace }}:/mercure_config
+    
+    steps:
+      -  uses: actions/checkout@v2
+
+      - name: Setup PHP Action
+        # You may pin to the exact commit or the version.
+        # uses: shivammathur/setup-php@a4e22b60bbb9c1021113f2860347b0759f66fe5d
+        uses: shivammathur/setup-php@2.30.0
+        with:
+          # Setup PHP extensions.
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, dom, filter, gd, json
+
+      - name: Cache
+        uses: actions/cache@v4.0.1
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: |
+            vendor
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-${{ hashFiles('composer.lock') }}
+
+      - name: Docker Run Action
+        # You may pin to the exact commit or the version.
+        # uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        uses: addnab/docker-run-action@v3
+        with:
+          # Image
+          image: duncanidaho/geekbook
+          # Options
+          # options: -v ${{ github.workspace }}:/var/www/html/project/
+          # Run command in container
+          run: |
+            cd ./project/
+            composer install
+            npm install
+            npm run build        
+          # Use a specific shell
+          shell: bash
+          # Registry
+          # registry: geekbook-wsl2
+          # Username
+          username: duncanidaho
+          # Password
+          password: Mourad3945#
+          # Docker Network ID
+          # docker_network: 66d4395d4d4b
+
+          
+      # - name: Run docker container to compile assets
+      #   uses: addnab/docker-run-action@v3
+      #   with:
+      #     image: duncanidaho/geekbook:latest
+      #     options: -v ${{ github.workspace }}:/var/www/html/project
+      #     run: |
+      #       composer install
+      #       npm install
+      #       npm run build        
+        
+      -  name: LS
+         run: ls
+    
