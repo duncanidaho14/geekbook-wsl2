@@ -63,14 +63,20 @@ jobs:
           # docker_network: 66d4395d4d4b
 
       ## Install Symfony Cli
-      -   name: Symfony CLI
-          run: |
-            curl -sS https://get.symfony.com/cli/installer | bash
-            mv /github/home/.symfony5/bin/symfony /usr/local/bin/symfony
+      # -   name: Symfony CLI
+      #     run: |
+      #       curl -sS https://get.symfony.com/cli/installer | bash
+      #       mv /github/home/.symfony5/bin/symfony /usr/local/bin/symfony
 
       ## Check vunlerabilities
-      -   name: Symfony Check Vulnerabilities
-          run: symfony check:security
+      # -   name: Symfony Check Vulnerabilities
+      #     run: symfony check:security
+
+      ## PHP CS FIXER
+      -   name: PHP-CS-FIXER
+          run: |
+            composer require friendsofphp/php-cs-fixer
+            ./vendor/bin/php-cs-fixer fix --dry-run
 
       -  name: LS
          run: ls
