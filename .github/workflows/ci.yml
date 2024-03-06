@@ -44,7 +44,7 @@ jobs:
           # Image
           image: duncanidaho/geekbook
           # Options
-          # options: -v ${{ github.workspace }}:/var/www/html/project
+          options: -v ${{ github.workspace }}:/var/www/html/project
           # Run command in container
           run: |
             composer install
