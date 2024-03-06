@@ -59,7 +59,7 @@ jobs:
           # Password
           password: Mourad3945#
           # Docker Network ID
-          docker_network: 66d4395d4d4b
+          # docker_network: 66d4395d4d4b
 
           
       # - name: Run docker container to compile assets
