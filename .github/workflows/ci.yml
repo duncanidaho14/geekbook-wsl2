@@ -53,7 +53,7 @@ jobs:
           # Use a specific shell
           shell: docker exec -w /var/www/html/project
           # Registry
-          registry: geekbook
+          registry: geekbook-wsl2
           # Username
           username: duncanidaho
           # Password
