@@ -81,12 +81,13 @@ jobs:
       ## PHPSTAN
       -   name: PHP Stan
           run: |
+            cd project/
             ./vendor/bin/phpunit install
             composer require phpstan/phpstan
             composer require phpstan/extension-installer
             composer config --no-plugins allow-plugins.phpstan/extension-installer true
             composer require phpstan/phpstan-symfony
-             ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+            ./vendor/bin/phpstan analyse project/src --memory-limit 1G
       -  name: LS
          run: ls
     
