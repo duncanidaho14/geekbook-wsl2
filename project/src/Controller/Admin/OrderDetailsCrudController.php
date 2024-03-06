@@ -16,7 +16,7 @@ class OrderDetailsCrudController extends AbstractCrudController
         return OrderDetails::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -31,5 +31,5 @@ class OrderDetailsCrudController extends AbstractCrudController
             TextField::new('carrierName'),
         ];
     }
-    
+
 }

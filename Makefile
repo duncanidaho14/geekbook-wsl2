@@ -25,13 +25,15 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
+	$(MAKE) cs-fixer
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
 
-ssl: ## Install ssl
-	
+cs-fixer: ## Install PHP CS FIXER
+	$(EXEC) mkdir -p tools/php-cs-fixer
+	$(COMPOSER) require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
@@ -43,6 +45,10 @@ https: ## Install ca
 ## Test 💯 ------------------------
 
 .PHONY: tests
+
+php-cs: ## php cs fixer
+	$(EXEC) ./vendor/bin/php-cs-fixer fix project/src --dry-run
+
 tests: ## Run all tests
 	
 	$(PHP) bin/phpunit --testdox tests/Unit/

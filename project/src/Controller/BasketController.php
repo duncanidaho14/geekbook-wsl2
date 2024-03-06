@@ -10,10 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 class BasketController extends AbstractController
 {
-
     private Basket $basket;
 
     public function __construct(Basket $basket)
@@ -31,15 +29,15 @@ class BasketController extends AbstractController
     #[Security("is_granted('ROLE_USER')")]
     public function index(): Response
     {
-        
-        
+
+
         $cart = $this->basket->getAllBasket();
-        
+
         if (empty($cart['data'])) {
             return $this->redirectToRoute("app_home");
         }
         //$update = $basket->updateCart($this->getUser(), $cart['data'] );
-       
+
         return $this->render('basket/index.html.twig', [
             'basket' => $cart,
             // 'update' => $update
@@ -93,25 +91,25 @@ class BasketController extends AbstractController
         return $this->redirectToRoute('app_basket');
     }
 
-   
-    
+
+
     /**
      * This PHP function decreases the quantity of a product in a user's basket and redirects them to
      * the basket page.
-     * 
+     *
      * @param Basket basket The  parameter is an instance of the Basket class, which is likely a
      * representation of a user's shopping basket or cart.
      * @param id The  parameter is a variable that represents the ID of the product that needs to be
      * decreased in the basket. It is passed as a parameter in the URL when the user clicks on the
      * "decrease" button for a specific product in their basket.
-     * 
+     *
      * @return Response a Response object, which is a Symfony class used to represent an HTTP response.
      * In this case, the response is a redirection to the 'app_basket' route.
      *
      * @param Basket $basket
      * @param [type] $id
      * @return Response
-     */ 
+     */
     #[Route("/mon-panier/decrease/{id<\d+>}", name:"app_decrease_basket")]
     #[Security("is_granted('ROLE_USER')")]
     public function decrease($id): Response

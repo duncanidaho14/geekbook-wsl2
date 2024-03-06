@@ -39,7 +39,7 @@ class Author
     #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'authors')]
     private Collection $book;
 
-    
+
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class Author
 
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();    
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
     public function getId(): ?int

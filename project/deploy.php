@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/symfony.php';
@@ -10,13 +11,13 @@ set('application', 'project');
 set('repository', 'git@github.com:duncanidaho14/geekbook-wsl2.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', false); 
+set('git_tty', false);
 
-// Shared files/dirs between deploys 
+// Shared files/dirs between deploys
 add('shared_files', []);
 add('shared_dirs', []);
 
-// Writable dirs by web server 
+// Writable dirs by web server
 add('writable_dirs', []);
 set('allow_anonymous_stats', false);
 
@@ -65,4 +66,3 @@ task('sf:clear_cache', function () {
 // Migrate database before symlink new release.
 
 // before('deploy:symlink', 'database:migrate');
-

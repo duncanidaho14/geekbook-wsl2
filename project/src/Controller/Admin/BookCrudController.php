@@ -24,7 +24,7 @@ class BookCrudController extends AbstractCrudController
         return Book::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -50,5 +50,5 @@ class BookCrudController extends AbstractCrudController
 
         ];
     }
-    
+
 }

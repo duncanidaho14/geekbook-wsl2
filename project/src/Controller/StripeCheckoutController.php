@@ -20,11 +20,11 @@ class StripeCheckoutController extends AbstractController
         if (!$cart) {
             return $this->redirectToRoute('app_book');
         }
-        
+
         Stripe::setApiKey('sk_test_CfH6H673P3jKvGLZJJl48ApX');
 
         $line_items = $orderService->getLineItems($cart);
-       
+
         $checkout_session = Session::create([
             'customer_email' => $user->getEmail(),
             'payment_method_types' => ['card'],
@@ -33,11 +33,11 @@ class StripeCheckoutController extends AbstractController
             'success_url' => $_ENV['YOUR_DOMAIN'].'/payement-reussi/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $_ENV['YOUR_DOMAIN'].'/payement-echec/{CHECKOUT_SESSION_ID}',
         ]);
-        
+
 
         $cart->setStripeSessionId($checkout_session->id);
         $manager->flush();
 
-        return $this->redirect($checkout_session->url);       
+        return $this->redirect($checkout_session->url);
     }
 }

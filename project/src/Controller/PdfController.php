@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PdfController extends AbstractController
 {
-        
     #[Route("/pdf/{stripeSessionId}", name:"app_account_pdf_order")]
     public function pdfAction(Order $order, PdfGen $pdf)
     {

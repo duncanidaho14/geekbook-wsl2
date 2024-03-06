@@ -45,7 +45,7 @@ class OrderDetails
     {
         return $this->getProductName();
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;

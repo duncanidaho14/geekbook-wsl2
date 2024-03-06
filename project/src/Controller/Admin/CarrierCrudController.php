@@ -16,7 +16,7 @@ class CarrierCrudController extends AbstractCrudController
         return Carrier::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -25,5 +25,5 @@ class CarrierCrudController extends AbstractCrudController
             MoneyField::new('price')->setCurrency('EUR'),
         ];
     }
-    
+
 }

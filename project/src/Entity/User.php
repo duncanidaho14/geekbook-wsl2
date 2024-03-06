@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    
+
     #[Assert\Email(groups: ['registration'])]
     #[ORM\Column(length: 62, unique: true)] //180
     private ?string $email = null;

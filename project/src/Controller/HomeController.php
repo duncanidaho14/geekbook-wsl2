@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
-    
+
         /* This code is creating a query to retrieve the last 12 books with their associated image,
         author, and category information from the database. It joins the `Image`, `Book`, `Author`,
         and `Category` entities and filters the results to only include books where the `id` matches
@@ -30,18 +30,18 @@ class HomeController extends AbstractController
                                             FROM App\Entity\Image i
                                             JOIN  App\Entity\Book b WITH i.id = b.id
                                         ")->setMaxResults(12)->getResult();
-                                            
-        
-                        /**
-                         * SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, b.price, u.firstName, u.lastName, c.name  as catName, c.image
-                        * FROM App\Entity\Image i 
-                        *JOIN i.book b
-                        *JOIN b.authors u
-                        *JOIN b.categories c
-                        *WHERE b.id =  i.book
-                        *GROUP BY i.id, b.slug, b.id, u.firstName, u.lastName, c.name, c.image
-                        *ORDER BY b.publishedAt DESC
-                         */
+
+
+        /**
+         * SELECT i.id, i.url, i.name, b.slug, b.id, b.title, b.introduction, b.description, b.price, u.firstName, u.lastName, c.name  as catName, c.image
+        * FROM App\Entity\Image i
+        *JOIN i.book b
+        *JOIN b.authors u
+        *JOIN b.categories c
+        *WHERE b.id =  i.book
+        *GROUP BY i.id, b.slug, b.id, u.firstName, u.lastName, c.name, c.image
+        *ORDER BY b.publishedAt DESC
+         */
         /* This code is creating a query to retrieve the last 3 authors with their associated books,
         images, and category information from the database. It joins the `Author`, `Book`,
         `Category`, and `Image` entities and filters the results to only include authors where the
@@ -71,7 +71,7 @@ class HomeController extends AbstractController
             'booksAll' => $bookRepository->findAll(),
             'bookslessexpensive' => $bookRepository->findBy([], ['price' => 'ASC'], 12),
             'booksmorestars' => $bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12)
-            
+
         ]);
     }
 }

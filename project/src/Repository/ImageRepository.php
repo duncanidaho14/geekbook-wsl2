@@ -40,35 +40,35 @@ class ImageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Image[] Returns an array of Image objects
-//     */
-//    public function findByFirstImage($value): ?array
-//    {
-//         dd($this->createQueryBuilder('i', 'b')
-//              ->select('b.id as bookName')
-//             ->join('i.id', 'b')
-//             ->groupBy('i')
-//             // ->andWhere('i.id = :val')
-//            // ->andWhere('b.id = i.id')
-//             // ->setParameter('val', $value)
-//             // ->setParameter('val2', $value2)
-//              ->orderBy('i.id', 'ASC')
-//              ->setMaxResults(1)
-//              ->getQuery()
-//              //->getOneOrNullResult()
-//              ->getSQL()
-//          )
-//         ;
-//    }
+    //    /**
+    //     * @return Image[] Returns an array of Image objects
+    //     */
+    //    public function findByFirstImage($value): ?array
+    //    {
+    //         dd($this->createQueryBuilder('i', 'b')
+    //              ->select('b.id as bookName')
+    //             ->join('i.id', 'b')
+    //             ->groupBy('i')
+    //             // ->andWhere('i.id = :val')
+    //            // ->andWhere('b.id = i.id')
+    //             // ->setParameter('val', $value)
+    //             // ->setParameter('val2', $value2)
+    //              ->orderBy('i.id', 'ASC')
+    //              ->setMaxResults(1)
+    //              ->getQuery()
+    //              //->getOneOrNullResult()
+    //              ->getSQL()
+    //          )
+    //         ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Image
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Image
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->andWhere('i.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

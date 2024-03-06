@@ -8,10 +8,9 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 
 class BookTest extends WebTestCase
 {
-   
-     /**
-     * @var AbstractDatabaseTool
-     */
+    /**
+    * @var AbstractDatabaseTool
+    */
     protected $databaseTool;
 
     public function setUp(): void
@@ -32,7 +31,7 @@ class BookTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController');
-        
+
         // …
     }
 
@@ -47,11 +46,11 @@ class BookTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Les livres de GeekBook');
     }
 
-    
+
     protected function tearDown(): void
     {
         parent::tearDown();
-        
+
         unset($this->databaseTool);
     }
 }

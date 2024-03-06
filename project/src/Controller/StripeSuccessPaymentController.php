@@ -21,11 +21,11 @@ class StripeSuccessPaymentController extends AbstractController
         if(!$order->getIsPaid()) {
             $order->setIsPaid(true);
             $manager->flush();
-            
+
             $cart->remove();
         }
-        
-        
+
+
 
         return $this->render('stripe_success_payment/index.html.twig', [
             'order' => $order,

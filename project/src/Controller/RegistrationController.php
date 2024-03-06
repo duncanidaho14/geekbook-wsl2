@@ -35,18 +35,18 @@ class RegistrationController extends AbstractController
     #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
-        
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
-        
 
-        
+
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             if (str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html')) {
-                
+
                 // encode the password
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -56,12 +56,14 @@ class RegistrationController extends AbstractController
                 );
                 $user->setFirstName(ucfirst($form->get('firstName')->getData()));
                 $user->setLastName(ucfirst($form->get('lastName')->getData()));
-    
+
                 $entityManager->persist($user);
                 $entityManager->flush();
-                
+
                 // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_email',
+                    $user,
                     (new TemplatedEmail())
                         ->from(new Address('admin@geekbook.com', 'Geek Book Mail Bot'))
                         ->to($user->getEmail())
@@ -72,19 +74,19 @@ class RegistrationController extends AbstractController
                             'receiver_email' => $user->getFirstName() . ' ' . $user->getLastName()
                         ])
                 );
-                
-                
+
+
                 $this->addFlash(
                     'success',
                     'confirmer votre email %s '
                 );
-    
+
                 $userAuthenticator->authenticateUser(
                     $user,
                     $authenticator,
                     $request
                 );
-                
+
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
             }
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
@@ -99,7 +101,7 @@ class RegistrationController extends AbstractController
 
             $response->setContent($content);
             $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-            
+
             return $response;
         }
 
@@ -140,7 +142,7 @@ class RegistrationController extends AbstractController
             ->subject('Verify your email on Cauldron Overflow!')
             ->text('Please, follow the link to verify your email!')
             ->html(sprintf('<a href="%s">%s</a>', $signedUrl, $signedUrl));
-            //->htmlTemplate('registration/confirmation_email.html.twig');
+        //->htmlTemplate('registration/confirmation_email.html.twig');
         $mailer->send($email);
     }
 }

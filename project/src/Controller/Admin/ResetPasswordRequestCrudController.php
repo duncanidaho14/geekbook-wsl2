@@ -14,12 +14,12 @@ class ResetPasswordRequestCrudController extends AbstractCrudController
         return ResetPasswordRequest::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
             AssociationField::new('user'),
         ];
     }
-    
+
 }

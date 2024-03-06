@@ -17,7 +17,7 @@ class AuthorCrudController extends AbstractCrudController
         return Author::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -27,5 +27,5 @@ class AuthorCrudController extends AbstractCrudController
             AvatarField::new('avatar'),
         ];
     }
-    
+
 }

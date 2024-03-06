@@ -48,10 +48,10 @@ class Address
     {
         $result = $this->getFirstName() . ' ' . $this->getLastName() . '[eol]';
         if ($this->getCompany()) {
-            $result .= $this->getCompany() . '[eol]'; 
+            $result .= $this->getCompany() . '[eol]';
         }
         $result .= $this->getAddress() . '[eol]';
-        $result .= $this->getZip(). '[eol]'; 
+        $result .= $this->getZip(). '[eol]';
         $result .= $this->getCity() . ' ' . $this->getCountry(). '[eol]';
         $result .= $this->getPhone();
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Account;
 
-
 use App\Entity\Order;
 use App\Repository\CarrierRepository;
 use App\Repository\UserRepository;
@@ -14,8 +13,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AccountController extends AbstractController
 {
-    
-
     #[Route('/compte/mes-commandes/{reference}', name: 'app_order_account')]
     #[IsGranted('ROLE_USER')]
     public function myOrderAccount(EntityManagerInterface $manager, string $reference)
@@ -33,7 +30,7 @@ class AccountController extends AbstractController
     public function myOrdersAccount(EntityManagerInterface $manager)
     {
         $orders = $manager->getRepository(Order::class)->findOrdersSuccess($this->getUser());
-       
+
         return $this->render('account/myorders.html.twig', [
             'orders' => $orders
         ]);

@@ -45,7 +45,7 @@ class Basket
     public function delete($id)
     {
         $basket = $this->getCart()->get('basket', []);
-        
+
         if (isset($basket[$id])) {
             unset($basket[$id]);
             $this->updateCart($basket);
@@ -86,7 +86,7 @@ class Basket
             found in the database, it is removed from the basket and the iteration continues to the
             next item. The resulting `` array contains all the books in the basket along
             with their quantities. */
-            
+
             foreach ($basket as $id => $quantity) {
                 //dd($this->entityManager->getRepository(Book::class)->findOneBy(['id' => $user->getId()]));
                 /* This line of code is retrieving a `Book` entity from the database using the `EntityManager` based on
@@ -94,7 +94,7 @@ class Basket
                 books in the basket along with their quantities. If a book with the given `id` cannot be found in
                 the database, it is removed from the basket. */
                 $book = $this->entityManager->getRepository(Book::class)->find($id);
-                
+
                 if (!$book) {
                     $this->delete($id);
                     continue;

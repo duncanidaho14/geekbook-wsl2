@@ -40,7 +40,7 @@ class DashboardController extends AbstractDashboardController
         $this->categoryRepository = $categoryRepository;
         $this->bookRepository = $bookRepository;
         $this->orderRepository = $orderRepository;
-        $this->orderDetailsRepository = $orderDetailsRepository;  
+        $this->orderDetailsRepository = $orderDetailsRepository;
     }
 
     #[Route('/admin', name: 'admin', schemes:['https'])]
@@ -72,21 +72,21 @@ class DashboardController extends AbstractDashboardController
         $orderName = [];
         $orderColor = [];
         $orderCount = [];
-        
+
         $startOfDay = new \DateTimeImmutable('2000-01-19 12:41:20.000');
         $endOfDay = new \DateTimeImmutable('2006-06-15 06:56:04.000');
         $orderByDay = $this->orderRepository->CountOrderByDay($startOfDay, $endOfDay);
-        
+
         foreach ($orders as $order) {
             $orderName[] = $order->getFullName();
             $orderColor[] = $order->getCarrierName();
             $orderCount[] = count($order->getOrderDetails());
         }
-        
+
         $dates = [];
         $orderCount = [];
         foreach ($orderByDay as $orderDay) {
-           
+
         }
 
         $booksmorestars = $this->bookRepository->findBy([], []);
@@ -98,8 +98,8 @@ class DashboardController extends AbstractDashboardController
         foreach ($booksmorestars as $bookstar) {
             $bookstarName[] = $bookstar->getTitle();
             $bookstarRating[] = $bookstar->getRating();
-            $booksComment[] = $bookstar->getComments(); 
-            $booksAvgRating[] = $bookstar->getAvgRatings();     
+            $booksComment[] = $bookstar->getComments();
+            $booksAvgRating[] = $bookstar->getAvgRatings();
         }
         $cbookstarName = count($bookstarName);
         $cBooksRating = count($bookstarRating);
@@ -147,7 +147,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        
+
         return [
             yield MenuItem::section('Commerces'),
             yield MenuItem::subMenu('Commerce', 'fa fa-shop')->setSubItems([

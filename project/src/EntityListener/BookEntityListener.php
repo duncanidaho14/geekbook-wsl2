@@ -13,8 +13,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BookEntityListener
 {
     private $slugger;
-    
-    public function __construct(SluggerInterface $slugger) 
+
+    public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }

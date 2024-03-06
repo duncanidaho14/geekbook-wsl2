@@ -29,7 +29,7 @@ class BookController extends AbstractController
                                             WHERE b.id =  i.book
                                             GROUP BY i.id, b.slug, b.id, u.firstName, u.lastName
                                             ")->setMaxResults(1)->getResult();
-        
+
         return $this->render('book/index.html.twig', [
             'books' => $books,
             'booksRepo' => $bookRepository->findAll()
@@ -38,11 +38,15 @@ class BookController extends AbstractController
 
     #[Route('/livre/{slug}', name: 'app_show_book')]
     #[Security("is_granted('ROLE_USER')")]
-    public function show(Book $bookCount, Request $request, EntityManagerInterface $manager, 
-        BookRepository $bookRepository, ImageRepository $imageRepository, 
-        CommentRepository $commentRepository, string $slug
-    ): Response
-    {
+    public function show(
+        Book $bookCount,
+        Request $request,
+        EntityManagerInterface $manager,
+        BookRepository $bookRepository,
+        ImageRepository $imageRepository,
+        CommentRepository $commentRepository,
+        string $slug
+    ): Response {
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -52,24 +56,24 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUserComment($this->getUser())
-                    ->setBookComment($books);           
+                    ->setBookComment($books);
             $manager->persist($comment);
             $manager->flush();
-             // 🔥 The magic happens here! 🔥
-             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+            // 🔥 The magic happens here! 🔥
+            if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
                 return $this->render('book/success.stream.html.twig', [
                     'book' => $books,
                     'comment' => $comment,
-                    'commentsCount' => $comments->count() + 1, 
+                    'commentsCount' => $comments->count() + 1,
                     'form' => $emptyForm
                 ]);
             }
             return $this->redirectToRoute('app_show_book', ['slug' => $books->getSlug()], Response::HTTP_SEE_OTHER);
         }
-        
+
 
         return $this->render('book/show.html.twig', [
             'book' => $books,
@@ -87,7 +91,7 @@ class BookController extends AbstractController
 
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($book);
             $manager->flush();
@@ -111,7 +115,7 @@ class BookController extends AbstractController
     {
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
 

@@ -15,7 +15,7 @@ class OrderClasse
 {
     private RequestStack $session;
     private EntityManagerInterface $entityManager;
-    
+
     public function __construct(RequestStack $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
@@ -25,7 +25,7 @@ class OrderClasse
     public function createOrder(Basket $cart)
     {
         $order = new Order();
-        
+
         $order->setReference($cart->getReference())
             ->setCarrierName($carrier->getName())
             ->setCarrierPrice($carrier->getPrice())
@@ -41,14 +41,14 @@ class OrderClasse
             ->setPrice($cart->getPrice())
             ->setUnitPrice($cart->getUnitPrice())
         ;
-        
+
         $this->entityManager->persist($order);
 
         $products = $cart->getCartDetails()->getValues();
         dd($products);
         foreach ($products as $cartProduct) {
             $orderDetails = new OrderDetails();
-            
+
             $orderDetails->setOrders($order)
                         ->setProductName($cartProduct->getName())
                         ->setProductPrice($cartProduct->getPrice())
@@ -59,9 +59,9 @@ class OrderClasse
                         ->setCarrierName($order->getCarrierName())
                         ->setCarrierPrice($order->getCarrierPrice())
             ;
-            
+
             $this->entityManager->persist($orderDetails);
-            
+
         }
         $this->entityManager->flush();
 
@@ -78,7 +78,7 @@ class OrderClasse
             $line_items[] = [
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => round($product->getPrice())*100,
+                    'unit_amount' => round($product->getPrice()) * 100,
                     'product_data' => [
                         'name' => 'prix du livre',
                         'images' => [],
@@ -86,14 +86,14 @@ class OrderClasse
                 ],
                 'quantity' => $details->getQuantity(),
             ];
-            
+
         }
 
         //carrier
         $line_items[] = [
             'price_data' => [
                 'currency' => 'eur',
-                'unit_amount' => round($details->getCarrierPrice()*100),
+                'unit_amount' => round($details->getCarrierPrice() * 100),
                 'product_data' => [
                     'name' => 'Transporteur',
                     'images' => [],
@@ -101,12 +101,12 @@ class OrderClasse
             ],
             'quantity' => 1,
         ];
-        
+
         //taxe
         $line_items[] = [
             'price_data' => [
                 'currency' => 'eur',
-                'unit_amount' => round($details->getTaxe())*100,
+                'unit_amount' => round($details->getTaxe()) * 100,
                 'product_data' => [
                     'name' => 'tva (20%)',
                     'images' => [],
@@ -116,7 +116,7 @@ class OrderClasse
         ];
 
         return $line_items;
-        
+
     }
 
     public function saveOrder($data, User $user)
@@ -159,10 +159,10 @@ class OrderClasse
         $this->entityManager->persist($cart);
 
         $cartDetailsArray = [];
-        
+
         foreach ($data['products'] as $products) {
             $cartDetails = new OrderDetails();
-            
+
             $subTotal = $products['quantity'] * $products['book']->getPrice();
             $cartDetails->setOrders($cart)
                         ->setProductName($products['book']->getTitle())
@@ -187,7 +187,7 @@ class OrderClasse
      */
     public function generateUuid()
     {
-        mt_srand((double)microtime()*1000000);
+        mt_srand((float)microtime() * 1000000);
 
         $charid = strtoupper(md5(uniqid(rand(), true)));
 

@@ -57,6 +57,10 @@ RUN mkdir -p /etc/ssl/traefik/ \
   && chown -R www-data:www-data /etc/ssl/traefik/ \
   && chmod -R 755 /etc/ssl/traefik/
 
+#RUN -v $(pwd):/code ghcr.io/php-cs-fixer/php-cs-fixer:${FIXER_VERSION:-3-php8.3} fix src
+RUN mkdir -p tools/php-cs-fixer \
+  && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
+
 # COPY ./vhosts/vhosts.conf ./etc/apache2/sites-enabled/000-default.conf
 # COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-enabled/ssl/000-default-ssl.conf
 # COPY ./vhosts/openssl.cnf ./etc/apache2/sites-enabled/ssl/openssl.cnf

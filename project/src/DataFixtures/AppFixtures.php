@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         $this->hasher = $hasher;
         $this->slugger = $slugger;
     }
-    
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -48,9 +48,9 @@ class AppFixtures extends Fixture
         $admin->setPassword($password);
 
         $manager->persist($admin);
-        
+
         $users = [];
-        for ($us=0; $us < 15; $us++) { 
+        for ($us = 0; $us < 15; $us++) {
             $user = new User();
             $user->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
@@ -63,24 +63,24 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setBirthday($faker->dateTime())
             ;
-                $addresses = [];
-                for ($addr=0; $addr < 3; $addr++) { 
-                    $address = new Address();
-                    $address->setName($faker->name())
-                        ->setFirstName($faker->firstName())
-                        ->setLastName($faker->lastName())
-                        ->setCompany($faker->company())
-                        ->setAddress($faker->streetAddress())
-                        ->setZip($faker->postcode())
-                        ->setCity($faker->city())
-                        ->setCountry($faker->country())
-                        ->setPhone($faker->phoneNumber())
-                        ->setOwner($user)
-                    ;
-                    $manager->persist($address);
-                    $manager->persist($user);
-                    $addresses[] = $address;
-                }
+            $addresses = [];
+            for ($addr = 0; $addr < 3; $addr++) {
+                $address = new Address();
+                $address->setName($faker->name())
+                    ->setFirstName($faker->firstName())
+                    ->setLastName($faker->lastName())
+                    ->setCompany($faker->company())
+                    ->setAddress($faker->streetAddress())
+                    ->setZip($faker->postcode())
+                    ->setCity($faker->city())
+                    ->setCountry($faker->country())
+                    ->setPhone($faker->phoneNumber())
+                    ->setOwner($user)
+                ;
+                $manager->persist($address);
+                $manager->persist($user);
+                $addresses[] = $address;
+            }
             $password = $this->hasher->hashPassword($user, 'password');
             $user->setPassword($password);
             $user->addAddress($address);
@@ -88,9 +88,9 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
 
-        
 
-        for ($car=0; $car < 4; $car++) { 
+
+        for ($car = 0; $car < 4; $car++) {
             $carrier = new Carrier();
             $carrier->setName($faker->name())
                 ->setDescription($faker->sentence())
@@ -100,7 +100,7 @@ class AppFixtures extends Fixture
         }
 
         $books = [];
-        for ($bo=0; $bo < 30; $bo++) { 
+        for ($bo = 0; $bo < 30; $bo++) {
             $book = new Book();
             $book->setTitle($title = $faker->sentence())
                 ->setIntroduction($faker->sentence())
@@ -113,16 +113,16 @@ class AppFixtures extends Fixture
                 ->setEditor($faker->company())
                 ->setIsInStock($faker->boolean(true))
                 ->setSlug($this->slugger->slug(mb_strtolower($title)))
-                
+
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setFirstCover($faker->imageUrl())
-                
+
             ;
-        
+
             $categories = [];
-            for ($cat=0; $cat < 5; $cat++) { 
+            for ($cat = 0; $cat < 5; $cat++) {
                 $category = new Category();
                 $category->setName($faker->name())
                     ->setImage($faker->imageUrl())
@@ -133,7 +133,7 @@ class AppFixtures extends Fixture
             }
 
             $images = [];
-            for ($im=0; $im < 4; $im++) { 
+            for ($im = 0; $im < 4; $im++) {
                 $image = new Image();
                 $image->setName($faker->name())
                     ->setUrl($faker->imageUrl())
@@ -142,11 +142,11 @@ class AppFixtures extends Fixture
                 $manager->persist($image);
                 $images[] = $image;
             }
-            
+
             $comments = [];
-            for ($com=0; $com < 10; $com++) { 
+            for ($com = 0; $com < 10; $com++) {
                 $comment = new Comment();
-                $book->setRating($rating = $faker->numberBetween(1,5));
+                $book->setRating($rating = $faker->numberBetween(1, 5));
                 $comment->setTitle($faker->sentence())
                         ->setComment($faker->paragraph(3))
                         ->setRating($rating)
@@ -160,8 +160,8 @@ class AppFixtures extends Fixture
                 $comments[] = $comment;
             }
             $orders = [];
-            
-            for ($or=0; $or < 10; $or++) { 
+
+            for ($or = 0; $or < 10; $or++) {
                 $order = new Order();
                 $order->setReference($faker->randomNumber())
                     ->setFullName($name = $faker->name())
@@ -169,48 +169,48 @@ class AppFixtures extends Fixture
                     ->setCarrierPrice($cCarrierPrice = $faker->numberBetween(0, 25))
                     ->setDeliveryAddress($faker->address())
                     ->setPrice($price = $faker->numberBetween(1, 75))
-                    ->setUnitPrice($faker->numberBetween(1, 75)< $price)
+                    ->setUnitPrice($faker->numberBetween(1, 75) < $price)
                     ->setIsPaid($faker->boolean(\mt_rand(0, 1)))
                     ->setMoreInformation($faker->sentence())
                     ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                    ->setUsers($users[mt_rand(0, count($users) - 1 )])
+                    ->setUsers($users[mt_rand(0, count($users) - 1)])
                     ->setQuantity($quantity = $faker->numberBetween(1, 5))
                     ->setSubTotalHT($subTotalHT = $faker->numberBetween(0, 100))
                     ->setTaxe($taxe = $faker->numberBetween(0, 100))
                     ->setSubTotalTTC($subTotalTTC = $faker->numberBetween(0, 100))
                     ->addBook($book)
                 ;
-                    
-                    $orderDetails = [];
-                    for ($ordd=0; $ordd < 10; $ordd++) { 
-                        $orderDetail = new OrderDetails();
-                        $orderDetail->setQuantity($quantity)
-                            ->setProductPrice($cCarrierPrice)
-                            ->setSubTotalHT($subTotalHT)
-                            ->setProductName($name)
-                            ->setSubTotalTTC($subTotalTTC)
-                            ->setTaxe($taxe)
-                            ->setOrders($order)
-                            ->setCarrierName($order->getFullName())
-                            ->setCarrierPrice($order->getCarrierPrice())
-                        ;
-                        
-                        $manager->persist($orderDetail);
-                        $orderDetails[] = $orderDetail;
-                    }
 
-                    
+                $orderDetails = [];
+                for ($ordd = 0; $ordd < 10; $ordd++) {
+                    $orderDetail = new OrderDetails();
+                    $orderDetail->setQuantity($quantity)
+                        ->setProductPrice($cCarrierPrice)
+                        ->setSubTotalHT($subTotalHT)
+                        ->setProductName($name)
+                        ->setSubTotalTTC($subTotalTTC)
+                        ->setTaxe($taxe)
+                        ->setOrders($order)
+                        ->setCarrierName($order->getFullName())
+                        ->setCarrierPrice($order->getCarrierPrice())
+                    ;
+
+                    $manager->persist($orderDetail);
+                    $orderDetails[] = $orderDetail;
+                }
+
+
 
                 $order->addOrderDetail($orderDetail);
-                
-                
+
+
                 $manager->persist($order);
                 $orders[] = $order;
             }
 
 
             $authors = [];
-            for ($au=0; $au < 2; $au++) { 
+            for ($au = 0; $au < 2; $au++) {
                 $author = new Author();
                 $author->setFirstName($faker->firstName())
                     ->setLastName($faker->lastName())
@@ -222,7 +222,7 @@ class AppFixtures extends Fixture
                 $authors[] = $author;
             }
 
-           
+
             $user->addComment($comment)
                 ->addOrder($order)
             ;
@@ -239,7 +239,7 @@ class AppFixtures extends Fixture
 
             $books[] = $book;
         }
-        
+
         $manager->flush();
     }
 }

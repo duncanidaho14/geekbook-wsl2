@@ -15,7 +15,7 @@ class SearchController extends AbstractController
 {
     #[Route('/rechercher', name: 'app_search')]
     public function index(SearchService $searchService, Request $request, EntityManagerInterface $manager): Response
-    {        
+    {
         $searchForm = $this->createForm(SearchFormType::class, null, [
             'method' => 'GET',
             'csrf_protection' => false
@@ -36,7 +36,7 @@ class SearchController extends AbstractController
             $results = $searchResponse['hits'];
         }
 
-        $hits = $searchService->search($manager, Book::class, $searchQuery); 
+        $hits = $searchService->search($manager, Book::class, $searchQuery);
 
         return $this->render('search/index.html.twig', [
             'books' => $hits,

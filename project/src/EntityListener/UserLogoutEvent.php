@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EntityListener;
 
 use Symfony\Contracts\EventDispatcher\Event;

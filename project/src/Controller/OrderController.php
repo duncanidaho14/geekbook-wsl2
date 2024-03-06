@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Classes\OrderClasse;
 use App\Classes\Basket;
 use App\Form\CheckoutType;
@@ -57,7 +56,7 @@ class OrderController extends AbstractController
     #[Security("is_granted('ROLE_USER')")]
     public function add(Basket $basket, Request $request, OrderClasse $orderClasse): Response
     {
-        
+
         $user = $this->getUser();
         $cart = $basket->getAllBasket();
 
@@ -77,15 +76,15 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() || $this->session->getSession()->get('checkout_data')) {
             if ($this->session->getSession()->get('checkout_data')) {
                 $data =  $this->session->getSession()->get('checkout_data');
-            }else {
+            } else {
                 $data = $form->getData();
                 $this->session->getSession()->set('checkout_data', $data);
             }
             $address = $data['address'];
             $carrier = $data['carrier'];
             $information = $data['moreInformation'];
-           //dd($carrier);
-            
+            //dd($carrier);
+
             // Save cart
             $cart['checkout'] = $data;
             $reference = $orderClasse->saveOrder($cart, $user);

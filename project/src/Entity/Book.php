@@ -414,19 +414,20 @@ class Book
 
     public function computeSlug(SluggerInterface $slugger)
     {
-       if (!$this->slug || '-' === $this->slug) {
+        if (!$this->slug || '-' === $this->slug) {
             $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
     }
 
     public function getAvgRatings()
     {
-        $sum = array_reduce($this->comments->toArray(), function($total, $comment)
-        {
+        $sum = array_reduce($this->comments->toArray(), function ($total, $comment) {
             return $total + $comment->getRating();
         }, 0);
 
-        if(count($this->comments) > 0 ) return $sum / count($this->comments);
+        if(count($this->comments) > 0) {
+            return $sum / count($this->comments);
+        }
 
         return 0;
     }
