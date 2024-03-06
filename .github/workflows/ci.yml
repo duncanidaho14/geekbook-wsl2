@@ -78,6 +78,15 @@ jobs:
             composer require friendsofphp/php-cs-fixer
             ./vendor/bin/php-cs-fixer fix project/src --dry-run
 
+      ## PHPSTAN
+      -   name: PHP Stan
+          run: |
+            ./vendor/bin/simple-phpunit install
+            composer require phpstan/phpstan
+            composer require phpstan/extension-installer
+            composer config --no-plugins allow-plugins.phpstan/extension-installer true
+            composer require phpstan/phpstan-symfony
+             ./vendor/bin/phpstan analyse project/src --memory-limit 1G
       -  name: LS
          run: ls
     
