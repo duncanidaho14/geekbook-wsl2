@@ -80,16 +80,16 @@ jobs:
 
       ## Linteurs
       -   name:  Lint YAML files
-          run: ./bin/console lint:yaml config --parse-tags
+          run: ./project/bin/console lint:yaml config --parse-tags
 
       -   name: Lint Twig templates
-          run: ./bin/console lint:twig templates --env=prod
+          run: ./project/bin/console lint:twig templates --env=prod
 
       -   name: Lint Parameters and Services
-          run: ./bin/console lint:container --no-debug
+          run: ./project/bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
-          run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+          run: ./project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
       ## PHPSTAN
       -   name: PHP Stan
