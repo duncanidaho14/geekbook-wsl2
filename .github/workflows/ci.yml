@@ -44,14 +44,14 @@ jobs:
           # Image
           image: duncanidaho/geekbook:latest
           # Options
-          options: -v ${{ github.workspace }}:/var/www/html/project
+          # options: -v ${{ github.workspace }}:/var/www/html/project
           # Run command in container
           run: |
             composer install
             npm install
             npm run build        
           # Use a specific shell
-          shell: docker exec -w /var/www/html/project
+          # shell: docker exec -w /var/www/html/project
           # Registry
           registry: geekbook-wsl2
           # Username
