@@ -51,7 +51,7 @@ jobs:
             npm install
             npm run build        
           # Use a specific shell
-          # shell: docker exec -w /var/www/html/project
+          shell: docker exec -w /var/www/html/project/ www_geekbook_app composer install
           # Registry
           registry: geekbook-wsl2
           # Username
@@ -59,7 +59,7 @@ jobs:
           # Password
           password: Mourad3945#
           # Docker Network ID
-          # docker_network: proxy
+          docker_network: 66d4395d4d4b
 
           
       # - name: Run docker container to compile assets
