@@ -83,18 +83,20 @@ jobs:
             ./project/tools/php-cs-fixer/vendor/bin/php-cs-fixer fix project/src --dry-run
 
       ## Linteurs
-      -   name: Lint Parameters and Services
-          run: php ./project/bin/console lint:container --no-debug
-
-      -   name: Lint Doctrine entities
-          run: |
-            ./project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
-
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
             echo pwd
-            ./bin/console lint:yaml ./templates/
+            php project/bin/console lint:yaml ./templates/
+
+      -   name: Lint Parameters and Services
+          run: php project/bin/console lint:container --no-debug
+
+      -   name: Lint Doctrine entities
+          run: |
+            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+
+      
 
       
 
