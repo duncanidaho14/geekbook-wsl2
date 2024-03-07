@@ -84,7 +84,7 @@ jobs:
 
       ## Linteurs
       -   name: Lint Parameters and Services
-          run: ./project/bin/console lint:container --no-debug
+          run: ./../project/bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
