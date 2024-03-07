@@ -85,15 +85,14 @@ jobs:
       ## Linteurs
       -   name:  Lint YAML files
           run: |
-            php ./vendor/bin/yaml-lint templates/
-
-      -   name: Lint Twig templates
-          run:  |
-            ./project/bin/console lint:twig templates --env=prod
+            composer require twig/inky-extra
+            cd ./vendor/bin/
+            php yaml-lint ../../templates/
 
       -   name: Lint Parameters and Services
           run: |
-            php ./project/bin/console lint:container --no-debug
+            cd ./vendor/bin/
+            php lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
