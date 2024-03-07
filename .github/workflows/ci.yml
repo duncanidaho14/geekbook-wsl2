@@ -75,6 +75,7 @@ jobs:
           run: |
             cd project/
             symfony check:security
+            symfony check:requirements
 
       ## PHP CS FIXER
       -   name: PHP-CS-FIXER
