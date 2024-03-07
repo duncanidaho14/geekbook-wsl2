@@ -83,7 +83,7 @@ jobs:
       ## Linteurs
       -   name:  Lint YAML files
           run: |
-            php ./project/bin/console lint:yaml config --parse-tags
+            php bin/console lint:yaml config --parse-tags
 
       -   name: Lint Twig templates
           run:  |
