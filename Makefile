@@ -47,7 +47,7 @@ https: ## Install ca
 .PHONY: tests
 
 php-cs: ## php cs fixer
-	$(EXEC) ./vendor/bin/php-cs-fixer fix project/src --dry-run
+	$(PHP) ./vendor/bin/php-cs-fixer fix project/src --dry-run
 
 tests: ## Run all tests
 	
