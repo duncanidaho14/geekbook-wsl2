@@ -101,8 +101,6 @@ jobs:
             composer require phpstan/phpstan-symfony
             ./vendor/bin/phpstan analyse project/src --memory-limit 1G
 
-      
-
       -  name: LS
          run: ls
     
