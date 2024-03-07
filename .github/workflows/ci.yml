@@ -86,11 +86,11 @@ jobs:
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
-            php bin/console yaml:lint ../../templates/
+            php bin/console lint:yaml ../../templates/
 
       -   name: Lint Parameters and Services
           run: |
-            php lint:container --no-debug
+            php bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
