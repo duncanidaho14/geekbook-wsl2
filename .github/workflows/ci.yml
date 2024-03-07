@@ -72,7 +72,9 @@ jobs:
 
       # Check vunlerabilities
       -   name: Symfony Check Vulnerabilities
-          run: symfony check:security
+          run: |
+            cd project/
+            symfony check:security
 
       ## PHP CS FIXER
       -   name: PHP-CS-FIXER
