@@ -78,7 +78,7 @@ jobs:
           run: |
             composer require friendsofphp/php-cs-fixer
             pwd
-            ../tools/php-cs-fixer/vendor/bin/php-cs-fixer fix ./../../src --dry-run
+            ./project/tools/php-cs-fixer/vendor/bin/php-cs-fixer fix ./../../src --dry-run
 
       ## Linteurs
       -   name:  Lint YAML files
