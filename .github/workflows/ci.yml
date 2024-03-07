@@ -4,6 +4,7 @@ on:
     branches: [ main ]
 env:
   IMAGE_NAME: duncanidaho/geekbook
+  ENV COMPOSER_ALLOW_SUPERUSER: 1
 jobs: 
   ci:
     runs-on: ubuntu-latest
@@ -81,16 +82,18 @@ jobs:
 
       ## Linteurs
       -   name:  Lint YAML files
-          run: ./project/bin/console lint:yaml config --parse-tags
+          run: |
+            cd ./project/
+            ./bin/console lint:yaml config --parse-tags
 
       -   name: Lint Twig templates
-          run: ./project/bin/console lint:twig templates --env=prod
+          run: ./bin/console lint:twig templates --env=prod
 
       -   name: Lint Parameters and Services
-          run: ./project/bin/console lint:container --no-debug
+          run: ./bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
-          run: ./project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+          run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
       ## PHPSTAN
       -   name: PHP Stan
