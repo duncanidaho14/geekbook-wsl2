@@ -35,6 +35,7 @@ cache-clear: ## Clear cache
 cs-fixer: ## Install PHP CS FIXER
 	$(EXEC) mkdir -p tools/php-cs-fixer
 	$(COMPOSER) require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
+	$(MAKE) php-cs
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install

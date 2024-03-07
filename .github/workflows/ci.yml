@@ -83,23 +83,19 @@ jobs:
       ## Linteurs
       -   name:  Lint YAML files
           run: |
-            cd ./project/
-            php ./bin/console lint:yaml config --parse-tags
+            php ./project/bin/console lint:yaml config --parse-tags
 
       -   name: Lint Twig templates
           run:  |
-            cd ./project/
-            php ./bin/console lint:twig templates --env=prod
+            php ./project/bin/console lint:twig templates --env=prod
 
       -   name: Lint Parameters and Services
           run: |
-            cd ./project/
-            php ./bin/console lint:container --no-debug
+            php ./project/bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
-            cd ./project/
-            php ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+            php ./project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
       ## PHPSTAN
       -   name: PHP Stan
