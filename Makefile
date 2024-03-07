@@ -4,6 +4,7 @@ DOCKER = docker
 DOCKER_COMPOSE = docker-compose
 EXEC = $(DOCKER) exec -w /var/www/html/project www_geekbook_app
 EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik www_geekbook_app
+fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer www_geekbook_app php ./vendor/bin/php-cs-fixer
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
 NPM = $(EXEC) npm
@@ -47,7 +48,7 @@ https: ## Install ca
 .PHONY: tests
 
 php-cs: ## php cs fixer
-	$(PHP) ./vendor/bin/php-cs-fixer fix project/src --dry-run
+	$(fixer) fix ./../../src --dry-run
 
 tests: ## Run all tests
 	
