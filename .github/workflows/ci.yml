@@ -86,9 +86,7 @@ jobs:
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
-            composer require symfony/runtime
-            composer config --no-plugins allow-plugins.symfony/runtime false
-            ./project/bin/console lint:yaml ./templates/
+            symfony console lint:yaml ./templates/
 
       -   name: Lint Parameters and Services
           run: php project/bin/console lint:container --no-debug
