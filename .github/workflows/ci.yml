@@ -84,11 +84,11 @@ jobs:
 
       ## Linteurs
       -   name: Lint Parameters and Services
-          run: ./bin/console lint:container --no-debug
+          run: ./project/bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
-            ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+            ./project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
       -   name:  Lint YAML files
           run: |
