@@ -86,7 +86,7 @@ jobs:
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
-            symfony /project/bin/console lint:yaml ../../templates/
+            docker exec -it -w /var/www/html/project/ www_geekbook_app php bin/console lint:yaml ./templates/
 
       -   name: Lint Parameters and Services
           run: |
