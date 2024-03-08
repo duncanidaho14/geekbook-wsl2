@@ -81,20 +81,7 @@ jobs:
           run: |
             composer require friendsofphp/php-cs-fixer
             ./project/tools/php-cs-fixer/vendor/bin/php-cs-fixer fix project/src --dry-run
-
-      ## Linteurs
-      -   name:  Lint YAML files
-          run: |
-            composer require twig/inky-extra
-            symfony console lint:yaml ./templates/
-
-      -   name: Lint Parameters and Services
-          run: php project/bin/console lint:container --no-debug
-
-      -   name: Lint Doctrine entities
-          run: |
-            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
-
+      
       ## PHPSTAN
       -   name: PHP Stan
           run: |
@@ -103,6 +90,21 @@ jobs:
             composer require phpstan/extension-installer
             composer require phpstan/phpstan-symfony
             ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+
+      ## Linteurs
+      -   name:  Lint YAML files
+          run: |
+            composer require twig/inky-extra
+            php bin/console lint:yaml ./templates/
+
+      -   name: Lint Parameters and Services
+          run: php project/bin/console lint:container --no-debug
+
+      -   name: Lint Doctrine entities
+          run: |
+            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
+
+      
 
       -  name: LS
          run: ls
