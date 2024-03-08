@@ -86,7 +86,6 @@ jobs:
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
-            cd project/
             symfony console lint:yaml ./templates/
 
       -   name: Lint Parameters and Services
@@ -94,11 +93,7 @@ jobs:
 
       -   name: Lint Doctrine entities
           run: |
-            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
-
-      
-
-      
+            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
 
       ## PHPSTAN
       -   name: PHP Stan
