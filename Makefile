@@ -2,8 +2,8 @@
 # Variables
 DOCKER = docker
 DOCKER_COMPOSE = docker-compose
-EXEC = $(DOCKER) exec -w /var/www/html/project www_geekbook_app
-EXEC2 = $(DOCKER) exec -w /etc/ssl/traefik www_geekbook_app
+EXEC = $(DOCKER) exec -it -w /var/www/html/project www_geekbook_app
+EXEC2 = $(DOCKER) exec -it -w /etc/ssl/traefik www_geekbook_app
 fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer www_geekbook_app php ./vendor/bin/php-cs-fixer
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
@@ -39,11 +39,9 @@ cs-fixer: ## Install PHP CS FIXER
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
-	$(DOCKER_COMPOSE) up -d --scale whoami=1
-	$(EXEC) wget traefik.me/cert.pem -O cert.pem
-	$(EXEC) wget traefik.me/privkey.pem -O privkey.pem
-
-
+	$(EXEC) mkcert -install
+	
+	
 ## Test 💯 ------------------------
 
 .PHONY: tests
@@ -52,7 +50,6 @@ php-cs: ## php cs fixer
 	$(fixer) fix ./../../src --dry-run
 
 tests: ## Run all tests
-	
 	$(PHP) bin/phpunit --testdox tests/Unit/
 	$(PHP) bin/phpunit --testdox tests/Func/
 	$(PHP) bin/phpunit --testdox tests/E2E/

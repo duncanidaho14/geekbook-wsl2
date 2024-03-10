@@ -1,12 +1,12 @@
 FROM php:8.2-apache
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+RUN echo "ServerName localhost" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
   \
   &&  apt-get update \
   &&  apt-get install -y --no-install-recommends \
   locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget \
   \
-  &&  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
+  &&  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen  \
   &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
   &&  locale-gen \
   \
@@ -26,6 +26,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
   &&  pecl install apcu && docker-php-ext-enable apcu 
 
 RUN apt-get install -y \
+    openssl \
     libxrender1 \
     libfontconfig1 \
     libx11-dev \
@@ -57,15 +58,11 @@ RUN mkdir -p /etc/ssl/traefik/ \
   && chown -R www-data:www-data /etc/ssl/traefik/ \
   && chmod -R 755 /etc/ssl/traefik/
 
-#RUN -v $(pwd):/code ghcr.io/php-cs-fixer/php-cs-fixer:${FIXER_VERSION:-3-php8.3} fix src
 RUN mkdir -p tools/php-cs-fixer \
   && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
-# COPY ./vhosts/vhosts.conf ./etc/apache2/sites-enabled/000-default.conf
-# COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-enabled/ssl/000-default-ssl.conf
-# COPY ./vhosts/openssl.cnf ./etc/apache2/sites-enabled/ssl/openssl.cnf
-
-# ENV FONTCONFIG_PATH=/tmp/fontconfig
+COPY ./vhosts/vhosts.conf ./etc/apache2/sites-available/000-default.conf
+COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-available/default-ssl.conf
 
 COPY . /var/www/html/
 
@@ -73,4 +70,3 @@ WORKDIR /var/www/html/
 
 EXPOSE 7000
 
-CMD ["/usr/sbin/apache2ctl", "-DFOREGROUND"]

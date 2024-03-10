@@ -104,8 +104,10 @@ jobs:
           run: |
             php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
 
-      
-
+      ## PHP Unit
+      -   name: PHP Unit
+          run: ./bin/phpunit
+          
       -  name: LS
          run: ls
     

@@ -22,10 +22,10 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.gkbook.acme.tlschallenge=true"
       # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myresolver.acme.email=elhadibeddarem@gmail.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.gkbook.acme.email=elhadibeddarem@gmail.com"
+      - "--certificatesresolvers.gkbook.acme.storage=/letsencrypt/acme.json"
     volumes:
       - ./letsencrypt:/letsencrypt
       - ./traefik.yml:/etc/traefik/traefik.yml
@@ -76,7 +76,6 @@ services:
       POSTGRES_DB: geekbook
     labels:
       - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
-      - "traefik.http.routers.gkbook.tls.certresolver=myresolver"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"

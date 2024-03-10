@@ -1,7 +1,7 @@
 Dockerfile
 ../node_modules/
 ../vendor/
+../../*.pem
 ../*.pem
-../project/*.pem
 
 

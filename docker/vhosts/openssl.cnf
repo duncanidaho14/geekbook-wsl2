@@ -7,13 +7,13 @@ default_ca      = root_ca
 
 #l'autorité de certification racine (root) valable 10 ans
 [ root_ca ]
-dir             = /etc/ssl/root_ca
+dir             = /etc/ssl/
 certs           = $dir/certs
 new_certs_dir   = $dir/newcerts
 database        = $dir/index.txt
-certificate     = $dir/root_ca.pem
+certificate     = $dir/killua.pem
 serial          = $dir/serial
-private_key     = $dir/private/root_ca.key
+private_key     = $dir/private/killua.key
 default_days    = 3650
 default_md      = default
 preserve        = no
@@ -24,13 +24,13 @@ cert_opt        = ca_default
 
 #l'autorité de certification intermédiaire valable 10 ans
 [ core_ca ]
-dir             = /etc/ssl/core_ca
+dir             = /etc/ssl/
 certs           = $dir/certs  
 new_certs_dir   = $dir/newcerts
 database        = $dir/index.txt
-certificate     = $dir/core_ca.pem 
+certificate     = $dir/killua.pem 
 serial          = $dir/serial
-private_key     = $dir/private/core_ca.key
+private_key     = $dir/private/killua.key
 default_days    = 3650
 default_md      = default
 preserve        = no  
@@ -78,9 +78,9 @@ localityName_default            = Paris
 #1.organizationName_default     = World Wide Web Pty Ltd
 organizationalUnitName          = Organizational Unit Name (eg, section)
 #organizationalUnitName_default =
-commonName                      = Common Name (eg, YOUR name)
+commonName                      = localhost
 commonName_max                  = 64
-emailAddress                    = Email Address
+emailAddress                    = elhadibeddarem@gmail.com
 emailAddress_max                = 64
 
 [ req_attributes ]

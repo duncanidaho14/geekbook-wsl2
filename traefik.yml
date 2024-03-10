@@ -12,18 +12,18 @@ entryPoints:
 
 providers:
   file:
-    filename: /etc/traefik
+    filename: /etc/traefik/tls.yml
   docker:
     endpoint: unix:///var/run/docker.sock
-    useBindPortIP: true
     watch: true
     exposedByDefault: true
     defaultRule: "HostRegexp(`{{ index .Labels \"com.docker.compose.service\"}}.traefik.me`,`{{ index .Labels \"com.docker.compose.service\"}}-{dashed-ip:.*}.traefik.me`)"
 
 certificatesResolvers:
-  myresolver:
+  gkbook:
     acme:
-      email: elhadibeddarem@gmail.com
-      storage: "acme.json"
+      email: "elhadibeddarem@gmail.com"
+      storage: "/letsencrypt/acme.json"
       httpChallenge:
-        entryPoint: web
+        # used during the challenge
+        entryPoint: websecure
