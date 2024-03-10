@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -36,8 +37,8 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/livre/{slug}', name: 'app_show_book')]
-    #[Security("is_granted('ROLE_USER')")]
+    #[IsGranted('ROLE_USER')]
+    #[Route('/livre/{slug}', name: 'app_show_book', methods:['GET'])]
     public function show(
         Book $bookCount,
         Request $request,

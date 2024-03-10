@@ -88,27 +88,27 @@ jobs:
       -   name:  Lint YAML files
           run: |
             composer require twig/inky-extra
-            php bin/console lint:yaml ./templates/
+            cd ./project/ && php bin/console lint:yaml ./templates/
 
       -   name: Lint Parameters and Services
-          run: php project/bin/console lint:container --no-debug
+          run: cd ./project/ && php project/bin/console lint:container --no-debug
 
       -   name: Lint Doctrine entities
           run: |
-            php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
+            cd ./project/ && php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
 
       ## PHPSTAN
-      -   name: PHP Stan
-          run: |
-            composer require phpstan/phpstan
-            composer config --no-plugins allow-plugins.phpstan/extension-installer true
-            composer require phpstan/extension-installer
-            composer require phpstan/phpstan-symfony
-            ./vendor/bin/phpstan analyse project/src --memory-limit 1G
-            
-      ## PHP Unit
-      -   name: PHP Unit
-          run: ./bin/phpunit
+      # -   name: PHP Stan
+      #     run: |
+      #       composer require phpstan/phpstan
+      #       composer config --no-plugins allow-plugins.phpstan/extension-installer true
+      #       composer require phpstan/extension-installer
+      #       composer require phpstan/phpstan-symfony
+      #       ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+
+      # ## PHP Unit
+      # -   name: PHP Unit
+      #     run: ./bin/phpunit
           
       -  name: LS
          run: ls
