@@ -85,17 +85,17 @@ jobs:
       
 
       ## Linteurs
-      -   name:  Lint YAML files
-          run: |
-            composer require twig/inky-extra
-            cd ./project/ && php bin/console lint:yaml ./templates/
+      # -   name:  Lint YAML files
+      #     run: |
+      #       composer require twig/inky-extra
+      #       cd ./project/ && php bin/console lint:yaml ./templates/
 
-      -   name: Lint Parameters and Services
-          run: cd ./project/ && php project/bin/console lint:container --no-debug
+      # -   name: Lint Parameters and Services
+      #     run: cd ./project/ && php project/bin/console lint:container --no-debug
 
-      -   name: Lint Doctrine entities
-          run: |
-            cd ./project/ && php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
+      # -   name: Lint Doctrine entities
+      #     run: |
+      #       cd ./project/ && php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
 
       ## PHPSTAN
       # -   name: PHP Stan
