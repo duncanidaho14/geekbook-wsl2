@@ -79,7 +79,6 @@ services:
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"
-      # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
       - ./:/var/www/html
