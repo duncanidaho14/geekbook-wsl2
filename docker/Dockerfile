@@ -61,8 +61,8 @@ RUN mkdir -p /etc/ssl/traefik/ \
 RUN mkdir -p tools/php-cs-fixer \
   && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
-COPY ./vhosts/vhosts.conf ./etc/apache2/sites-available/000-default.conf
-COPY ./vhosts/default-ssl.conf ./etc/apache2/sites-available/default-ssl.conf
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+COPY ./vhosts/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
 COPY . /var/www/html/
 

@@ -74,7 +74,7 @@ e2e-test: ## Run E2E tests
 	$(PHP) bin/phpunit --testdox tests/E2E/
 
 ## Docker 💁   -----------------------------------------------------------------------
-
+.PHONY: start
 start: ## Start app
 	$(MAKE) docker-start
 
@@ -88,7 +88,7 @@ docker-stop:
 	@$(call RED,"The containers are now stopped.")
 
 ## Composer 🎵   ----------------------------------------------------------------------
-
+.PHONY: composer
 composer-install: ## Install dependencies
 	$(COMPOSER) install
 
@@ -96,7 +96,7 @@ composer-update: ## Update dependencies
 	$(COMPOSER) update
 
 ## —— 🐈 NPM —————————————————————————————————————————————————————————————————
-
+.PHONY: npm
 npm-install: ## Install all npm dependencies
 	$(NPM) install
 	$(NPX) tailwindcss init -p
@@ -111,6 +111,7 @@ npm-build: ## Build files
 	$(NPM) run build
 
 ##--- 🖥️   Database -------------------------------------------------------------------
+.PHONY: db
 database-init: ## Init database
 	$(MAKE) database-drop
 	$(MAKE) database-create
@@ -144,10 +145,19 @@ database-fixtures-load: ## Load fixtures
 fixtures: ## Alias : database-fixtures-load
 	$(MAKE) database-fixtures-load -n --purge-with-truncate
 
-##-- 🀄   Messenger consume ---------------------------------------------------------------------------------
+##--- 🀄   Messenger consume ---------------------------------------------------------------------------------
+.PHONY: messenger
 messenger: ## Consuming message
 	$(PHP) bin/console messenger:consume async -vvv
- 
+
+##---	 DockerHub build ------------------------------------------------------------------------------------
+.PHONY: prod
+hub-build: ## Docker build hub
+	docker image build -f ./docker/Dockerfile -t duncanidaho/geekbook:latest .
+
+hub-push:  ## Docker push hub
+	docker push duncanidaho/geekbook:latest
+
 ## —— 🔢  Others ——-------------------------------------------------------------------------------------------
 help: ## List of commands
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'

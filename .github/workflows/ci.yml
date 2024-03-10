@@ -82,14 +82,7 @@ jobs:
             composer require friendsofphp/php-cs-fixer
             ./project/tools/php-cs-fixer/vendor/bin/php-cs-fixer fix project/src --dry-run
       
-      ## PHPSTAN
-      -   name: PHP Stan
-          run: |
-            composer require phpstan/phpstan
-            composer config --no-plugins allow-plugins.phpstan/extension-installer true
-            composer require phpstan/extension-installer
-            composer require phpstan/phpstan-symfony
-            ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+      
 
       ## Linteurs
       -   name:  Lint YAML files
@@ -104,6 +97,15 @@ jobs:
           run: |
             php project/bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction   
 
+      ## PHPSTAN
+      -   name: PHP Stan
+          run: |
+            composer require phpstan/phpstan
+            composer config --no-plugins allow-plugins.phpstan/extension-installer true
+            composer require phpstan/extension-installer
+            composer require phpstan/phpstan-symfony
+            ./vendor/bin/phpstan analyse project/src --memory-limit 1G
+            
       ## PHP Unit
       -   name: PHP Unit
           run: ./bin/phpunit
