@@ -28,3 +28,5 @@ yarn-error.log
 
 cert.pem
 privkey.pem
+
+*.pem
