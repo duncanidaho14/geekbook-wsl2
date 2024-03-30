@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'friendsofphp/php-cs-fixer' => array(
-            'pretty_version' => 'v3.51.0',
-            'version' => '3.51.0.0',
-            'reference' => '127fa74f010da99053e3f5b62672615b72dd6efd',
+            'pretty_version' => 'v3.52.1',
+            'version' => '3.52.1.0',
+            'reference' => '6e77207f0d851862ceeb6da63e6e22c01b1587bc',
             'type' => 'application',
             'install_path' => __DIR__ . '/../friendsofphp/php-cs-fixer',
             'aliases' => array(),
