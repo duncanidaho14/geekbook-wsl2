@@ -77,8 +77,8 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 
 COPY . /var/www/html/
 
-RUN rm -rf /var/www/html/vendor && \
-    rm -rf /var/www/html/.git && \
+RUN rm -rf /var/www/html/project/vendor && \
+    rm -rf /var/www/html/project/.git && \
     cd /var/www/html && \
     composer install && \
     php bin/console cache:clear && \
