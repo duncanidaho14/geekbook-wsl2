@@ -26,7 +26,7 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
   pdo pdo_pgsql opcache intl zip calendar dom mbstring gd xsl \
   \
   &&  pecl install apcu && docker-php-ext-enable apcu \
-  && nano 
+  && apt install nano 
 
 RUN apt-get install -y \
     openssl \
