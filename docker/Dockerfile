@@ -73,10 +73,10 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 
 # COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 # COPY ./vhosts/default-ssl.conf /etc/apache2/sites-available/ssl/default-ssl.conf
-RUN curl "https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar" -Lfso $HOME/.local/bin/castor && \
-    chmod u+x $HOME/.local/bin/castor && \
-    castor --version || \
-    (echo "Could not install castor. Is the target directory writeable?" && (exit 1))
+# RUN curl "https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar" -Lfso $HOME/.local/bin/castor && \
+#     chmod u+x $HOME/.local/bin/castor && \
+#     castor --version || \
+#     (echo "Could not install castor. Is the target directory writeable?" && (exit 1))
 
 COPY . /var/www/html/
 
