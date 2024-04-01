@@ -2,7 +2,7 @@ FROM php:8.2-apache
 
 ENV APP_ENV=prod
 
-RUN echo "ServerName localhost" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
+RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
   \
   &&  apt-get update \
   &&  apt-get install -y --no-install-recommends \
