@@ -63,9 +63,10 @@ RUN mkdir -p tools/php-cs-fixer \
 
 # RUN touch /etc/apache2/sites-available/000-default.conf
 # RUN touch /etc/apache2/sites-available/default-ssl.conf
-
-# COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+ENV APP_ENV=prod
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 # COPY ./vhosts/default-ssl.conf /etc/apache2/sites-available/ssl/default-ssl.conf
+
 
 COPY . /var/www/html/
 
