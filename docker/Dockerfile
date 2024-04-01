@@ -1,5 +1,7 @@
 FROM php:8.2-apache
 
+ENV APP_ENV=prod
+
 RUN echo "ServerName localhost" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
   \
   &&  apt-get update \
@@ -64,11 +66,20 @@ RUN mkdir -p tools/php-cs-fixer \
 # RUN touch /etc/apache2/sites-available/000-default.conf
 # RUN touch /etc/apache2/sites-available/default-ssl.conf
 
-# COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 # COPY ./vhosts/default-ssl.conf /etc/apache2/sites-available/ssl/default-ssl.conf
+
 
 COPY . /var/www/html/
 
+RUN rm -rf /var/www/html/vendor && \
+    rm -rf /var/www/html/.git && \
+    cd /var/www/html && \
+    composer install && \
+    php bin/console cache:clear && \
+    php bin/console cache:warmup && \
+    chown -R www-data:www-data /var/www/html
+    
 WORKDIR /var/www/html/
 
 EXPOSE 7000
