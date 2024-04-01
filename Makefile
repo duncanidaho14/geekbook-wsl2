@@ -102,6 +102,7 @@ composer-update: ## Update dependencies
 npm-install: ## Install all npm dependencies
 	$(NPM) install -g npm
 	$(NPM) install
+	$(NPM) audit fix
 	$(NPX) tailwindcss init -p
 
 npm-update: ## Update all npm dependencies

@@ -63,6 +63,10 @@ RUN mkdir -p /etc/ssl/traefik/ \
 RUN mkdir -p tools/php-cs-fixer \
   && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
+RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose \
+    && apt install make \
+    && apt install build-essential  
 # RUN touch /etc/apache2/sites-available/000-default.conf
 # RUN touch /etc/apache2/sites-available/default-ssl.conf
 
