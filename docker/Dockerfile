@@ -25,7 +25,8 @@ RUN echo "ServerName localhost" >> mkdir -p /etc/apache2/conf.d/fqdn.conf \
   &&  docker-php-ext-install \
   pdo pdo_pgsql opcache intl zip calendar dom mbstring gd xsl \
   \
-  &&  pecl install apcu && docker-php-ext-enable apcu 
+  &&  pecl install apcu && docker-php-ext-enable apcu \
+  && nano 
 
 RUN apt-get install -y \
     openssl \
@@ -76,13 +77,15 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 
 COPY . /var/www/html/
 
-# RUN rm -rf /var/www/html/vendor && \
-#     rm -rf /var/www/html/.git && \
-#     cd /var/www/html && \
-#     composer install && \
-#     php bin/console cache:clear && \
-#     php bin/console cache:warmup && \
-#     chown -R www-data:www-data /var/www/html
+RUN rm -rf /var/www/html/vendor && \
+    rm -rf /var/www/html/.git && \
+    cd /var/www/html && \
+    composer install && \
+    php bin/console cache:clear && \
+    php bin/console cache:warmup && \
+    chown -R www-data:www-data /var/www/html && \
+    npm install -g npm && \
+    npm install
     
 WORKDIR /var/www/html/
 
