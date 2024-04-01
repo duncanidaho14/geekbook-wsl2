@@ -41,7 +41,9 @@ https: ## Install ca
 	$(EXEC) symfony server:ca:install
 	$(EXEC) mkcert -install
 	
-	
+cert: ## Install Certification
+	$(EXEC) wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem
+
 ## Test 💯 ------------------------
 
 .PHONY: tests
@@ -98,6 +100,7 @@ composer-update: ## Update dependencies
 ## —— 🐈 NPM —————————————————————————————————————————————————————————————————
 .PHONY: npm
 npm-install: ## Install all npm dependencies
+	$(NPM) install -g npm
 	$(NPM) install
 	$(NPX) tailwindcss init -p
 
@@ -153,6 +156,7 @@ messenger: ## Consuming message
 ##---	 DockerHub build ------------------------------------------------------------------------------------
 .PHONY: prod
 hub-build: ## Docker build hub
+	$(MAKE) npm-build
 	docker image build -f ./docker/Dockerfile -t duncanidaho/geekbook:latest .
 
 hub-push:  ## Docker push hub

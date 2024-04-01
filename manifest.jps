@@ -4,7 +4,7 @@ id: geekbook
 categories: ["apps/dev-and-admin-tools"]
 
 description: |
-  AFFiNE deployment manifest file for Jelastic
+  GeekBook deployment manifest file for Jelastic
   
 ssl: true
 
@@ -19,6 +19,65 @@ nodes:
     volumes:
       - /var/www/html/
 
+  - image: traefik:v2.0.2
+    count: 1
+    cloudlets: 8
+    displayName: Traefik
+    volumes:
+      - /letsencrypt
+      - /etc/traefik
+      - /var/run/docker.sock
+
+  - image: postgres:15-alpine
+    count: 1
+    cloudlets: 8
+    displayName: PostgreSQL
+    volumes:
+      - /var/www/html/postgresql/data
+
+  - image: gkbook
+    count: 1
+    cloudlets: 8
+    displayName: GeekBookApp
+    dependsOn:
+      - PostgreSQL
+      - Traefik
+    volumes:
+      - /etc/apache2/sites-enabled
+      - /var/www/html
+
+  - image: httpd:2.4
+    count: 1
+    cloudlets: 8
+    displayName: Apache
+    dependsOn:
+      - PostgreSQL
+      - Traefik
+    volumes:
+      - /usr/local/apache2/conf.d/default-ssl.conf
+      - /usr/local/apache2/ssl
+      - /var/www/html
+
+  - image: schickling/mailcatcher
+    count: 1
+    cloudlets: 8
+    displayName: Mailer
+
+  - image: getmeili/meilisearch:latest
+    count: 1
+    cloudlets: 8
+    displayName: Meilisearch
+    volumes:
+      - /meilisearch_data
+
+  - image: dunglas/mercure
+    count: 1
+    cloudlets: 8
+    displayName: Mercure
+    volumes:
+      - /data
+      - /config
+
 
 success: |
-  Your AFFiNE environment is ready to go!
+  Your GeekBook environment is ready to go!
