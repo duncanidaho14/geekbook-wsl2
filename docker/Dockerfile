@@ -77,15 +77,13 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 
 COPY . /var/www/html/
 
-RUN rm -rf /var/www/html/project/vendor && \
-    rm -rf /var/www/html/project/.git && \
-    cd /var/www/html && \
-    composer install && \
-    php bin/console cache:clear && \
-    php bin/console cache:warmup && \
-    chown -R www-data:www-data /var/www/html && \
-    npm install -g npm && \
-    npm install
+# RUN cd /var/www/html && \
+#     composer install && \
+#     php bin/console cache:clear && \
+#     php bin/console cache:warmup && \
+#     chown -R www-data:www-data /var/www/html && \
+#     npm install -g npm && \
+#     npm install
     
 WORKDIR /var/www/html/
 
