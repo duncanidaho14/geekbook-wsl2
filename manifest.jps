@@ -9,6 +9,19 @@ description: |
 ssl: true
 
 nodes:
+  - image: duncanidaho/geekbook:latest
+    count: 1
+    cloudlets: 8
+    fixedCloudlets: 1
+    nodeGroup: geekbook
+    displayName: GeekBook
+    isSLBAccessEnabled: false
+    dependsOn:
+      - PostgreSQL
+      - Traefik
+    volumes:
+      - /var/www/html/
+  
   - image: traefik:v2.0.2
     count: 1
     cloudlets: 8
@@ -22,28 +35,15 @@ nodes:
   - image: postgres:15-alpine
     count: 1
     cloudlets: 8
-    nodeGroup: cp
+    nodeGroup: postgredb
     displayName: PostgreSQL
     volumes:
       - /var/www/html/postgresql/data
 
-  - image: duncanidaho/geekbook:latest
-    count: 1
-    cloudlets: 8
-    fixedCloudlets: 1
-    nodeGroup: cp
-    displayName: GeekBook
-    isSLBAccessEnabled: false
-    dependsOn:
-      - PostgreSQL
-      - Traefik
-    volumes:
-      - /var/www/html/
-
   - image: httpd:2.4
     count: 1
     cloudlets: 8
-    nodeGroup: cp
+    nodeGroup: apache
     displayName: Apache
     dependsOn:
       - PostgreSQL
@@ -56,13 +56,13 @@ nodes:
   - image: schickling/mailcatcher
     count: 1
     cloudlets: 8
-    nodeGroup: cp
+    nodeGroup: mailcatcher
     displayName: Mailer
 
   - image: getmeili/meilisearch:latest
     count: 1
     cloudlets: 8
-    nodeGroup: cp
+    nodeGroup: meili
     displayName: Meilisearch
     volumes:
       - /meilisearch_data
@@ -70,30 +70,11 @@ nodes:
   - image: dunglas/mercure
     count: 1
     cloudlets: 8
-    nodeGroup: cp
+    nodeGroup: mercure
     displayName: Mercure
     volumes:
       - /data
       - /config
-  
-  - image: reverse-proxy-https-helper
-    count: 1
-    cloudlets: 2
-    nodeGroup: cp
-    displayName: reverseProxy
-    volumes:
-      - /etc/ssl/traefik
-
-  - image: gkbook
-    count: 1
-    cloudlets: 8
-    nodeGroup: cp
-    displayName: Gkbook
-    volumes:
-      - /var/www/html
-    dependsOn:
-      - PostgreSQL
-      - Traefik
 
 
 success: |
