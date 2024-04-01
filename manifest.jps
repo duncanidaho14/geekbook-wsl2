@@ -35,17 +35,6 @@ nodes:
     volumes:
       - /var/www/html/postgresql/data
 
-  - image: gkbook
-    count: 1
-    cloudlets: 8
-    displayName: GeekBookApp
-    dependsOn:
-      - PostgreSQL
-      - Traefik
-    volumes:
-      - /etc/apache2/sites-enabled
-      - /var/www/html
-
   - image: httpd:2.4
     count: 1
     cloudlets: 8
