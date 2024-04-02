@@ -13,7 +13,7 @@ nodes:
     count: 1
     cloudlets: 8
     fixedCloudlets: 1
-    nodeGroup: geekbook
+    nodeGroup: cp
     displayName: GeekBook
     isSLBAccessEnabled: false
     dependsOn:
@@ -34,16 +34,22 @@ nodes:
 
   - image: postgres:15-alpine
     count: 1
-    cloudlets: 8
-    nodeGroup: postgredb
+    cloudlets: 16
+    nodeGroup: cp
     displayName: PostgreSQL
     volumes:
       - /var/www/html/postgresql/data
+    env:
+      PGADMIN_DEFAULT_EMAIL: ${globals.email}
+      PGADMIN_DEFAULT_PASSWORD: ${globals.password}
+      PGADMIN_LISTEN_PORT: 8080
+      JELASTIC_EXPOSE: 8080
+    startService: false
 
   - image: httpd:2.4
     count: 1
     cloudlets: 8
-    nodeGroup: apache
+    nodeGroup: cp
     displayName: Apache
     dependsOn:
       - PostgreSQL
@@ -56,13 +62,13 @@ nodes:
   - image: schickling/mailcatcher
     count: 1
     cloudlets: 8
-    nodeGroup: mailcatcher
+    nodeGroup: cp
     displayName: Mailer
 
   - image: getmeili/meilisearch:latest
     count: 1
     cloudlets: 8
-    nodeGroup: meili
+    nodeGroup: cp
     displayName: Meilisearch
     volumes:
       - /meilisearch_data
@@ -70,7 +76,7 @@ nodes:
   - image: dunglas/mercure
     count: 1
     cloudlets: 8
-    nodeGroup: mercure
+    nodeGroup: cp
     displayName: Mercure
     volumes:
       - /data
