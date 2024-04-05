@@ -95,9 +95,8 @@ actions:
 
   symfonycli:
     cmd[cp]: |-
-      cd /etc/apt/sources.list.d/
-      touch symfonycli.log
-      echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfonycli.log
+      cd /var/www/html
+      curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash
       apt update
       apt install symfony-cli
     user: root
