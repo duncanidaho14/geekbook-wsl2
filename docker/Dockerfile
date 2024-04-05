@@ -17,6 +17,7 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
   && curl -sL https://deb.nodesource.com/setup_18.x | bash \
   && apt-get install -y nodejs \
+  && apt-get install -g npm \
   \
   &&  curl -sS https://get.symfony.com/cli/installer | bash \
   &&  mv /root/.symfony5/bin/symfony /usr/local/bin \ 
