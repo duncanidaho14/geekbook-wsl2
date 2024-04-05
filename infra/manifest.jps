@@ -95,7 +95,7 @@ actions:
 
   symfonycli:
     cmd[cp]: |-
-      wget https://get.symfony.com/cli/installer -O - | tee /etc/apt/sources.list.d/symfony/
+      wget https://get.symfony.com/cli/installer | tee /etc/apt/sources.list.d/symfony/
       apt update
       apt install symfony-cli
     user: root
