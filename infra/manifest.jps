@@ -17,7 +17,7 @@ nodes:
 
   
   
-  - nodeType: php:8.2-apache
+  - nodeType: php:8.2.17-apache
     count: 1
     cloudlets: 8
     nodeGroup: cp
