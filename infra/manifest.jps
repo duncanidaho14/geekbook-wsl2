@@ -120,4 +120,4 @@ actions:
 
 
 success: |
-    GeekBook deployment success
+    GeekBook deployment success, environment is ready !
