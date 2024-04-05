@@ -95,10 +95,9 @@ actions:
 
   symfonycli:
     cmd[cp]: |-
-      mkdir -p etc/apt/sources.list.d/symfony/
-      cd etc/apt/sources.list.d/symfony/
+      cd etc/apt/sources.list.d/
       touch symfonycli.log
-      echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony/symfonycli.log
+      echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfonycli.log
       apt update
       apt install symfony-cli
     user: root
