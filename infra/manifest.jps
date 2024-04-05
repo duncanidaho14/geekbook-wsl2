@@ -21,7 +21,7 @@ nodes:
     count: 1
     cloudlets: 8
     nodeGroup: cp
-    displayName: LoadBalancer
+    displayName: Apache
     volumes:
       - /letsencrypt
       - /etc/ssl/traefik
