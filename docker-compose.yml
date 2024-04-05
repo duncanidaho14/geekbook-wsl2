@@ -59,8 +59,8 @@ services:
     environment:
       POSTGRES_DB: geekbook
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: H#isoka44
-      POSTGRES_USER: killua
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
     volumes:
       - database_data:/var/www/html/postgresql/data:rw
     networks:
@@ -71,8 +71,8 @@ services:
     image: gkbook
     container_name: www_geekbook_app
     environment:
-      POSTGRES_PASSWORD: H#isoka44
-      POSTGRES_USER: killua
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
     labels:
       - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"

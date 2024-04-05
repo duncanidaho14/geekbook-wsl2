@@ -1,9 +1,6 @@
-cd project
-composer install
-npm install
-php bin/console cache:clear
-php bin/console cache:warmup
-php bin/console doctrine:database:create
-php bin/console doctrine:migration:migrate
-cd ..
-exec apache2-foreground
+cd project/ && composer install
+cd project/ && npm install
+cd project/ && php bin/console cache:clear
+cd project/ && php bin/console cache:warmup
+cd project/ && php bin/console doctrine:database:create
+cd project/ && php bin/console doctrine:migration:migrate
