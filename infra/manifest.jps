@@ -39,6 +39,12 @@ nodes:
       PGADMIN_DEFAULT_EMAIL: ${globals.email}
       PGADMIN_DEFAULT_PASSWORD: ${globals.password}
 
+  - image: n8nio/n8n
+    count: 1
+    cloudlets: 8
+    nodeGroup: n8n
+    displayName: N8N
+
   - image: schickling/mailcatcher
     count: 1
     cloudlets: 8
