@@ -123,7 +123,7 @@ actions:
       -o /usr/local/bin/install-php-extensions \
       https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | sh -s 
       chmod +x /usr/local/bin/install-php-extensions && \
-      install-php-extensions intl pgsql pdo pdo_pgsql opcache zip calendar dom mbstring gd xsl nano
+      install-php-extensions intl pgsql pdo pdo_pgsql opcache zip calendar dom mbstring gd xsl
 
 
 success: |
