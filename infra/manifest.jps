@@ -14,8 +14,6 @@ nodes:
     cloudlets: 8
     nodeGroup: bl
     displayName: LoadBalancer
-
-  
   
   - image: php:8.2-apache
     count: 1
@@ -27,7 +25,7 @@ nodes:
       - /etc/ssl/traefik
       - /var/run/docker.sock
 
-  - image: postgres:15.6
+  - image: PostgresSQL:15.6
     count: 1
     cloudlets: 8
     nodeGroup: sqldb
