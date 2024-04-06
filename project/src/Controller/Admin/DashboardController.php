@@ -43,7 +43,7 @@ class DashboardController extends AbstractDashboardController
         $this->orderDetailsRepository = $orderDetailsRepository;
     }
 
-    #[Route('/admin', name: 'admin', schemes:['https'])]
+    #[Route('/admin_846159284673', name: 'admin', schemes:['https'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {

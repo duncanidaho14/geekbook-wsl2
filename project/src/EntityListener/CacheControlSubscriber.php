@@ -22,4 +22,5 @@ class CacheControlSubscriber implements EventSubscriberInterface
             KernelEvents::RESPONSE => 'onUserLogout',
         ];
     }
+
 }

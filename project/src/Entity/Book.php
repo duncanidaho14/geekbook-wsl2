@@ -9,13 +9,12 @@ use App\Repository\BookRepository;
 use Gedmo\Mapping\Annotation\Slug;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[HasLifecycleCallbacks]
+#[ORM\HasLifecycleCallbacks]
 class Book
 {
     #[ORM\Id]

@@ -15,8 +15,6 @@ SYMFONY_CONSOLE = $(PHP) bin/console
 GREEN = /bin/echo -e "\x1b[32m\#\# $1\x1b[0m"
 RED = /bin/echo -e "\x1b[31m\#\# $1\x1b[0m"
 
-#	$(EXEC) curl -H Host:whoami.docker.localhost http://127.0.0.1
-
 ## Symfony 📖  -----------------------------------------------
 
 ## App 👍      -----------------------------------------------
@@ -100,7 +98,6 @@ composer-update: ## Update dependencies
 ## —— 🐈 NPM —————————————————————————————————————————————————————————————————
 .PHONY: npm
 npm-install: ## Install all npm dependencies
-	$(NPM) install -g npm
 	$(NPM) install
 	$(NPM) audit fix
 	$(NPX) tailwindcss init -p
@@ -144,7 +141,7 @@ migrate: ## Alias : database-migrate
 	$(MAKE) database-migrate
 
 database-fixtures-load: ## Load fixtures
-	$(SYMFONY_CONSOLE) d:f:l -n --purge-with-truncate --no-interaction
+	$(SYMFONY_CONSOLE) d:f:l -n --purge-with-truncate --no-interaction /DataFixtures/AppFixtures.php
 
 fixtures: ## Alias : database-fixtures-load
 	$(MAKE) database-fixtures-load -n --purge-with-truncate
