@@ -112,7 +112,7 @@ class Basket
             'quantityCart' => $quantityCart,
             'subTotalHT' => $subTotal,
             'taxe' => $subTotal * self::TVA,
-            'subTotalTTC' => $subTotal + ($subTotal * self::TVA),
+            'subTotalTTC' => $subTotal + ($subTotal * self::TVA) + 2
         ];
 
         return $basketOver;

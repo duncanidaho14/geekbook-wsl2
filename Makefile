@@ -24,7 +24,6 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
-	$(MAKE) cs-fixer
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
@@ -135,16 +134,17 @@ migration: ## Alias : database-migration
 	$(MAKE) database-migration
 
 database-migrate: ## Migrate migrations
-	$(SYMFONY_CONSOLE) d:m:m --no-interaction
+	$(SYMFONY_CONSOLE) doctrine:migrations:migrate --no-interaction
 
 migrate: ## Alias : database-migrate
 	$(MAKE) database-migrate
 
+
 database-fixtures-load: ## Load fixtures
-	$(SYMFONY_CONSOLE) d:f:l -n --purge-with-truncate --no-interaction /DataFixtures/AppFixtures.php
+	$(SYMFONY_CONSOLE) doctrine:fixtures:load -n --purge-with-truncate --no-interaction
 
 fixtures: ## Alias : database-fixtures-load
-	$(MAKE) database-fixtures-load -n --purge-with-truncate
+	$(MAKE) database-fixtures-load
 
 ##--- 🀄   Messenger consume ---------------------------------------------------------------------------------
 .PHONY: messenger

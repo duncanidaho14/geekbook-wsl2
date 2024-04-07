@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-ENV APP_ENV=prod
+#ENV APP_ENV=prod
 
 RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
