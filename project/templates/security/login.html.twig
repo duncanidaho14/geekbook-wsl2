@@ -46,7 +46,12 @@
                     <input type="hidden" name="_csrf_token"
                         value="{{ csrf_token('authenticate') }}"
                     >
-                    <button type="submit" value="Se connecter" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8">Se connecter</button>
+                    <button type="submit" id="login_form" value="Se connecter" 
+                        class=" bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
+                        data-sitekey="6LfnhLQpAAAAAI9MEANONgL1HbqY3A8gMWndChrl" 
+                        data-callback='onSubmit' 
+                        data-action='submit'
+                    >Se connecter</button>
                 </form>
                 <div class="text-center pt-12 pb-12">
                     <p>Vous n'avez pas de compte ? <a href="{{path('app_register')}}" class="underline font-semibold">Inscription ici.</a></p>
@@ -63,4 +68,34 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://www.google.com/recaptcha/api.js?render=6LfnhLQpAAAAAI9MEANONgL1HbqY3A8gMWndChrl"></script>
+
+<script>
+const siteKey = '6LfnhLQpAAAAAI9MEANONgL1HbqY3A8gMWndChrl';
+
+//either on page load
+grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, {
+        action: 'app_login'
+    }).then(function(token) {
+        //the token will be sent on form submit
+        $('[name="captcha"]').val(token);
+        //keep in mind that token expires in 120 seconds so it's better to add setTimeout.
+    });
+});
+
+//or on form post:
+grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, {
+        action: 'app_login'
+    }).then(function(token) {
+        //submit the form
+        return http.post(url, {email, captcha: token});
+    });
+});
+</script>
+
 {% endblock %}

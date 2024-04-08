@@ -23,10 +23,5 @@ initTE({ Ripple, Animate });
 
 Turbo.setProgressBarDelay(1);
 
-function onClick(e) {
-    e.preventDefault();
-    grecaptcha.enterprise.ready(async () => {
-      const token = await grecaptcha.enterprise.execute('6Lf4KLIpAAAAANk9vPixJ8IfOJcN40WN2fqW01_Z', {action: 'LOGIN'});
-    });
-}
+
 

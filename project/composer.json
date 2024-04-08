@@ -17,7 +17,7 @@
         "guzzlehttp/guzzle": "^7.7",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "http-interop/http-factory-guzzle": "^1.0",
-        "karser/karser-recaptcha3-bundle": "^0.1.23",
+        "karser/karser-recaptcha3-bundle": "^0.1.26",
         "meilisearch/meilisearch-php": "^1.7",
         "meilisearch/search-bundle": "^0.15.0",
         "mikehaertl/phpwkhtmltopdf": "^2.5",
