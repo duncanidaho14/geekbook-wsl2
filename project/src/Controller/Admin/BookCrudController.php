@@ -34,7 +34,7 @@ class BookCrudController extends AbstractCrudController
             TextEditorField::new('description'),
             DateTimeField::new('publishedAt'),
             SlugField::new('slug')->setTargetFieldName('title'),
-            MoneyField::new('price')->setCurrency('EUR'),
+            MoneyField::new('price')->setNumDecimals(2)->setCustomOption('storedAsCents', false)->setCurrency('EUR'),
             TextField::new('langue'),
             IntegerField::new('nbPages'),
             TextField::new('dimension'),

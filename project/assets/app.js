@@ -15,6 +15,7 @@ import {
 } from "tw-elements";
 import 'flowbite';
 import './images/hero.png';
+import logoPath from './images/logo.svg';
 
 initTE({ Ripple, Animate });
 
@@ -28,3 +29,4 @@ function onClick(e) {
       const token = await grecaptcha.enterprise.execute('6Lf4KLIpAAAAANk9vPixJ8IfOJcN40WN2fqW01_Z', {action: 'LOGIN'});
     });
 }
+

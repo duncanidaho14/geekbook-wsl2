@@ -6,6 +6,7 @@
 parameters:
     router.request_context.scheme: 'https'
     asset.request_context.secure: true
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     
 services: 
     App\EntityListener\CacheControlSubscriber:
