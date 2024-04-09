@@ -84,6 +84,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTime $birthday = null;
 
+    #[Assert\NotBlank(groups: ['registration'])]
+    #[ORM\Column(length: 255)]
+    private ?string $captcha = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -353,6 +357,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(\DateTime $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getCaptcha(): ?string
+    {
+        return $this->captcha;
+    }
+
+    public function setCaptcha(string $captcha): self
+    {
+        $this->captcha = $captcha;
 
         return $this;
     }

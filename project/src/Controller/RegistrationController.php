@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
@@ -33,7 +34,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, Recaptcha3Validator $recaptcha3Validator, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
 
         $user = new User();
@@ -41,11 +42,10 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
 
-
-
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd(str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html'));
 
-            if (str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html')) {
+            //if (str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html')) {
 
                 // encode the password
                 $user->setPassword(
@@ -56,7 +56,8 @@ class RegistrationController extends AbstractController
                 );
                 $user->setFirstName(ucfirst($form->get('firstName')->getData()));
                 $user->setLastName(ucfirst($form->get('lastName')->getData()));
-
+                $score = $recaptcha3Validator->getLastResponse()->getScore();
+                $user->setCaptcha($score);
                 $entityManager->persist($user);
                 $entityManager->flush();
 
@@ -75,7 +76,6 @@ class RegistrationController extends AbstractController
                         ])
                 );
 
-
                 $this->addFlash(
                     'success',
                     'confirmer votre email %s '
@@ -88,8 +88,12 @@ class RegistrationController extends AbstractController
                 );
 
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-            }
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            //}
+            // $this->addFlash(
+            //     'failed',
+            //     'Tu es sûre %s ? '
+            // );
+            // return $this->redirectToRoute('app_register', [], Response::HTTP_SEE_OTHER);
         }
 
         if ($form->isSubmitted() && !$form->isValid()) {

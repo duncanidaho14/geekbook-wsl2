@@ -76,26 +76,15 @@
 <script>
 const siteKey = '6LfnhLQpAAAAAI9MEANONgL1HbqY3A8gMWndChrl';
 
-//either on page load
-grecaptcha.ready(function() {
-    grecaptcha.execute(siteKey, {
-        action: 'app_login'
-    }).then(function(token) {
-        //the token will be sent on form submit
-        $('[name="captcha"]').val(token);
-        //keep in mind that token expires in 120 seconds so it's better to add setTimeout.
-    });
-});
+function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6LfnhLQpAAAAAI9MEANONgL1HbqY3A8gMWndChrl', {action: 'submit'}).then(function(token) {
+              // Add your logic to submit to your backend server here.
+          });
+        });
+      }
 
-//or on form post:
-grecaptcha.ready(function() {
-    grecaptcha.execute(siteKey, {
-        action: 'app_login'
-    }).then(function(token) {
-        //submit the form
-        return http.post(url, {email, captcha: token});
-    });
-});
 </script>
 
 {% endblock %}

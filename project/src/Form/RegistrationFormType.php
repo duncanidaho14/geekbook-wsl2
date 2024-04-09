@@ -139,10 +139,13 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('captcha', Recaptcha3Type::class, [
-                'constraints' => new Recaptcha3(),
-                'action_name' => 'app_register',
+                'constraints' => new Recaptcha3 ([
+                    'message' => 'karser_recaptcha3.message',
+                    'messageMissingValue' => 'karser_recaptcha3.message_missing_value',
+                ]),
+                'action_name' => 'submit',
                 'locale' => 'fr',
-            ])
+           ])
         ;
     }
 
