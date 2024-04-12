@@ -1,5 +1,3 @@
-version: '3.9'
-
 networks:
   proxy:
     name: proxy
@@ -53,7 +51,7 @@ services:
       - proxy
 
   db:
-    image: bitnami/postgresql:latest
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
     container_name: db_geekbook_app
     restart: always
     environment:
@@ -63,20 +61,6 @@ services:
       POSTGRES_USER: postgres
     volumes:
       - database_data:/var/www/html/postgresql/data:rw
-    networks:
-      - proxy
-  
-  ddb:
-    image: bitnami/postgresql:latest
-    container_name: ddb_geekbook_app
-    restart: always
-    environment:
-      POSTGRES_DB: geekbookprod
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: postgrespw
-      POSTGRES_USER: postgres
-    volumes:
-      - database_data_two:/var/www/html/postgresql/data_two:rw
     networks:
       - proxy
 
@@ -123,18 +107,17 @@ services:
       - proxy 
       # vérifier le port 1080
 
+###> meilisearch/search-bundle ###
   meilisearch:
-    image: getmeili/meilisearch:latest
-    container_name: meilisearch
-    restart: always
+    image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
     environment:
-      MEILI_MASTER_KEY: "86d2249591515cd4b3a0ee62c207c4dffc68acac"
+      # You should definitely change the master key in production
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
     volumes:
-      - ./meilisearch_data:/meilisearch_data
+      - meilisearch_data:/meili_data
     networks:
       - proxy
-    depends_on:
-      - db
+###< meilisearch/search-bundle ###
 
   mercure:
     image: dunglas/mercure
@@ -151,7 +134,6 @@ services:
 
 volumes:
   database_data:
-  database_data_two:
   meilisearch_data:
   certs:
   mercure_data:

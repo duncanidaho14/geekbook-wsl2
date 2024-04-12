@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation\Timestampable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
-#[HasLifecycleCallbacks]
+#[ORM\HasLifecycleCallbacks]
 class Comment
 {
     #[ORM\Id]

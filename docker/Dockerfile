@@ -41,6 +41,11 @@ RUN apt-get install -y \
     && wget https://github.com/h4cc/wkhtmltoimage-amd64/blob/master/bin/wkhtmltoimage-amd64?raw=true -O /usr/bin/wkhtmltoimage \
     && chmod +x /usr/bin/wkhtmltoimage
 
+RUN curl -L https://install.meilisearch.com | sh \
+    && composer require meilisearch/search-bundle symfony/http-client nyholm/psr7 \
+    && chmod +x meilisearch \
+    && mv meilisearch /usr/bin/meilisearch
+
 RUN apt install -y openssl
 
 RUN apt install -y openssh-server

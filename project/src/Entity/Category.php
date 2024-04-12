@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     #[ORM\Id]

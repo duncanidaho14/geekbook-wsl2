@@ -117,7 +117,7 @@ database-init: ## Init database
 	$(MAKE) database-create
 	$(MAKE) database-migrate
 	$(MAKE) database-fixtures-load
-
+	
 database-drop: ## Create database
 	$(SYMFONY_CONSOLE) d:d:d --force --if-exists
 
@@ -145,6 +145,12 @@ database-fixtures-load: ## Load fixtures
 
 fixtures: ## Alias : database-fixtures-load
 	$(MAKE) database-fixtures-load
+
+meili-clear: ## Alias: meili clear
+	$(SYMFONY_CONSOLE) meili:clear
+
+meili-import: ## Alias: meili import
+	$(SYMFONY_CONSOLE) meili:import
 
 ##--- 🀄   Messenger consume ---------------------------------------------------------------------------------
 .PHONY: messenger

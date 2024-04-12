@@ -75,7 +75,7 @@
         "version": "2.9.0"
     },
     "meilisearch/search-bundle": {
-        "version": "0.12",
+        "version": "0.15",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",

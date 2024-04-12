@@ -2,7 +2,7 @@
 <h2> {{ sender_email }}</h2>
 <p>
     SVP confirmer votre adresse mail en cliquant sur le lien suivant: <br><br>
-    <a href="https://{{ signedUrl|raw }}">Confirmer mon adresse mail</a>.
+    <a href="{{ signedUrl|raw }}">Confirmer mon adresse mail</a>.
     Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 

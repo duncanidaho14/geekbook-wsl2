@@ -13,6 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchController extends AbstractController
 {
+    public function __construct(
+        private readonly SearchService $searchService,
+    ) {
+    }
+
     #[Route('/rechercher', name: 'app_search')]
     public function index(SearchService $searchService, Request $request, EntityManagerInterface $manager): Response
     {
@@ -26,7 +31,7 @@ class SearchController extends AbstractController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $searchResponse = $searchService->rawSearch(Book::class, $searchQuery, [
+            $searchResponse = $searchService->search($manager, Book::class, $searchQuery, [
                 'attributesToHighlight' => ['title', 'introduction'],
                 'highlightPreTag' => '<mark>',
                 'highlightPostTag' => '</mark>',
