@@ -25,8 +25,6 @@ class StripeSuccessPaymentController extends AbstractController
             $cart->remove();
         }
 
-
-
         return $this->render('stripe_success_payment/index.html.twig', [
             'order' => $order,
         ]);

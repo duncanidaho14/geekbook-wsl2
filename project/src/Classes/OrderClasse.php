@@ -7,7 +7,6 @@ use App\Entity\Order;
 use App\Classes\Basket;
 use App\Entity\Book;
 use App\Entity\OrderDetails;
-use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -24,8 +23,9 @@ class OrderClasse
 
     public function createOrder(Basket $cart)
     {
+        dd($cart->getCart());
         $order = new Order();
-
+           
         $order->setReference($cart->getReference())
             ->setCarrierName($carrier->getName())
             ->setCarrierPrice($carrier->getPrice())
@@ -44,8 +44,8 @@ class OrderClasse
 
         $this->entityManager->persist($order);
 
-        $products = $cart->getCartDetails()->getValues();
-        dd($products);
+        $products = $cart->getAllBasket()->getValues();
+        
         foreach ($products as $cartProduct) {
             $orderDetails = new OrderDetails();
 

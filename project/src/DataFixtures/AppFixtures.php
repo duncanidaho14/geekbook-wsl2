@@ -42,6 +42,7 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setAgreeTerms(true)
             ->setBirthday(new \DateTime("26-04-1999 04:44"))
+            ->setCaptcha($faker->sentence(1))
         ;
 
         $password = $this->hasher->hashPassword($admin, 'password');
@@ -62,6 +63,7 @@ class AppFixtures extends Fixture
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setBirthday($faker->dateTime())
+                ->setCaptcha($faker->sentence(1))
             ;
             $addresses = [];
             for ($addr = 0; $addr < 3; $addr++) {

@@ -6,9 +6,14 @@
 parameters:
     router.request_context.scheme: 'https'
     asset.request_context.secure: true
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     
 services: 
     App\EntityListener\CacheControlSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    App\EntityListener\BookEntityListener:
         tags:
             - { name: kernel.event_subscriber }
     # default configuration for services in *this* file
@@ -30,6 +35,14 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
+    
+    App\Service\CloudflareIpResolver:
+        decorates: 'karser_recaptcha3.ip_resolver'
+        arguments:
+            $decorated: '@App\Service\CloudflareIpResolver.inner'
+            $requestStack: '@request_stack'
+    
+    
 
     
     

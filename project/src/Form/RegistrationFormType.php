@@ -8,7 +8,6 @@ use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,14 +25,14 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('birthday', BirthdayType::class, [
                 'widget' => 'single_text',
-                'label' => "Date de naissance",
+                'label' => "Date de naissance *",
                 'required' => true,
                 'placeholder' => [
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
                 ],
                 //'format' => 'dd-MM-YYYY',
                 'years' => range((int) date('Y') - 120, date('Y')),
-                'invalid_message' => 'Please enter a valid birthdate.'
+                'invalid_message' => 'Entrer une date d\'anniversaire correcte'
             ])
             ->add('firstName', TextType::class, [
                 'attr' => ['class' => 'tinymce'],
@@ -99,20 +98,20 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => [
                     'label' => 'Mot de passe *',
                     'label_attr' => [
-                        'class' => 'text-lg'
+                        'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                     ],
                     'attr' => [
-                        'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
                         'placeholder' => 'Vôtre mot de passe'
                     ]
                 ],
                 'second_options' => [
                     'label' => 'Repéter mot de passe *',
                     'label_attr' => [
-                        'class' => 'text-lg'
+                        'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                     ],
                     'attr' => [
-                        'class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline',
+                        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
                         'placeholder' => 'Répéter le même mot de passe'
                     ]
                 ],
@@ -140,10 +139,13 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('captcha', Recaptcha3Type::class, [
-                'constraints' => new Recaptcha3(),
-                'action_name' => 'app_register',
+                'constraints' => new Recaptcha3 ([
+                    'message' => 'karser_recaptcha3.message',
+                    'messageMissingValue' => 'karser_recaptcha3.message_missing_value',
+                ]),
+                'action_name' => 'submit',
                 'locale' => 'fr',
-            ])
+           ])
         ;
     }
 

@@ -15,10 +15,13 @@ import {
 } from "tw-elements";
 import 'flowbite';
 import './images/hero.png';
+import logoPath from './images/logo.svg';
 
 initTE({ Ripple, Animate });
 
 
 
 Turbo.setProgressBarDelay(1);
+
+
 

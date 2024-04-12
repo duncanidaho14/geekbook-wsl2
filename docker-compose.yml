@@ -1,5 +1,3 @@
-version: '3.9'
-
 networks:
   proxy:
     name: proxy
@@ -109,16 +107,17 @@ services:
       - proxy 
       # vérifier le port 1080
 
+###> meilisearch/search-bundle ###
   meilisearch:
-    image: getmeili/meilisearch:${MEILISEARCH_VERSION:-latest}
-    container_name: meilisearch
-    restart: always
+    image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
     environment:
-      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-!ChangeMe!}
+      # You should definitely change the master key in production
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
     volumes:
-      - ./meilisearch_data:/meili_data
+      - meilisearch_data:/meili_data
     networks:
       - proxy
+###< meilisearch/search-bundle ###
 
   mercure:
     image: dunglas/mercure

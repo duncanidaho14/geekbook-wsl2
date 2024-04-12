@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-ENV APP_ENV=prod
+#ENV APP_ENV=prod
 
 RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
@@ -17,7 +17,6 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
   && curl -sL https://deb.nodesource.com/setup_18.x | bash \
   && apt-get install -y nodejs \
-  && apt-get install -g npm \
   \
   &&  curl -sS https://get.symfony.com/cli/installer | bash \
   &&  mv /root/.symfony5/bin/symfony /usr/local/bin \ 
@@ -41,6 +40,11 @@ RUN apt-get install -y \
     && chmod +x /usr/bin/wkhtmltopdf \
     && wget https://github.com/h4cc/wkhtmltoimage-amd64/blob/master/bin/wkhtmltoimage-amd64?raw=true -O /usr/bin/wkhtmltoimage \
     && chmod +x /usr/bin/wkhtmltoimage
+
+RUN curl -L https://install.meilisearch.com | sh \
+    && composer require meilisearch/search-bundle symfony/http-client nyholm/psr7 \
+    && chmod +x meilisearch \
+    && mv meilisearch /usr/bin/meilisearch
 
 RUN apt install -y openssl
 
@@ -91,7 +95,7 @@ COPY . /var/www/html/
     
 WORKDIR /var/www/html/
 
-ENTRYPOINT [ "bash", "./docker/docker.sh" ]
+# ENTRYPOINT [ "bash", "./docker/docker.sh" ]
 
 EXPOSE 7000
 

@@ -1,3 +1,4 @@
+{# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/templates/basic_search.css" /> #}
 <style>
 .gradient {
   background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
@@ -34,7 +35,10 @@
                           <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                           <span class="sr-only">Search icon</span>
                         </div>
-                        <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rechercher...">
+                        {# <div class="wrapper"> #}
+                          <input type="text" id="search-navbar" focus class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rechercher...">
+                          <div id="hits"></div>
+                        {# <div> #}
                       </div>
                       </a>
                     <li class="mr-3">
@@ -166,7 +170,31 @@
     </nav>
 </div>
 
+{# Meilisearch #}
 
+{# <script src="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/dist/instant-meilisearch.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+<script>
+  const search = instantsearch({
+    indexName: "app_dev_books",
+    searchClient: instantMeiliSearch(
+      "http://0.0.0.0:7700"
+    ).searchClient
+    });
+    search.addWidgets([
+      instantsearch.widgets.searchBox({
+        container: "#searchbox"
+      }),
+      instantsearch.widgets.configure({ hitsPerPage: 8 }),
+      instantsearch.widgets.hits({
+        container: "#hits",
+        templates: {
+        item: ''
+        }
+      })
+    ]);
+    search.start();
+</script> #}
 
 <script>
     var header = document.getElementById("header");

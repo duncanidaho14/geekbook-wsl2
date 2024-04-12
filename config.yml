@@ -1,0 +1,23 @@
+meilisearch:
+  api_url: http://host.docker.internal:7700/
+  api_key: 'L6HcrGLt6xvQaOXMXnyJ3CJhc1oUKKCRgfX4xqZ7bQE'
+  insert_size: 1000
+  insert_interval: 10
+
+source:
+  type: postgres
+  host: 127.0.0.1 # assuming your PostgreSQL server is running on the same machine as `meilisync`
+  port: 5432
+  database: geekbook
+  user: postgres
+  password: postgrespw
+
+sync:
+  - table: Book
+    index: MEILISEARCH_INDEX_NAME_1
+    pk: id # Read the "Primary key inference" section below
+    full: true
+  - table: Author
+    index: MEILISEARCH_INDEX_NAME_2
+    full: true
+

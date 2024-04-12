@@ -3,6 +3,18 @@
 {% block title %}Mes commandes sur GeekBook !{% endblock %}
 
 {% block body %}
+{% if orders|length == 0 %}
+<div class="mx-auto mt-40 bg-white text-gray-800 dark:bg-gray-800 dark:text-white">
+    <div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+       <div class="py-96 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+            <div class="flex justify-start item-start space-y-2 flex-col ">
+                <h1 class="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Vous n'avez aucune commande</h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
 <div class="mx-auto mt-40 bg-white text-gray-800 dark:bg-gray-800 dark:text-white">
     <div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
@@ -168,6 +180,7 @@
             </div>
         </div>
     </section>
+{% endif %}
 {% endblock %}
 
 

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 ###> doctrine/doctrine-bundle ###
   database:
@@ -20,7 +18,7 @@ services:
     image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
     environment:
       # You should definitely change the master key in production
-      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-!ChangeMe!}
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
     volumes:
       - meilisearch_data:/meili_data
 ###< meilisearch/search-bundle ###

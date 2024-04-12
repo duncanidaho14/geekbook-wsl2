@@ -6,4 +6,9 @@
 /project/vendor/
 /project/*.pem
 /project/.platform/
-
+/data.ms/**
+/meili_data/**
+meilisearch
+/dumps
+.php-cs-fixer.cache
+geekbook.session.sql

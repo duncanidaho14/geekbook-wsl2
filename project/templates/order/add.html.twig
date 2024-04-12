@@ -53,7 +53,7 @@
                             <h3 class="text-xl font-semibold leading-5 text-gray-800 dark:bg-gray-800 dark:text-white">Résumer</h3>
                             <div class="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
                                 <div class="flex justify-between  w-full dark:bg-gray-800 dark:text-white">
-                                    <p class="text-base leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Subtotal</p>
+                                    <p class="text-base leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Sous-total HT</p>
                                     <p class="text-base leading-4 text-gray-600 dark:bg-gray-800 dark:text-white">{{app.session.get('cartData').data.subTotalHT|number_format(2, ',', '.')}} €</p>
                                 </div>
                                 <div class="flex justify-between items-center w-full dark:bg-gray-800 dark:text-white">
@@ -64,11 +64,11 @@
                                 </div>
                                 <div class="flex justify-between items-center w-full dark:bg-gray-800 dark:text-white">
                                     <p class="text-base leading-4 text-gray-800">Transporteur</p>
-                                    <p class="text-base leading-4 text-gray-600">{{carrier.price}} €</p>
+                                    <p class="text-base leading-4 text-gray-600">{{carrier.price|number_format(2, ',', '.')}} €</p>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center w-full">
-                                <p class="text-base font-semibold leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Total</p>
+                                <p class="text-base font-semibold leading-4 text-gray-800 dark:bg-gray-800 dark:text-white">Total TTC</p>
                                 <p class="text-base font-semibold leading-4 text-gray-600 dark:bg-gray-800 dark:text-white">{{app.session.get('cartData').data.subTotalTTC|number_format(2, ',', '.')}} €</p>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <p class="text-lg font-semibold leading-6 text-gray-800 dark:bg-gray-800 dark:text-white">{{carrier.price}} €</p>
+                                <p class="text-lg font-semibold leading-6 text-gray-800 dark:bg-gray-800 dark:text-white">{{carrier.price|number_format(2, ',', '.')}} €</p>
                             </div>
                             <form action="{{ path('app_stripe_checkout', {'reference': reference }) }}" method="POST">
                                 <div class="w-full flex justify-center items-center dark:bg-gray-800 dark:text-white">
@@ -104,7 +104,7 @@
                     <div class="flex  flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0 ">
                         <div class="flex flex-col justify-start items-start flex-shrink-0">
                             <div class="flex justify-center  w-full  md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-                                <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar" />
+                                <img src="{{app.user.avatar}}" alt="avatar" />
                                 <div class=" flex justify-start items-start flex-col space-y-2">
                                     <p class="text-base font-semibold leading-4 text-left text-gray-800">{{app.user.firstName}} {{app.user.lastName}}</p>
                                     <p class="text-sm leading-5 text-gray-600">10 dernière commandes</p>

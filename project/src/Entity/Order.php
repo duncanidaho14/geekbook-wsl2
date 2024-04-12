@@ -78,6 +78,32 @@ class Order
         $this->books = new ArrayCollection();
     }
 
+    public function getTotalWT()
+    {
+        $subTotalTTC = 0;
+        $products = $this->getOrderDetails();   
+
+        foreach ($products as $product) {
+            $coeff = 1 + ($product->getTaxe() / 100);
+            $subTotalTTC += ($product->getProductPrice() * $coeff) * $product->getQuantity();
+        }
+
+        return $subTotalTTC + $this->getCarrierPrice();
+    }
+
+    public function getTotalTva()
+    {
+        $totalTva = 0;
+        $products = $this->getOrderDetails();
+
+        foreach ($products as $product) {
+            $coeff = $product->getTaxe() / 100;
+            $totalTva += $product->getProductPrice() * $coeff;
+        }
+
+        return $totalTva;
+    }
+
     public function __toString()
     {
         return $this->getFullName();

@@ -15,8 +15,6 @@ SYMFONY_CONSOLE = $(PHP) bin/console
 GREEN = /bin/echo -e "\x1b[32m\#\# $1\x1b[0m"
 RED = /bin/echo -e "\x1b[31m\#\# $1\x1b[0m"
 
-#	$(EXEC) curl -H Host:whoami.docker.localhost http://127.0.0.1
-
 ## Symfony 📖  -----------------------------------------------
 
 ## App 👍      -----------------------------------------------
@@ -26,7 +24,6 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
-	$(MAKE) cs-fixer
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
@@ -100,7 +97,6 @@ composer-update: ## Update dependencies
 ## —— 🐈 NPM —————————————————————————————————————————————————————————————————
 .PHONY: npm
 npm-install: ## Install all npm dependencies
-	$(NPM) install -g npm
 	$(NPM) install
 	$(NPM) audit fix
 	$(NPX) tailwindcss init -p
@@ -121,7 +117,7 @@ database-init: ## Init database
 	$(MAKE) database-create
 	$(MAKE) database-migrate
 	$(MAKE) database-fixtures-load
-
+	
 database-drop: ## Create database
 	$(SYMFONY_CONSOLE) d:d:d --force --if-exists
 
@@ -138,16 +134,23 @@ migration: ## Alias : database-migration
 	$(MAKE) database-migration
 
 database-migrate: ## Migrate migrations
-	$(SYMFONY_CONSOLE) d:m:m --no-interaction
+	$(SYMFONY_CONSOLE) doctrine:migrations:migrate --no-interaction
 
 migrate: ## Alias : database-migrate
 	$(MAKE) database-migrate
 
+
 database-fixtures-load: ## Load fixtures
-	$(SYMFONY_CONSOLE) d:f:l -n --purge-with-truncate --no-interaction
+	$(SYMFONY_CONSOLE) doctrine:fixtures:load -n --purge-with-truncate --no-interaction
 
 fixtures: ## Alias : database-fixtures-load
-	$(MAKE) database-fixtures-load -n --purge-with-truncate
+	$(MAKE) database-fixtures-load
+
+meili-clear: ## Alias: meili clear
+	$(SYMFONY_CONSOLE) meili:clear
+
+meili-import: ## Alias: meili import
+	$(SYMFONY_CONSOLE) meili:import
 
 ##--- 🀄   Messenger consume ---------------------------------------------------------------------------------
 .PHONY: messenger
