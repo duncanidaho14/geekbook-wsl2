@@ -152,6 +152,9 @@ meili-clear: ## Alias: meili clear
 meili-import: ## Alias: meili import
 	$(SYMFONY_CONSOLE) meili:import
 
+meili-delete: ## Alias: meili delete
+	$(SYMFONY_CONSOLE) meili:delete
+
 ##--- 🀄   Messenger consume ---------------------------------------------------------------------------------
 .PHONY: messenger
 messenger: ## Consuming message
