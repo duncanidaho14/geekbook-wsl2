@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
@@ -52,27 +51,36 @@ class BookController extends AbstractController
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $emptyForm = clone $form;
-        $form->handleRequest($request);
         $comments = $bookCount->getComments();
-
+        $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUserComment($this->getUser())
                     ->setBookComment($books);
+            
             $manager->persist($comment);
             $manager->flush();
             // 🔥 The magic happens here! 🔥
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                if (str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html')) {
 
-                return $this->render('book/success.stream.html.twig', [
-                    'book' => $books,
-                    'comment' => $comment,
-                    'commentsCount' => $comments->count() + 1,
-                    'form' => $emptyForm
-                ]);
+                    $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+                    return $this->render('book/success.stream.html.twig', [
+                        'book' => $books,
+                        'comment' => $comment,
+                        'commentsCount' => $comments->count() + 1,
+                        'form' => $emptyForm
+                    ]);
+                }
             }
             return $this->redirectToRoute('app_show_book', ['slug' => $books->getSlug()], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash(
+                'error',
+                'votre formulaire n\'est pas valide'
+            );
         }
 
 
@@ -84,8 +92,8 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[IsGranted("is_granted('ROLE_ADMIN')")]
     #[Route('/add/livre', name:'app_add_book')]
-    #[Security("is_granted('ROLE_ADMIN')")]
     public function addBook(Request $request, EntityManagerInterface $manager)
     {
         $book = new Book();
@@ -110,8 +118,8 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/edit/livre/{slug}', name:'app_edit_book')]
-    #[Security("is_granted('ROLE_ADMIN')")]
     public function editBook(Request $request, EntityManagerInterface $manager, Book $book, string $slug)
     {
         $form = $this->createForm(BookType::class, $book);
@@ -133,8 +141,8 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/supprimer/livre/{slug}', name:'app_delete_book')]
-    #[Security("is_granted('ROLE_ADMIN')")]
     public function deleteBook(Book $book, EntityManagerInterface $manager)
     {
         $manager->remove($book);

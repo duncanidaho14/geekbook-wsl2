@@ -103,32 +103,52 @@ services:
 
   mailer:
     image: schickling/mailcatcher
+    container_name: www_meiler_app
+    ports:
+      - "1025:1080"
     networks:
       - proxy 
-      # vérifier le port 1080
 
 ###> meilisearch/search-bundle ###
   meilisearch:
     image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
+    container_name: meilisearch_db_app
     environment:
       # You should definitely change the master key in production
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
+    ports:
+      - "7800:7700"
     volumes:
       - meilisearch_data:/meili_data
     networks:
       - proxy
 ###< meilisearch/search-bundle ###
 
+  ###> symfony/mercure-bundle ###
   mercure:
     image: dunglas/mercure
-    command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
+    container_name: www_mercure_app
+    restart: unless-stopped
     environment:
-        SERVER_NAME: ':7001'
-        MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-        MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins https://gkbook.traefik.me
+    ports:
+      - "8888:80"
     volumes:
-      - mercure_data:/data
-      - mercure_config:/config
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - proxy
+###< symfony/mercure-bundle ###
+  caddy:
+    image: abiosoft/caddy
+    container_name: caddy
+    volumes:
+      - './caddy/Caddyfile/Caddyfile.dev:/etc/caddy/Caddyfile'
+      - './src:/srv'
+      - './caddy:/root/.caddy'
     networks:
       - proxy
 
@@ -136,5 +156,5 @@ volumes:
   database_data:
   meilisearch_data:
   certs:
-  mercure_data:
-  mercure_config:
+  caddy_data:
+  caddy_config:

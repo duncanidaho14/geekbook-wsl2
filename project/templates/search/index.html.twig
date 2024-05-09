@@ -4,15 +4,15 @@
 
 {% block body %}
 
-<h1 class="mt-96 text-center text-green-700 border-purple-200 rounded-lg shadow dark:bg-purple-800 dark:border-purple-700">Les livres de GeekBook</h1>
+<h1 class="text-center text-green-700 border-purple-200 rounded-lg shadow dark:bg-purple-800 dark:border-purple-700">Rechercher sur GeekBook</h1>
 
-<div class="container m-20 ">
+<div class="container m-20 dark:text-white dark:bg-gray-800">
 <div class="flex flex-wrap">
     {% if searchQuery %}
         <h2 class="mb-4 display-6">
             🔍Contient {{ results|length }} article pour la recherche  "{{ searchQuery }}"
         </h2>
-
+        
         {% for post in results %} 
             <article class="basis-1/4 my-3 {{ loop.index is odd ? 'bg-light' : '' }} py-4 px-2 rounded">
                 <div class=" p-2 mt-96">

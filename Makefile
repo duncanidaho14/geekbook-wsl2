@@ -5,6 +5,7 @@ DOCKER_COMPOSE = docker-compose
 EXEC = $(DOCKER) exec -it -w /var/www/html/project www_geekbook_app
 EXEC2 = $(DOCKER) exec -it -w /etc/ssl/traefik www_geekbook_app
 fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer www_geekbook_app php ./vendor/bin/php-cs-fixer
+mercure = $(DOCKER) exec -it www_mercure_app
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
 NPM = $(EXEC) npm
@@ -24,6 +25,7 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
+	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
@@ -77,6 +79,9 @@ e2e-test: ## Run E2E tests
 start: ## Start app
 	$(MAKE) docker-start
 
+mercure-build: ## Build mercure
+	$(DOCKER_COMPOSE) up --build --pull always -d --wait
+
 docker-start: 
 	$(DOCKER_COMPOSE) up --build -d
 
@@ -117,6 +122,8 @@ database-init: ## Init database
 	$(MAKE) database-create
 	$(MAKE) database-migrate
 	$(MAKE) database-fixtures-load
+	$(MAKE) meili-delete
+	$(MAKE) meili-import
 	
 database-drop: ## Create database
 	$(SYMFONY_CONSOLE) d:d:d --force --if-exists
@@ -159,6 +166,11 @@ meili-delete: ## Alias: meili delete
 .PHONY: messenger
 messenger: ## Consuming message
 	$(PHP) bin/console messenger:consume async -vvv
+
+##--- 🀄   mercure hub ---------------------------------------------------------------------------------
+.PHONY: mercure
+mercure: ## Consuming message
+	
 
 ##---	 DockerHub build ------------------------------------------------------------------------------------
 .PHONY: prod
