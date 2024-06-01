@@ -24,6 +24,7 @@ init: ## 💥 Init the project
 	$(MAKE) composer-install
 	$(MAKE) npm-install
 	$(MAKE) https
+	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
 cache-clear: ## Clear cache
@@ -117,6 +118,8 @@ database-init: ## Init database
 	$(MAKE) database-create
 	$(MAKE) database-migrate
 	$(MAKE) database-fixtures-load
+	$(MAKE) meili-delete
+	$(MAKE) meili-import
 	
 database-drop: ## Create database
 	$(SYMFONY_CONSOLE) d:d:d --force --if-exists
