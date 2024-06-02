@@ -40,7 +40,9 @@ services:
     volumes:
       - certs:/etc/ssl/traefik
     networks:
-      - proxy 
+      - proxy
+    ports:
+      - "7080:7080" 
 
   whoami:
     # A container that exposes an API to show its IP address
@@ -63,6 +65,8 @@ services:
       - database_data:/var/www/html/postgresql/data:rw
     networks:
       - proxy
+    ports:
+      - "5032:5032"
 
   gkbook:
     build: docker
@@ -105,6 +109,9 @@ services:
     image: schickling/mailcatcher
     networks:
       - proxy 
+    ports:
+      - "1025:1025"
+      - "1080:1080"
       # vérifier le port 1080
 
 ###> meilisearch/search-bundle ###
@@ -117,11 +124,12 @@ services:
       - meilisearch_data:/meili_data
     networks:
       - proxy
+    ports:
+      - "7700:7700"
 ###< meilisearch/search-bundle ###
 
   mercure:
     image: dunglas/mercure
-    command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
     environment:
         SERVER_NAME: ':7001'
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
@@ -131,6 +139,10 @@ services:
       - mercure_config:/config
     networks:
       - proxy
+    ports:
+      - "3200:3200"
+      - "3700:3700"
+    #command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
 
 volumes:
   database_data:
