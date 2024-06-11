@@ -5,8 +5,8 @@ networks:
 
 services:
   traefik:
-    restart: unless-stopped
     image: traefik:v2.0.2
+    restart: unless-stopped
     container_name: traefik_hub_symfony
     ports:
       - "80:80"
@@ -41,16 +41,15 @@ services:
       - certs:/etc/ssl/traefik
     networks:
       - proxy
-    ports:
-      - "7080:7080" 
 
   whoami:
-    # A container that exposes an API to show its IP address
     image: containous/whoami
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.traefik.me`)"
     networks:
       - proxy
+    ports:
+      - "7980:7980"
 
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
@@ -68,6 +67,27 @@ services:
     ports:
       - "5032:5032"
 
+  cache:
+    image: redis:latest
+    container_name: db_redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/cache
+    networks:
+      - proxy
+  
+  redisui:
+    image: redislabs/redisinsight:latest
+    container_name: db_redis_ui
+    restart: always
+    ports:
+      - "8004:8004"
+    volumes:
+      - redis_insight:/redis_insight_data
+
   gkbook:
     build: docker
     image: gkbook
@@ -76,6 +96,9 @@ services:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     labels:
       - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
@@ -90,10 +113,16 @@ services:
     depends_on:
       - db
       - meilisearch
+      - cache
+      - mercure
+      - redisui
+    links:
+      - db
+      - cache
 
   apache:
     image: httpd:2.4
-    container_name: apache
+    container_name: www_apache_app
     volumes:
       - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
       - ./ssl:/usr/local/apache2/ssl
@@ -102,11 +131,21 @@ services:
       - whoami
       - db
       - traefik
+      - cache
+      - mercure
+      - redisui
     networks:
       - proxy
+    ports:
+      - "8888:8888"
+    links:
+      - db
+      - cache
+
 
   mailer:
     image: schickling/mailcatcher
+    container_name: www_mailer_app
     networks:
       - proxy 
     ports:
@@ -117,6 +156,7 @@ services:
 ###> meilisearch/search-bundle ###
   meilisearch:
     image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
+    container_name: www_meilisearch_app
     environment:
       # You should definitely change the master key in production
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
@@ -130,10 +170,15 @@ services:
 
   mercure:
     image: dunglas/mercure
+    container_name: www_mercure_app
     environment:
-        SERVER_NAME: ':7001'
+        SERVER_NAME: 'www_geekbook_app'
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
         MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+        MERCURE_EXTRA_DIRECTIVES: |
+          cors_origins https://gkbook.traefik.me:443
+          anonymous
+          demo
     volumes:
       - mercure_data:/data
       - mercure_config:/config
@@ -141,7 +186,9 @@ services:
       - proxy
     ports:
       - "3200:3200"
-      - "3700:3700"
+      - "4443:4443"
+    labels:
+      - "traefik.http.routers.mercure.rule=Host(`mercure.docker.localhost`)"
     #command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
 
 volumes:
@@ -150,3 +197,5 @@ volumes:
   certs:
   mercure_data:
   mercure_config:
+  cache:
+  redis_insight:

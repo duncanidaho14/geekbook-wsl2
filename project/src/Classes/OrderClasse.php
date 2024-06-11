@@ -8,6 +8,7 @@ use App\Classes\Basket;
 use App\Entity\Book;
 use App\Entity\OrderDetails;
 use Doctrine\ORM\EntityManagerInterface;
+use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class OrderClasse

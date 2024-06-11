@@ -6,7 +6,7 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
   &&  apt-get update \
   &&  apt-get install -y --no-install-recommends \
-  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget \
+  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget libsodium-dev \
   \
   &&  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen  \
   &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
@@ -19,14 +19,15 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   && apt-get install -y nodejs \
   \
   &&  curl -sS https://get.symfony.com/cli/installer | bash \
-  &&  mv /root/.symfony5/bin/symfony /usr/local/bin \ 
-  &&  docker-php-ext-configure \
+  &&  mv /root/.symfony5/bin/symfony /usr/local/bin  
+
+RUN docker-php-ext-configure \
   intl \
   &&  docker-php-ext-install \
-  pdo pdo_pgsql opcache intl zip calendar dom mbstring gd xsl \
+  -j5 pdo pdo_pgsql mysqli shmop opcache intl zip calendar dom mbstring gd xsl \
   \
   &&  pecl install apcu && docker-php-ext-enable apcu \
-  && apt install nano 
+  && apt install nano
 
 RUN apt-get install -y \
     openssl \
@@ -69,6 +70,9 @@ RUN mkdir -p /etc/ssl/traefik/ \
 RUN mkdir -p tools/php-cs-fixer \
   && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
+RUN pecl install redis
+
+
 # RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
 #     && chmod +x /usr/local/bin/docker-compose \
 #     && apt install make \
@@ -82,6 +86,9 @@ RUN mkdir -p tools/php-cs-fixer \
 #     chmod u+x $HOME/.local/bin/castor && \
 #     castor --version || \
 #     (echo "Could not install castor. Is the target directory writeable?" && (exit 1))
+
+ENV session.save_handler=redis
+ENV session.save_path=tcp://db_redis_cache:6379?auth=REDIS_PASSWORD
 
 COPY . /var/www/html/
 
@@ -98,4 +105,9 @@ WORKDIR /var/www/html/
 # ENTRYPOINT [ "bash", "./docker/docker.sh" ]
 
 EXPOSE 7000
+
+# FROM redis
+# COPY ./vhosts/redis.conf /usr/local/etc/redis/redis.conf
+# EXPOSE 6380
+# CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
