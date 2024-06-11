@@ -67,15 +67,23 @@ services:
     ports:
       - "5032:5032"
 
-  cache:
-    image: redis:latest
+  redis:
+    image: redis/redis-stack:latest
     container_name: db_redis_cache
     restart: always
+    environment:
+      REDIS_URL: "redis://:redis-stack@db_redis_cache:6379"
+      REDIS_HOST: 
+      REDIS_USERNAME: 
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis-stack
     ports:
-      - "6379:6379"
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - "10001:6379"
+      - "13333:8001"
+    command: redis-server --save 20 1 --loglevel warning --requirepass redis-stack
     volumes:
-      - cache:/cache
+      - ./local-data/:/redis
+      - ./local-redis-stack.conf:/redis-stack.conf
     networks:
       - proxy
   
@@ -87,6 +95,8 @@ services:
       - "8004:8004"
     volumes:
       - redis_insight:/redis_insight_data
+    networks:
+      - proxy
 
   gkbook:
     build: docker
@@ -96,9 +106,11 @@ services:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
       POSTGRES_DB: geekbook
-      REDIS_HOST: cache
+      REDIS_URL: "redis://:redis-stack@db_redis_cache:6379"
+      REDIS_HOST: 
+      REDIS_USERNAME: 
       REDIS_PORT: 6379
-      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      REDIS_PASSWORD: redis-stack
     labels:
       - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
@@ -113,12 +125,12 @@ services:
     depends_on:
       - db
       - meilisearch
-      - cache
+      - redis
       - mercure
       - redisui
     links:
       - db
-      - cache
+      - redis
 
   apache:
     image: httpd:2.4
@@ -131,7 +143,7 @@ services:
       - whoami
       - db
       - traefik
-      - cache
+      - redis
       - mercure
       - redisui
     networks:
@@ -140,7 +152,7 @@ services:
       - "8888:8888"
     links:
       - db
-      - cache
+      - redis
 
 
   mailer:
@@ -197,5 +209,5 @@ volumes:
   certs:
   mercure_data:
   mercure_config:
-  cache:
+  redis:
   redis_insight:

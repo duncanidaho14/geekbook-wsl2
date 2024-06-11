@@ -70,7 +70,8 @@ RUN mkdir -p /etc/ssl/traefik/ \
 RUN mkdir -p tools/php-cs-fixer \
   && composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
-RUN pecl install redis
+RUN pecl install redis redis-cli \
+  && docker-php-ext-enable redis
 
 
 # RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
@@ -87,8 +88,11 @@ RUN pecl install redis
 #     castor --version || \
 #     (echo "Could not install castor. Is the target directory writeable?" && (exit 1))
 
-ENV session.save_handler=redis
-ENV session.save_path=tcp://db_redis_cache:6379?auth=REDIS_PASSWORD
+ENV session.save_handler="redis"
+ENV session.save_path="tcp://db_redis_cache:6379?auth=redis-stack"
+
+ENV REDIS_ARGS="--save 60 1000 --appendonly yes --requirepass redis-stack"
+ENV REDISTIMESERIES_ARGS="RETENTION_POLICY=20"
 
 COPY . /var/www/html/
 

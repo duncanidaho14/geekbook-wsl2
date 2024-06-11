@@ -5,6 +5,9 @@ DOCKER_COMPOSE = docker-compose
 EXEC = $(DOCKER) exec -it -w /var/www/html/project www_geekbook_app
 EXEC2 = $(DOCKER) exec -it -w /etc/ssl/traefik www_geekbook_app
 fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer www_geekbook_app php ./vendor/bin/php-cs-fixer
+redis = $(DOCKER) exec -it db_redis_cache sh
+REDIS = $(DOCKER) exec -it -w /var/ db_redis_cache sh
+
 PHP = $(EXEC) php
 COMPOSER = $(EXEC) composer
 NPM = $(EXEC) npm
@@ -27,6 +30,12 @@ init: ## 💥 Init the project
 	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
+redis-sh:	## redis connection sh
+	$(redis)
+
+redis-cli:
+	$(REDIS) redis-cli
+
 cache-clear: ## Clear cache
 	$(SYMFONY_CONSOLE) cache:clear
 
@@ -83,6 +92,7 @@ docker-start:
 
 stop: ## Stop app
 	$(MAKE) docker-stop
+
 docker-stop: 
 	$(DOCKER_COMPOSE) stop
 	@$(call RED,"The containers are now stopped.")

@@ -14,9 +14,9 @@ class RedisController extends AbstractController
     //     $this->redisClient = $redisClient;
     // }
     public function index(): void {
-        $client = new Client();
-        $client->set('foo', 'bar');
-    $value = $client->get('foo');
+    //     $client = new Client();
+    //     $client->set('foo', 'bar');
+    // $value = $client->get('foo');
         
     }
 }

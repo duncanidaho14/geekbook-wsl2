@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Predis\Client;
 use App\Entity\Book;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
@@ -11,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Config\Monolog\HandlerConfig\PredisConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -18,6 +20,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
+        
 
         /* This code is creating a query to retrieve the last 12 books with their associated image,
         author, and category information from the database. It joins the `Image`, `Book`, `Author`,
