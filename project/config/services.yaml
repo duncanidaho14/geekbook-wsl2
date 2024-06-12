@@ -66,15 +66,9 @@ services:
             # uncomment the following if your Redis server requires a user and a password (when user is not default)
             # - auth:
             #     - ['%env(REDIS_USER)%','%env(REDIS_PASSWORD)%']
-    
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
-        arguments:
-            - '%env(DATABASE_URL)%'
-
-            # you can also use PDO configuration, but requires passing two arguments
-            # - 'mysql:dbname=mydatabase; host=myhost; port=myport'
-            # - { db_username: myuser, db_password: mypassword }
-    
 
     
+    Predis\Client: '@snc_redis.default'
+    Predis\ClientInterface: '@Predis\Client'
+
     

@@ -15,8 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class BookController extends AbstractController
 {
@@ -38,7 +39,7 @@ class BookController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/livre/{slug}', name: 'app_show_book', methods:['GET'])]
+    #[Route('/livre/{slug}', name: 'app_show_book', requirements:['slug' => Requirement::ASCII_SLUG], methods:['GET', 'POST'])]
     public function show(
         Book $bookCount,
         Request $request,
@@ -72,6 +73,7 @@ class BookController extends AbstractController
                     'form' => $emptyForm
                 ]);
             }
+            $this->addFlash('success', 'Le commentaire a bien été posté !');
             return $this->redirectToRoute('app_show_book', ['slug' => $books->getSlug()], Response::HTTP_SEE_OTHER);
         }
 

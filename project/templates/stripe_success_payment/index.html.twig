@@ -3,59 +3,103 @@
 {% block title %}Commande payée sur GeekBook !{% endblock %}
 
 {% block body %}
-<div class="bg-gray-100 dark:bg-gray-800 dark:text-white">
-  <div class="body mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-      <div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-      <h1>Référence : {{order.reference}}</h1>
-       {% for img in order.books %}
-            <a href="#">
-                <img class="p-8 rounded-t-lg" src="{{img.firstCover}}" alt="product image" width="400"/>
-            </a>
-          {% endfor %}
-      {% for details in order.orderDetails %}
-        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-         
-            <div class="px-5 pb-5">
-                <a href="#">
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{details.productName}}</h5>
-                </a>
-                <div class="flex items-center mt-2.5 mb-5">
-                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Quantité : {{details.quantity}} / {{details.productPrice}} €</span>
-                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">Transporteur : {{details.carrierPrice}} € avec {{details.carrierName}}</span>
+<section class="py-24 relative">
+    <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+        <h2 class="font-manrope font-bold text-4xl leading-10 text-black text-center">
+            Payement Réussi
+        </h2>
+        <p class="mt-4 font-normal text-lg leading-8 text-gray-500 mb-11 text-center">Merci de nous faire confiance</p>
+        <div class="main-box border border-gray-200 rounded-xl pt-6 max-w-xl max-lg:mx-auto lg:max-w-full">
+            <div
+                class="flex flex-col lg:flex-row lg:items-center justify-between px-6 pb-6 border-b border-gray-200">
+                <div class="data">
+                    <p class="font-semibold text-base leading-7 text-black">Référence de la commande : <span class="text-indigo-600 font-medium">#{{order.reference}}</span></p>
+                    <p class="font-semibold text-base leading-7 text-black mt-4">Commande effectué le : <span class="text-gray-400 font-medium">{{order.createdAt|date('d/m/Y')}}</span></p>
                 </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white"></span>
-                    <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Total HT : {{details.productPrice|number_format(2, ',', '.')}} €</a>
+                <button
+                    class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400">Suivi de
+                    ta commande</button>
+            </div>
+            <div class="w-full px-3 min-[400px]:px-6">
+                <div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
+                    <div class="img-box max-lg:w-full">
+                    
+                        {% for details in order %}
+                          <a href="#">
+                              <img class="aspect-square w-full lg:max-w-[140px]" src="{{details.books.firstCover}}" alt="product image" width="400" height="400"/>
+                          </a>
+                       
+                    </div>
+                                              
+
+                    <div class="flex flex-row items-center w-full ">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
+                      
+                            <div class="flex items-center">
+                                <div class="">
+                                
+                                    <h2 class="font-semibold text-xl leading-8 text-black mb-3">
+                                        {{details.orderDetails.productName}}</h2>
+                                    <p class="font-normal text-lg leading-8 text-gray-500 mb-3 ">
+                                        By: Dust Studios</p>
+                                    <div class="flex items-center ">
+                                        <p
+                                            class="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
+                                            Size: <span class="text-gray-500">100 ml</span></p>
+                                        <p class="font-medium text-base leading-7 text-black ">Qty: <span
+                                                class="text-gray-500">{{details.quantity}}</span></p>
+                                    </div>
+                                  
+                                </div>
+
+                            </div>
+                            <div class="grid grid-cols-5">
+                                <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm leading-7 text-black">prix</p>
+                                        <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">{{details.productPrice}} €</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm leading-7 text-black">Status
+                                        </p>
+                                        <p
+                                            class="font-medium text-sm leading-6 whitespace-nowrap py-0.5 px-3 rounded-full lg:mt-3 bg-emerald-50 text-emerald-600">
+                                            {{order.isPaid}}</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm whitespace-nowrap leading-6 text-black">
+                                            Vous avez effectué la commande le :</p>
+                                        <p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
+                                            {{order.createdAt|date('d/m/Y')}}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                      
+                        </div>
+                    {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-      {% endfor %}
-      <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="p-8 rounded-t-lg" src="{{order.users.avatar}}" alt="product image" />
-            </a>
-            <div class="px-5 pb-5">
-                <a href="#">
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{order.reference}}</h5>
-                </a>
-                <div class="flex items-center mt-2.5 mb-5">
-                    <p>{{order.users.firstName}} {{order.users.lastName}}</p>
-                    <p>{{order.users.email}} {{order.deliveryAddress}}</p>
-                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
+            <div class="w-full border-t border-gray-200 px-6 flex flex-col lg:flex-row items-center justify-between ">
+                <div class="flex flex-col sm:flex-row items-center max-lg:border-b border-gray-200">
+                    
+                        <a href="{{path('app_account_pdf_order', {'stripeSessionId': order.stripeSessionId})}}" alt="" class="flex outline-0 py-6 sm:pr-6  sm:border-r border-gray-200 whitespace-nowrap gap-2 items-center justify-center font-semibold group text-lg text-black bg-white transition-all duration-500 hover:text-indigo-600">
+                          Génération de facture en format PDF
+                        </a>
+                        
+                    <p class="font-medium text-lg text-gray-900 pl-6 py-3 max-lg:text-center">Paid using Credit Card <span class="text-gray-500">ending with 8822</span></p>
                 </div>
-                <div class="flex items-center justify-between">
-                    <p>{{order.carrierName}} - {{order.carrierPrice}} €</p>
-                    <span class="text-3xl font-bold text-gray-900 dark:text-white">total HT : {{order.subTotalHT|number_format(2, ',', '.')}} €</span>
-                    <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">total TTC : {{order.subTotalTTC|number_format(2, ',', '.')}} €</a>
-                </div>
+                <p class="font-semibold text-lg text-black py-6">Prix Total: <span class="text-indigo-600"> {{order.subTotalTTC|number_format(2, ',', '.')}} €</span></p>
             </div>
+
         </div>
-      </div>
-      <a href="{{path('app_account_pdf_order', {'stripeSessionId': order.stripeSessionId})}}" alt="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-        Génération de facture en format PDF
-      </a>
     </div>
-  </div>
-</div>
+</section>
+                                            
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} !{% endblock %}
+
+{% block body %}
+    <form action="{{ path('add_message') }}" method="POST" class="mb-4">
+        <div class="form-group">
+            <label for="sensor-id">Sensor ID</label>
+            <input type="text" id="sensor-id" name="sensor-id" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="temperature">Temperature</label>
+            <input type="text" id="temperature" name="temperature" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Message</button>
+    </form>
+    
+    <h2>Messages</h2>
+    <ul class="list-group">
+        {% for messageId, message in messages %}
+            <li class="list-group-item">
+                <strong>Message ID:</strong> {{ messageId }}<br>
+                <strong>Data:</strong> {{ message|json_encode }}
+            </li>
+        {% else %}
+            <li class="list-group-item">No messages found.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
