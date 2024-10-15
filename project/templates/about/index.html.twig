@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}A propos de Geekbook!{% endblock %}
+
+{% block body %}
+<div class="body relative isolate px-6 pt-14 lg:px-8 dark:bg-gray-800 dark:text-white">
+    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+        <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+    <div class="mx-auto py-32 sm:py-48 lg:py-56">
+        <section>
+            <div>
+                <h1 id="director" class="text-center text-4xl">Directeur de projet en conception et développement de solution informatique</h1> 
+                <h2 class="text-center text-white-700 border-white-800 rounded-lg shadow dark:bg-white-800 dark:border-white-700">Bonjour, je m'appelle Elhadi Beddarem.</h2>  
+                <p class="text-center">Diplômé récemment et passionné par les technologies, je suis convaincu que mon profil correspond parfaitement à l’opportunité que votre entreprise offre.</p>
+            </div>
+        </section>
+        <section class="design-section">
+            <div class="timeline">
+
+                    <!--Well, The reason for this div is to fill space. 
+            This space is technically used for keeping dates, 
+            but I didn't find the need for dates. However, I'll provide 
+            you the styling for dates, so that you can use it if you 
+            wanted to.-->
+                <div class="timeline-empty">
+                </div>
+
+            <!--This is the class where the timeline graphics are 
+            housed in. Note that we have timeline-circle 
+            here for that pointer in timeline.-->
+
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-component timeline-content">
+                    <h3>HTML</h3>
+                    <p>Structure du code html</p>
+                </div>
+                    <div class="timeline-component timeline-content">
+                            <h3>CSS & SCSS</h3>
+                            <p>Some Text.</p>
+                    </div>
+                    <div class="timeline-middle">
+                        <div class="timeline-circle"></div>
+                    </div>
+                    <div class="timeline-empty">
+                    </div>
+
+                    <div class="timeline-empty">
+                    </div>
+
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-component timeline-content">
+                    <h3>Javascript</h3>
+                    <p>Some Text.</p>
+                </div>
+                <div class="timeline-empty">
+                    </div>
+                <div class="timeline-empty">
+                    </div>
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-component timeline-content">
+                    <h3>PHP 8</h3>
+                    <p>Some Text.</p>
+                </div>
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-middle">
+                    <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-component timeline-content">
+                    <h3>Shell & Bash</h3>
+                    <p>Some Text.</p>
+                </div>
+                <div class="timeline-empty"></div>
+                <div class="timeline-empty"></div>
+            </div>
+        </div> 
+    </section>    
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script></script>
+{% endblock %}

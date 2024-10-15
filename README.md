@@ -9,6 +9,14 @@
 **open Microsoft Store and download Wsl2**
 **install ubuntu or debian**
 
+## Découvrez GeekBook : votre nouvelle librairie en ligne !
+**GeekBook est la plateforme idéale pour tous les amoureux de livres. Avec une interface moderne et rapide, notre single page application vous permet de parcourir un large catalogue de livres, trouver vos lectures préférées en un instant grâce à notre moteur de recherche ultra-performant MeiliSearch, et finaliser vos achats en toute sécurité avec Stripe.**
+
+**Côté technique, GeekBook repose sur un écosystème robuste :**
+    - Développée avec Symfony 6 pour des performances optimales.
+    - Hébergée en Docker pour une flexibilité totale.
+    - Sécurisée par Traefik pour la gestion HTTPS.
+
 ## 💻 Init the project 
 
 ```make init: afin d'installer le projet```
