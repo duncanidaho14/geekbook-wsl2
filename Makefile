@@ -2,9 +2,9 @@
 # Variables
 DOCKER = docker
 DOCKER_COMPOSE = docker-compose
-EXEC = $(DOCKER) exec -it -w /var/www/html/project www_geekbook_app
-EXEC2 = $(DOCKER) exec -it -w /etc/ssl/traefik www_geekbook_app
-fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer www_geekbook_app php ./vendor/bin/php-cs-fixer
+EXEC = $(DOCKER) exec -it -w /var/www/html/project wwwgeekbookapp
+EXEC2 = $(DOCKER) exec -it -w /etc/ssl/traefik wwwgeekbookapp
+fixer = $(DOCKER) exec -w /var/www/html/project/tools/php-cs-fixer wwwgeekbookapp php ./vendor/bin/php-cs-fixer
 redis = $(DOCKER) exec -it db_redis_cache sh
 REDIS = $(DOCKER) exec -it -w /var/ db_redis_cache sh
 
@@ -24,8 +24,8 @@ RED = /bin/echo -e "\x1b[31m\#\# $1\x1b[0m"
 
 init: ## 💥 Init the project  
 	$(MAKE) start
-	$(MAKE) composer-update
-	$(MAKE) npm-update
+	$(MAKE) composer-install
+	$(MAKE) npm-install
 	$(MAKE) https
 	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")

@@ -47,6 +47,8 @@ RUN curl -L https://install.meilisearch.com | sh \
     && chmod +x meilisearch \
     && mv meilisearch /usr/bin/meilisearch
 
+RUN a2enmod rewrite proxy proxy_http proxy_wstunnel ssl
+
 RUN apt install -y openssl
 
 RUN apt install -y openssh-server
@@ -72,6 +74,9 @@ RUN mkdir -p tools/php-cs-fixer \
 
 RUN pecl install redis redis-cli \
   && docker-php-ext-enable redis
+
+# RUN apt install certbot -y \
+#   && certbot --apache 
 
 
 # RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
@@ -115,3 +120,16 @@ EXPOSE 7000
 # EXPOSE 6380
 # CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
+# FROM debian:bullseye-slim
+# # Installer les dépendances requises
+# RUN apt-get update && apt-get install -y \
+#   curl \
+#   ca-certificates \
+#   && rm -rf /var/lib/apt/lists/*
+
+# # Télécharger et installer le binaire Mercure
+# RUN curl -L https://github.com/dunglas/mercure/releases/download/v0.16.3/mercure-legacy_Linux_x86_64.tar.gz | tar xz -C /usr/local/bin
+
+# RUN chmod +x /usr/local/bin/mercure
+# EXPOSE 3200
+# CMD ["mercure"] 

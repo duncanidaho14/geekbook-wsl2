@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240409172450 extends AbstractMigration
+final class Version20241021123052 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,6 +30,7 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE "order_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE order_details_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE subscription_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE address (id INT NOT NULL, owner_id INT NOT NULL, name VARCHAR(45) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, company VARCHAR(45) DEFAULT NULL, address VARCHAR(150) NOT NULL, zip VARCHAR(45) NOT NULL, city VARCHAR(45) NOT NULL, country VARCHAR(45) NOT NULL, phone VARCHAR(45) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D4E6F817E3C61F9 ON address (owner_id)');
@@ -64,10 +65,12 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_7CE748AA76ED395 ON reset_password_request (user_id)');
         $this->addSql('COMMENT ON COLUMN reset_password_request.requested_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN reset_password_request.expires_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(62) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, avatar VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_verified BOOLEAN NOT NULL, agree_terms BOOLEAN NOT NULL, birthday TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, captcha VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE subscription (id INT NOT NULL, name VARCHAR(255) NOT NULL, price DOUBLE PRECISION DEFAULT NULL, duration TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_subscriber BOOLEAN NOT NULL, choice_subscriber JSON NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, subscription_id INT NOT NULL, email VARCHAR(62) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, first_name VARCHAR(45) NOT NULL, last_name VARCHAR(45) NOT NULL, avatar VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, is_verified BOOLEAN NOT NULL, agree_terms BOOLEAN NOT NULL, birthday TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, captcha VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649A9D1C132 ON "user" (first_name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649C808BA5A ON "user" (last_name)');
+        $this->addSql('CREATE INDEX IDX_8D93D6499A1887DC ON "user" (subscription_id)');
         $this->addSql('COMMENT ON COLUMN "user".created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN "user".updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
@@ -97,6 +100,7 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('ALTER TABLE "order" ADD CONSTRAINT FK_F529939867B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE order_details ADD CONSTRAINT FK_845CA2C1CFFE9AD6 FOREIGN KEY (orders_id) REFERENCES "order" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE "user" ADD CONSTRAINT FK_8D93D6499A1887DC FOREIGN KEY (subscription_id) REFERENCES subscription (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -113,6 +117,7 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('DROP SEQUENCE "order_id_seq" CASCADE');
         $this->addSql('DROP SEQUENCE order_details_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE reset_password_request_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE subscription_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('ALTER TABLE address DROP CONSTRAINT FK_D4E6F817E3C61F9');
         $this->addSql('ALTER TABLE author_book DROP CONSTRAINT FK_2F0A2BEEF675F31B');
@@ -126,6 +131,7 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('ALTER TABLE "order" DROP CONSTRAINT FK_F529939867B3B43D');
         $this->addSql('ALTER TABLE order_details DROP CONSTRAINT FK_845CA2C1CFFE9AD6');
         $this->addSql('ALTER TABLE reset_password_request DROP CONSTRAINT FK_7CE748AA76ED395');
+        $this->addSql('ALTER TABLE "user" DROP CONSTRAINT FK_8D93D6499A1887DC');
         $this->addSql('DROP TABLE address');
         $this->addSql('DROP TABLE author');
         $this->addSql('DROP TABLE author_book');
@@ -138,6 +144,7 @@ final class Version20240409172450 extends AbstractMigration
         $this->addSql('DROP TABLE "order"');
         $this->addSql('DROP TABLE order_details');
         $this->addSql('DROP TABLE reset_password_request');
+        $this->addSql('DROP TABLE subscription');
         $this->addSql('DROP TABLE "user"');
         $this->addSql('DROP TABLE messenger_messages');
     }

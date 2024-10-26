@@ -101,7 +101,7 @@ services:
   gkbook:
     build: docker
     image: gkbook
-    container_name: www_geekbook_app
+    container_name: wwwgeekbookapp
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
@@ -112,7 +112,7 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: redis-stack
     labels:
-      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
+      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`) || Host(`mercure.traefik.me`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"
@@ -134,7 +134,7 @@ services:
 
   apache:
     image: httpd:2.4
-    container_name: www_apache_app
+    container_name: wwwapacheapp
     volumes:
       - ./docker/vhosts/default-ssl.conf:/usr/local/apache2/conf.d/default-ssl.conf
       - ./ssl:/usr/local/apache2/ssl
@@ -182,15 +182,16 @@ services:
 
   mercure:
     image: dunglas/mercure
-    container_name: www_mercure_app
+    container_name: wwwmercureapp
     environment:
-        SERVER_NAME: 'www_geekbook_app'
-        MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-        MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-        MERCURE_EXTRA_DIRECTIVES: |
-          cors_origins https://gkbook.traefik.me:443
-          anonymous
-          demo
+        SERVER_NAME: ':443'
+        MERCURE_JWT_SECRET: '!ChangeThisMercureHubJWTSecretKey!'
+        MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+        MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+        # MERCURE_EXTRA_DIRECTIVES: |
+        #   cors_origins https://gkbook.traefik.me:443
+        #   anonymous
+        #   demo
     volumes:
       - mercure_data:/data
       - mercure_config:/config
@@ -200,7 +201,10 @@ services:
       - "3200:3200"
       - "4443:4443"
     labels:
-      - "traefik.http.routers.mercure.rule=Host(`mercure.docker.localhost`)"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.traefik.me`)"
+      # - "traefik.http.routers.mercure-tls.tls.domains[0].main=mercure.traefik.me"
+      # - "traefik.http.routers.mercure-tls.tls.domains[0].sans=mercure-*.traefik.me"
+      # - "traefik.http.routers.mercure.tls=true"
     #command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
 
 volumes:

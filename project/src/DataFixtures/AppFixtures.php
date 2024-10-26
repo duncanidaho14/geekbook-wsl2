@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Plan;
 use Faker\Factory;
 use App\Entity\Book;
 use App\Entity\User;
@@ -11,8 +12,10 @@ use App\Entity\Author;
 use App\Entity\Address;
 use App\Entity\Carrier;
 use App\Entity\Comment;
+use App\Entity\Invoice;
 use App\Entity\Category;
 use App\Entity\OrderDetails;
+use App\Entity\Subscription;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -33,6 +36,41 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create();
 
+        $plans = [];
+        for ($pla=0; $pla < 3; $pla++) { 
+            $plan = new Plan();
+            $plan->setName($faker->name())
+                ->setSlug($faker->slug())
+                ->setPrice($faker->randomFloat(0, 10))
+                ->setStripeId($faker->uuid())
+                ->setCreatedAt($faker->dateTime())
+                
+            ;
+            $manager->persist($plan);
+            $plans[] = $plan;
+        }
+    
+        $subscriptions = [];
+        for ($subs=0; $subs < 3; $subs++) { 
+            $subscription = new Subscription();
+            $subscription->setDuration($faker->dateTime())
+                        ->setName($faker->firstName())
+                        ->setPrice($faker->randomFloat(0, 100))
+                        ->setIsSubscriber($faker->boolean)
+                        ->setCurrentPeriodStart($faker->dateTime())
+                        ->setCurrentPeriodEnd($faker->dateTime())
+                        ->setPlan($plan)
+                        ->setStripeId($faker->uuid())
+            ;
+
+            $plan->addSubscription($subscription);
+            
+            $manager->persist($subscription);
+            $manager->persist($plan);
+            
+            $subscriptions[] = $subscription;
+        }
+
         $admin = new User();
         $admin->setFirstName('kirua')
             ->setLastName('zoldyk')
@@ -43,11 +81,13 @@ class AppFixtures extends Fixture
             ->setAgreeTerms(true)
             ->setBirthday(new \DateTime("26-04-1999 04:44"))
             ->setCaptcha($faker->sentence(1))
+            ->setSubscription($subscription)
+            
         ;
 
         $password = $this->hasher->hashPassword($admin, 'password');
         $admin->setPassword($password);
-
+        
         $manager->persist($admin);
 
         $users = [];
@@ -86,7 +126,10 @@ class AppFixtures extends Fixture
             $password = $this->hasher->hashPassword($user, 'password');
             $user->setPassword($password);
             $user->addAddress($address);
+            $subscription->addSubscriber($user);
+
             $manager->persist($user);
+            $manager->persist($subscription);
             $users[] = $user;
         }
 
@@ -240,6 +283,20 @@ class AppFixtures extends Fixture
             $manager->persist($book);
 
             $books[] = $book;
+        }
+        $invoices = [];
+        for($inv=0; $inv < 10; $inv++){
+            $invoice = new Invoice();
+            $invoice->setAmountPaid($faker->randomNumber())
+                    ->setReference($faker->randomNumber())
+                    ->setReferenceUrl($faker->url())
+                    ->setStripeId($faker->ipv4)
+                    ->setSubscription($subscription)
+                    ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
+            ;
+
+            $manager->persist($invoice);
+            $invoices[] = $invoice;
         }
 
         $manager->flush();
