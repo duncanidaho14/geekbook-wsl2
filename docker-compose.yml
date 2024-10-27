@@ -188,24 +188,41 @@ services:
         MERCURE_JWT_SECRET: '!ChangeThisMercureHubJWTSecretKey!'
         MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
         MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
-        # MERCURE_EXTRA_DIRECTIVES: |
-        #   cors_origins https://gkbook.traefik.me:443
-        #   anonymous
-        #   demo
+        MERCURE_EXTRA_DIRECTIVES: |
+          cors_origins https://mercure.docker.localhost
+          anonymous
+          demo
+    command: /usr/bin/caddy run --config /etc/caddy/Caddyfile
     volumes:
       - mercure_data:/data
       - mercure_config:/config
     networks:
       - proxy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost/healthz",
+        ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     ports:
       - "3200:3200"
-      - "4443:4443"
+    #   - "81:80"
+    #   - "4443:443"
     labels:
-      - "traefik.http.routers.mercure.rule=Host(`mercure.traefik.me`)"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.docker.localhost`)"
+      - "traefik.http.services.mercure.loadbalancer.server.port=3200"
+      - "traefik.http.routers.mercure.entrypoints=websecure" # "websecure" est un point d'entrée défini dans Traefik pour HTTPS
       # - "traefik.http.routers.mercure-tls.tls.domains[0].main=mercure.traefik.me"
       # - "traefik.http.routers.mercure-tls.tls.domains[0].sans=mercure-*.traefik.me"
       # - "traefik.http.routers.mercure.tls=true"
-    #command: caddy run -config /var/www/etc/caddy/Caddyfile.dev
+    #command: caddy run -config /src/caddy/Caddyfile.dev
 
 volumes:
   database_data:

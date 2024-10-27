@@ -1,0 +1,19 @@
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl_certificate /etc/ssl/traefik/cert.pem;
+    ssl_certificate_key /etc/ssl/traefik/privkey.pem;
+
+    location / {
+        proxy_pass https://mercure.docker.localhost/;
+        proxy_read_timeout 24h;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        ## Be sure to set USE_FORWARDED_HEADERS=1 to allow the hub to use those headers ##
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
