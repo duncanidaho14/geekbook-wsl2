@@ -172,24 +172,39 @@
 {% endblock %}
 
 {% block javascripts %}
+<script type="module">
+var href = window.location.href;
+const eventSource = new EventSource("{{ mercure('livres')|escape('js') }}");
+eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    console.log(JSON.parse(event.data));
+}
+</script>
 <script type="application/json" id="mercure-url">
-{# {{ mercure('https://mercure.docker.localhost:3200/default')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+var href = window.location.href;
+{{ mercure('livres')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+</script>
+{# 
+<script type="module" id="mercure-url">
+{{ mercure('https://172.19.0.2:2019/default')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
 
-var slug = <?php var_dump($_GET['slug']); die(); ?>;
+var slug = window.location.href;
 
 const eventSource = new EventSource("{{ mercure([
-    'https://gkbook.traefik.me/livre/slug'
+    'https://gkbook.traefik.me/livre/{slug}'
 ])|escape('js') }}");
 
 eventSource.onmessage = event => {
     console.log(JSON.parse(event.data));
-} #}
+}
 
-</script>
+</script> #}
 
 <script type="module" id="mercure-url">
-const url = new URL("https://mercure.docker.localhost/.well-known/mercure");
-url.searchParams.append("topic", "https://gkbook.traefik.me/livre/{slug}");
+{#
+var href = window.location.href;
+const url = new URL("https://172.19.0.2:2019/.well-known/mercure");
+url.searchParams.append("topic", "https://gkbook.traefik.me/livre/{href}");
 url.searchParams.append("topic", "https://gkbook.traefik.me/users/kirua");
 // The URL class is a convenient way to generate URLs such as https://localhost/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/dunglas
 
@@ -246,5 +261,5 @@ function cors() {
 .then(response => response.json())
 .then(data => console.log(data))
 .catch(error => console.error('Erreur:', error)); #}
-</script>
+</script> 
 {% endblock %}

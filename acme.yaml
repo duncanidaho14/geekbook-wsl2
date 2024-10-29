@@ -109,12 +109,4 @@ certificatesResolvers:
         # Default: false
         #
         # disablePropagationCheck: true
-  mercure:
-    email: "elhadibeddarem@gmail.com"
-
-      # File or key used for certificates storage.
-      #
-      # Required
-      #
-    storage: "/letsencrypt/acmemercure.json"
-    tlsChallenge: mercure
+  

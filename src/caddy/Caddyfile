@@ -1,4 +1,4 @@
-https://mercure.docker.localhost:3200 {
+https://172.19.0.2:2019 {
 	
 	mercure {
 		# Publisher JWT key

@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const session_id = searchParams.get('session_id');
         document.getElementById('session-id').setAttribute('value', session_id);
     }
+
+    const url = JSON.parse(document.getElementById("mercure-url").textContent);
+    const eventSource = new EventSource(url)
 });
 
 

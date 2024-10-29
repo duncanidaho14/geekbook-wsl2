@@ -125,10 +125,10 @@ services:
       REDIS_USERNAME: 
       REDIS_PORT: 6379
       REDIS_PASSWORD: redis-stack
-      MERCURE_URL: 'https://mercure.docker.localhost:3200/.well-known/mercure'
-      MERCURE_PUBLIC_URL: 'https://mercure.docker.localhost:3200/.well-known/mercure'
-      MERCURE_PUBLISH_URL: 'https://mercure.docker.localhost:3200/.well-known/mercure?topic=livres'
-      MERCURE_SUBSCRIBE_URL: 'https://mercure.docker.localhost:3200/.well-known/mercure?topic=livres'
+      MERCURE_URL: 'https://172.19.0.2:2019/.well-known/mercure'
+      MERCURE_PUBLIC_URL: 'https://172.19.0.2:2019/.well-known/mercure'
+      MERCURE_PUBLISH_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
+      MERCURE_SUBSCRIBE_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
       MERCURE_JWT_SECRET: '!ChangeThisMercureHubJWTSecretKey!'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
@@ -138,7 +138,7 @@ services:
       CORS_ALLOWED_ORIGINS: '*'
       DEBUG: 1
     labels:
-      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`) && Path(`mercure.docker.localhost`)"
+      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`) && Path(`172.19.0.2:2019`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"
@@ -232,7 +232,8 @@ services:
       MERCURE_PUBLISHER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
       MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
     # Enables the development mode, comment the following line to run the hub in prod mode
-    command: /usr/bin/caddy run --config /etc/caddy/Caddyfile
+    command: /usr/bin/caddy run  --config /etc/caddy/Caddyfile |
+      /usr/bin/caddy fmt --overwrite /etc/caddy/Caddyfile
     healthcheck:
       test:
         [
@@ -241,7 +242,7 @@ services:
           "--no-verbose",
           "--tries=1",
           "--spider",
-          "http://localhost/healthz",
+          "https://127.0.0.1/healthz",
         ]
       timeout: 5s
       retries: 5
@@ -250,7 +251,7 @@ services:
       - mercure_data:/data
       - mercure_config:/config
     labels:
-      - "traefik.http.routers.mercure.rule=Host(`mercure.docker.localhost`)"
+      - "traefik.http.routers.mercure.rule=Host(`172.19.0.2:2019`)"
 
       
   # caddy:
