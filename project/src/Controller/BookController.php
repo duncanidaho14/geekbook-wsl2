@@ -11,13 +11,15 @@ use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
@@ -41,6 +43,7 @@ class BookController extends AbstractController
     #[IsGranted('ROLE_USER')]
     #[Route('/livre/{slug}', name: 'app_show_book', requirements:['slug' => Requirement::ASCII_SLUG], methods:['GET', 'POST'])]
     public function show(
+        HubInterface $default,
         Book $bookCount,
         Request $request,
         EntityManagerInterface $manager,
@@ -49,6 +52,9 @@ class BookController extends AbstractController
         CommentRepository $commentRepository,
         string $slug
     ): Response {
+        $url = $default->getUrl();
+        $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'))->all();
+        $acceptHeader2 = AcceptHeader::fromString($request->headers->get('Content-Type'))->all();
         $books = $bookRepository->findOneBySlug($slug);
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -82,7 +88,10 @@ class BookController extends AbstractController
             'book' => $books,
             'images' => $imageRepository->findOneByUrl($slug),
             'comments' => $commentRepository->findByBookComment($books),
-            'form' => $form->createview()
+            'form' => $form->createview(),
+            'headers' => $acceptHeader,
+            'headers2' => $acceptHeader2,
+            'url' => $url
         ]);
     }
 
@@ -92,7 +101,9 @@ class BookController extends AbstractController
     {
         $book = new Book();
 
-        $form = $this->createForm(BookType::class, $book);
+        $form = $this->createForm(BookType::class, $book, [
+            'action' => $this->generateUrl('app_add_book')
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -104,12 +115,12 @@ class BookController extends AbstractController
                 'Votre livre a bien été enregistré !'
             );
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_book');
         }
-
+        $response = new Response(null, $form->isSubmitted() ? 422 : 200);
         return $this->render('book/add.html.twig', [
             'form' => $form->createView()
-        ]);
+        ], $response);
     }
 
     #[Route('/edit/livre/{slug}', name:'app_edit_book')]

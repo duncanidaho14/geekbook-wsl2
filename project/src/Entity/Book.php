@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
-use Assert\Isbn;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use App\Repository\BookRepository;
 use Gedmo\Mapping\Annotation\Slug;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Assert\Isbn;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Broadcast(transports: ['hub1', 'hub2'])]
 class Book
 {
     #[ORM\Id]

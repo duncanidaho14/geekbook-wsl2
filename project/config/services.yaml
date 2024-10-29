@@ -42,7 +42,15 @@ services:
             $decorated: '@App\Service\CloudflareIpResolver.inner'
             $requestStack: '@request_stack'
     
+    App\Turbo\Broadcaster\:
+        resource: '../src/Turbo/Broadcaster.php'
+
+    App\Turbo\TurboStreamListenRenderer\:
+        resource: '../src/Turbo/TurboStreamListenRenderer.php'
     
+    Symfony\UX\StimulusBundle\Helper\StimulusHelper:
+        alias: stimulus.helper
+        
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:
             - '@Redis'

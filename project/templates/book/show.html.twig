@@ -3,6 +3,8 @@
 {% block title %} {{book.title}} !{% endblock %}
 
 {% block body %}
+
+<div {{ turbo_stream_listen('livres') }}></div>
 <div class="mt-20 dark:bg-gray-800 dark:text-white">
   {% for message in app.flashes('success') %}
       <div class="alert alert-success">
@@ -169,3 +171,80 @@
 
 {% endblock %}
 
+{% block javascripts %}
+<script type="application/json" id="mercure-url">
+{# {{ mercure('https://mercure.docker.localhost:3200/default')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+
+var slug = <?php var_dump($_GET['slug']); die(); ?>;
+
+const eventSource = new EventSource("{{ mercure([
+    'https://gkbook.traefik.me/livre/slug'
+])|escape('js') }}");
+
+eventSource.onmessage = event => {
+    console.log(JSON.parse(event.data));
+} #}
+
+</script>
+
+<script type="module" id="mercure-url">
+const url = new URL("https://mercure.docker.localhost/.well-known/mercure");
+url.searchParams.append("topic", "https://gkbook.traefik.me/livre/{slug}");
+url.searchParams.append("topic", "https://gkbook.traefik.me/users/kirua");
+// The URL class is a convenient way to generate URLs such as https://localhost/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/dunglas
+
+const eventSource = new EventSource(url);
+
+// The callback will be called every time an update is published
+eventSource.onmessage = (e) => console.log(e); //
+  {# const url = new URL('https://mercure.docker.localhost:3200/default');
+  url.searchParams.append('topic', 'https://gkbook.traefik.me:443');
+  const eventSource = new EventSource(url);
+  eventSource.onmessage = e => {
+    document.querySelector('h1').insertAdjacentHTML('afterend', `<div>Ping</div>`);
+    window.setTimeout(() => {
+      const $alert = document.querySelector('.alert')
+      $alert.parentNode.removeChild($alert)
+    }, 2000)
+  } #}
+{# document.addEventListener('DOMContentLoaded', async () => {
+  let searchParams = new URLSearchParams(window.location.search);
+    console.log('window ---- : ', window.location.href);
+    
+    
+   var slug = window.location.href;
+        //setHeader('Access-Control-Allow-Origin', 'https://mercure.docker.localhost:3200/.well-known/mercure?topic=livres');
+        //setHeader('Content-Type', 'application/ld+json')
+        //setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type')
+  
+  
+  const eventSource = new EventSource("{{ mercure(['livres'])|escape('js') }}");
+  eventSource.onmessage = event => {
+        // Will be called every time an update is published by the server
+    event.preventDefault();
+    console.log(JSON.parse(event.data));
+  }
+}); #}
+{# 
+function cors() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = (e) => {
+    console.log('salut');
+  }
+  xhttp.open("GET", window.location.href);
+  xhttp.send();
+} #}
+
+{# fetch('http://mercure.docker.localhost/.well-known/mercure?topic=livres', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer <token>'
+    },
+    credentials: 'include', // inclure si vous travaillez avec des cookies/sessions
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Erreur:', error)); #}
+</script>
+{% endblock %}

@@ -20,5 +20,18 @@
         {% include './layout/footer.html.twig' %}
         <script src="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/dist/instant-meilisearch.umd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+        {# <script type="application/json" id="mercure-url">
+            {{ mercure('https://gkbook.traefik.me/livre/{slug}')|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+        </script>
+        <script>
+            const eventSource = new EventSource("{{ mercure([
+                'https://gkbook.traefik.me/livre/{slug}',
+                'https://gkbook.traefik.me/livre/{slug}'
+            ])|escape('js') }}");
+
+            eventSource.onmessage = event => {
+                console.log(JSON.parse(event.data));
+            }
+        </script> #}
     </body>
 </html>

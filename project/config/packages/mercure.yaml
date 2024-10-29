@@ -5,4 +5,17 @@ mercure:
             public_url: '%env(MERCURE_PUBLIC_URL)%'
             jwt:
                 secret: '%env(MERCURE_JWT_SECRET)%'
-                publish: '*'
+                publish: ['*', '%env(MERCURE_PUBLISH_URL)%']
+                subscribe: ['*', '%env(MERCURE_SUBSCRIBE_URL)%']
+                algorithm: 'hmac.sha256'
+                
+        # hub1:
+        #     url: https://hub1.docker.localhost/.well-known/mercure
+        #     public_url: '%env(MERCURE_PUBLIC_URL)%'
+        #     jwt: '%env(MERCURE_JWT_SECRET)%'
+
+        # hub2:
+        #     url: https://hub2.docker.localhost/.well-known/mercure
+        #     public_url: '%env(MERCURE_PUBLIC_URL)%'
+        #     jwt: '%env(MERCURE_JWT_SECRET)%'
+            

@@ -1,3 +1,4 @@
-# turbo:
-#     mercure:
-#         hubs: [default]
+turbo:
+    broadcast:
+        entity_template_prefixes:
+            App\Entity\: broadcast/

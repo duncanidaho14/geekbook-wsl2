@@ -27,3 +27,4 @@ certificatesResolvers:
       httpChallenge:
         # used during the challenge
         entryPoint: websecure
+

@@ -120,7 +120,13 @@ class BookType extends AbstractType
                 'choice_label' => 'fullName',
                 'mapped' => false
             ])
-            ->add('submit', SubmitType::class)
+            // ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Create Task',
+                'attr' => [
+                    'value' => 'create-task'
+                ]
+            ])
         ;
     }
 

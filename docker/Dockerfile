@@ -99,6 +99,7 @@ ENV session.save_path="tcp://db_redis_cache:6379?auth=redis-stack"
 ENV REDIS_ARGS="--save 60 1000 --appendonly yes --requirepass redis-stack"
 ENV REDISTIMESERIES_ARGS="RETENTION_POLICY=20"
 
+
 COPY . /var/www/html/
 
 # RUN cd /var/www/html && \
@@ -133,3 +134,13 @@ EXPOSE 7000
 # RUN chmod +x /usr/local/bin/mercure
 # EXPOSE 3200
 # CMD ["mercure"] 
+
+# FROM dunglas/mercure
+
+# RUN touch /etc/caddy/Caddyfile
+
+# COPY ../src/caddy/Caddyfile /etc/caddy/Caddyfile
+
+# WORKDIR /
+
+# EXPOSE 3201
