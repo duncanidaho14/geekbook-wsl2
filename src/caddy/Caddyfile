@@ -1,13 +1,42 @@
-https://172.19.0.2:2019 {
-	
-	mercure {
-		# Publisher JWT key
-		publisher_jwt !ChangeThisMercureHubJWTSecretKey!
-		# Subscriber JWT key
-		subscriber_jwt !ChangeThisMercureHubJWTSecretKey!
+route {
+    listen 443
+    server_name localhost;
+    root /var/www/html/project/public;
 
-		origin "*"
-	}
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-SS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+    
+    index index.html index.htm index.php;
 
-	respond "Not Found" 404
+    charset utf-8;
+
+    encode zstd gzip;
+
+    location / {
+        root /var/www/html/;
+
+        # Transport to use (default to Bolt)
+        transport_url "bolt:///var/run/mercure.db?size=100&cleanup_frequency=0.4";
+        # Publisher JWT key
+        publisher_jwt {$MERCURE_PUBLISHER_JWT_KEY} {$MERCURE_PUBLISHER_JWT_ALG};
+        # Subscriber JWT key
+        subscriber_jwt {$MERCURE_SUBSCRIBER_JWT_KEY} {$MERCURE_SUBSCRIBER_JWT_ALG};
+        cors_origins "*";
+        publish_origins "*";
+        subscriptions
+        # Extra directives
+        {$MERCURE_EXTRA_DIRECTIVES};
+    }
+
+    respond /healthz 200;
+
+    respond "Not Found" 404;
+}
+
+log {
+    output file /var/log/mercure/mercure.log {
+        roll_local_time;
+        roll_keep 7;
+    }
 }

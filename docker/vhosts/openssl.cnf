@@ -7,7 +7,7 @@ default_ca      = root_ca
 
 #l'autorité de certification racine (root) valable 10 ans
 [ root_ca ]
-dir             = /etc/ssl/
+dir             = /etc/ssl/traefik/
 certs           = $dir/certs
 new_certs_dir   = $dir/newcerts
 database        = $dir/index.txt
@@ -24,7 +24,7 @@ cert_opt        = ca_default
 
 #l'autorité de certification intermédiaire valable 10 ans
 [ core_ca ]
-dir             = /etc/ssl/
+dir             = /etc/ssl/traefik/
 certs           = $dir/certs  
 new_certs_dir   = $dir/newcerts
 database        = $dir/index.txt

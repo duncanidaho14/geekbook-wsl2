@@ -10,6 +10,7 @@ use Symfony\UX\Turbo\TurboBundle;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use App\Repository\CommentRepository;
+use Symfony\Component\Mercure\Update;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mercure\HubInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\AcceptHeader;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,6 +54,13 @@ class BookController extends AbstractController
         CommentRepository $commentRepository,
         string $slug
     ): Response {
+        $response = new JsonResponse(['message' => 'Données reçues avec succès']);
+        $response->headers->set('Access-Control-Allow-Origin', 'https://%env(MERCURE_URL)%:2019');
+        $response->headers->set('Access-Control-Allow-Methods', ['GET', 'POST', 'PUT', 'DELETE'], 'OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
+        $response->headers->set('CORS_ALLOWED_ORIGINS', 'https://%env(MERCURE_URL)%:2019');
+        
+        headers_sent($response);
         $url = $default->getUrl();
         $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'))->all();
         $acceptHeader2 = AcceptHeader::fromString($request->headers->get('Content-Type'))->all();
@@ -71,7 +80,15 @@ class BookController extends AbstractController
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
+                $default->publish(new Update(
+                    'post_comments',
+                    $this->renderView('book/success.stream.html.twig', [
+                        'book' => $books,
+                        'comment' => $comment,
+                        'commentsCount' => $comments->count() + 1,
+                        'form' => $emptyForm
+                    ])
+                ));
                 return $this->render('book/success.stream.html.twig', [
                     'book' => $books,
                     'comment' => $comment,

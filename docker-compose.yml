@@ -1,7 +1,9 @@
 networks:
   proxy:
-    name: proxy
     external: true
+    name: proxy
+
+          
 
 services:
   traefik:
@@ -14,11 +16,15 @@ services:
       - "8085:8085"
     labels:
       - "traefik.http.services.traefik.loadbalancer.server.port=8090"
-      - traefik.http.routers.traefik.rule=Host(`example.com`) && Path(`/traefik`)
-      - traefik.http.routers.traefik.tls=true
-      - traefik.http.routers.traefik.tls.certresolver=gkbook
-      - traefik.http.routers.traefik.tls.domains[0].main=example.com
-      - traefik.http.routers.traefik.tls.domains[0].sans=*.example.org
+      # - "traefik.http.routers.traefik.rule=Host(`gkbook.traefik.me`)"
+      # - "traefik.http.routers.traefik.tls=true"
+      # - "traefik.http.routers.traefik.tls.certresolver=gkbook"
+      # - "traefik.http.routers.traefik.tls.domains[0].main=gkbook.traefik.com"
+      # - "traefik.http.routers.traefik.tls.domains[0].sans=*.gkbook.traefik.org"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowOrigin=*"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,OPTIONS,POST"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Content-Type,Authorization"
+      - "traefik.http.routers.api.middlewares=cors@docker"
       # - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:####HASHED_PASSWORD#####"   # Change HASHED_PASSWORD, and username=admin
       # - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
       # - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
@@ -60,10 +66,10 @@ services:
     image: containous/whoami
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.traefik.me`)"
-    networks:
-      - proxy
     ports:
       - "7980:7980"
+    networks:
+      - proxy
 
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
@@ -76,10 +82,10 @@ services:
       POSTGRES_USER: postgres
     volumes:
       - database_data:/var/www/html/postgresql/data:rw
-    networks:
-      - proxy
     ports:
       - "5032:5032"
+    networks:
+      - proxy
 
   redis:
     image: redis/redis-stack:latest
@@ -116,6 +122,8 @@ services:
     build: docker
     image: gkbook
     container_name: wwwgeekbookapp
+    env_file:
+      - './project/.env.local'
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
@@ -125,20 +133,20 @@ services:
       REDIS_USERNAME: 
       REDIS_PORT: 6379
       REDIS_PASSWORD: redis-stack
-      MERCURE_URL: 'https://172.19.0.2:2019/.well-known/mercure'
-      MERCURE_PUBLIC_URL: 'https://172.19.0.2:2019/.well-known/mercure'
-      MERCURE_PUBLISH_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
-      MERCURE_SUBSCRIBE_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
-      MERCURE_JWT_SECRET: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_URL: "https://localhost:2019/hub/.well-known/mercure"
+      MERCURE_PUBLIC_URL: "https://localhost:2019/hub/.well-known/mercure"
+      # MERCURE_PUBLISH_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
+      # MERCURE_SUBSCRIBE_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
+      MERCURE_JWT_SECRET: "!ChangeThisMercureHubJWTSecretKey!"
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
       DEMO: 1
       ALLOW_ANONYMOUS: 1
-      PUBLISH_ALLOWED_ORIGINS: '*'
-      CORS_ALLOWED_ORIGINS: '*'
+      PUBLISH_ALLOWED_ORIGINS: 'https://localhost:2019/hub/.well-known/mercure'
+      CORS_ALLOWED_ORIGINS: 'https://localhost:2019/hub/.well-known/mercure'
       DEBUG: 1
     labels:
-      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`) && Path(`172.19.0.2:2019`)"
+      - "traefik.http.routers.gkbook.rule=Host(`gkbook.traefik.me`)"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].main=gkbook.traefik.me"
       - "traefik.http.routers.gkbook-tls.tls.domains[0].sans=gkbook-*.traefik.me"
       - "traefik.http.routers.gkbook.tls=true"
@@ -152,8 +160,6 @@ services:
       - ./docker/vhosts:/etc/apache2/sites-enabled
       - ./:/var/www/html
     restart: always
-    networks:
-      - proxy
     depends_on:
       - db
       - meilisearch
@@ -166,6 +172,8 @@ services:
       - redis
     ports:
       - "7000:7000"
+    networks:
+      - proxy
 
   apache:
     image: httpd:2.4
@@ -180,8 +188,6 @@ services:
       - traefik
       - redis
       - redisui
-    networks:
-      - proxy
     ports:
       - "8888:8888"
     links:
@@ -195,17 +201,18 @@ services:
       # - "traefik.http.middlewares.corsMiddleware.headers.accessControlAllowMethods=GET,OPTIONS,POST,PUT,DELETE"
       # - "traefik.http.middlewares.corsMiddleware.headers.accessControlAllowHeaders=Origin,Authorization,Content-Type,Accept"
       # - "traefik.http.routers.apache.middlewares=corsMiddleware"
-
+    networks:
+      - proxy
 
   mailer:
     image: schickling/mailcatcher
     container_name: www_mailer_app
-    networks:
-      - proxy 
     ports:
       - "1025:1025"
       - "1080:1080"
       # vérifier le port 1080
+    networks:
+      - proxy
 
 ###> meilisearch/search-bundle ###
   meilisearch:
@@ -216,24 +223,29 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-7Twsnmr-TYZcIuISSxDMJXeb6WUHjjOZwKBE73CzYBo}
     volumes:
       - meilisearch_data:/meili_data
-    networks:
-      - proxy
     ports:
       - "7700:7700"
+    networks:
+      - proxy
 ###< meilisearch/search-bundle ###
 
   mercure:
     image: dunglas/mercure:latest
     container_name: wwwmercureapp
     restart: unless-stopped
+    # env_file:
+    #   - './project/.env.local'
     environment:
       # Disables Mercure.rocks auto-HTTPS feature, HTTPS must be handled at edge by Traefik or another proxy in front of it
-      SERVER_NAME: ":443"
+      SERVER_NAME: ":2019"
+      MERCURE_URL: "https://localhost:2019/hub/.well-known/mercure"
+      MERCURE_PUBLIC_URL: "https://localhost:2019/hub/.well-known/mercure"
+      MERCURE_JWT_SECRET: "!ChangeThisMercureHubJWTSecretKey!"
       MERCURE_PUBLISHER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
       MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
     # Enables the development mode, comment the following line to run the hub in prod mode
-    command: /usr/bin/caddy run  --config /etc/caddy/Caddyfile |
-      /usr/bin/caddy fmt --overwrite /etc/caddy/Caddyfile
+    # command: /usr/bin/caddy run  --config /etc/caddy/Caddyfile |
+    #   /usr/bin/caddy fmt --overwrite /etc/caddy/Caddyfile
     healthcheck:
       test:
         [
@@ -251,8 +263,16 @@ services:
       - mercure_data:/data
       - mercure_config:/config
     labels:
-      - "traefik.http.routers.mercure.rule=Host(`172.19.0.2:2019`)"
-
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.docker.localhost`)"
+      - traefik.http.routers.mercure.tls=true
+      - traefik.http.routers.mercure.tls.certresolver=gkbook
+      - traefik.http.routers.mercure.tls.domains[0].main=mercure.docker.localhost
+      - traefik.http.routers.mercure.tls.domains[0].sans=*.docker.localhost
+    ports:
+      - "2019:2019"
+    networks:
+      - proxy
       
   # caddy:
   #   image: caddy:latest
@@ -272,8 +292,6 @@ services:
   #     - caddy_data:/data
   #     - caddy_config:/config
     
-
-
 volumes:
   database_data:
   meilisearch_data:

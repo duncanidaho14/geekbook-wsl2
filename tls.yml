@@ -4,7 +4,3 @@ tls:
       defaultCertificate:
         certFile: /etc/ssl/traefik/cert.pem
         keyFile: /etc/ssl/traefik/privkey.pem
-      certificates:
-      - certFile: /etc/ssl/traefik/cert.pem
-        keyFile: /etc/ssl/traefik/privkey.pem
-    

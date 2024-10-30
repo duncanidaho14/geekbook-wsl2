@@ -75,6 +75,7 @@ RUN mkdir -p tools/php-cs-fixer \
 RUN pecl install redis redis-cli \
   && docker-php-ext-enable redis
 
+# RUN caddy fmt --overwrite /etc/caddy/Caddyfile
 # RUN apt install certbot -y \
 #   && certbot --apache 
 
@@ -99,6 +100,36 @@ ENV session.save_path="tcp://db_redis_cache:6379?auth=redis-stack"
 ENV REDIS_ARGS="--save 60 1000 --appendonly yes --requirepass redis-stack"
 ENV REDISTIMESERIES_ARGS="RETENTION_POLICY=20"
 
+# The URL of the Mercure hub, used by the app to publish updates (can be a local URL)
+ENV MERCURE_URL="https://localhost:2019/hub/.well-known/mercure"
+# The public URL of the Mercure hub, used by the browser to connect
+ENV MERCURE_PUBLIC_URL="https://localhost:2019/hub/.well-known/mercure"
+# The secret used to sign the JWTs
+ENV MERCURE_JWT_SECRET="!ChangeThisMercureHubJWTSecretKey!"
+
+#ENV MERCURE_TRANSPORT_URL="postgres://postgres:postgrespw@db_geekbook_app:5432/geekbook?serverVersion=16&charset=utf8"
+ENV MERCURE_LICENSE=snip
+ENV MERCURE_PUBLISH_URL='https://localhost:2019/hub/.well-known/mercure'
+ENV MERCURE_SUBSCRIBE_URL='https://localhost:2019/hub/.well-known/mercure'
+ENV MERCURE_PUBLISHER_JWT_KEY='!ChangeThisMercureHubJWTSecretKey!'
+ENV MERCURE_SUBSCRIBER_JWT_KEY='!ChangeThisMercureHubJWTSecretKey!'
+
+ENV MERCURE_PUBLISH_ALLOWED_ORIGINS='*'
+ENV MERCURE_SUBSCRIBE_ALLOWED_ORIGINS='*'
+ENV MERCURE_CORS_ALLOWED_ORIGINS='*'
+
+ENV CORS_ALLOWED_ORIGINS='*'
+ENV ACCESS_CONTROL_ALLOWED_ORIGINS='*'
+
+ENV SYMFONY_ROOT="/var/www/html/project"
+ENV MERCURE_PATH="$SYMFONY_ROOT/vendor/mercure"
+
+ENV MERCURE_PUBLISHER_JWT_KEY="$(cat $SYMFONY_ROOT/config/jwt/public.pem)" 
+ENV MERCURE_PUBLISHER_JWT_ALG="RS256" 
+ENV MERCURE_SUBSCRIBER_JWT_KEY="$(cat $SYMFONY_ROOT/config/jwt/public.pem)" 
+ENV MERCURE_SUBSCRIBER_JWT_ALG="RS256" 
+
+###< symfony/mercure-bundle ###
 
 COPY . /var/www/html/
 
