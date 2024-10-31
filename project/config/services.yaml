@@ -42,6 +42,10 @@ services:
             $decorated: '@App\Service\CloudflareIpResolver.inner'
             $requestStack: '@request_stack'
     
+    App\Service\CookieGenerator:
+        arguments:
+            $secret: '%env(MERCURE_JWT_SECRET)%'
+
     App\Turbo\Broadcaster\:
         resource: '../src/Turbo/Broadcaster.php'
 

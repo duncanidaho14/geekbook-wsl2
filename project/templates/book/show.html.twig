@@ -204,8 +204,8 @@ eventSource.onmessage = event => {
 
 var href = window.location.href;
 console.log('le href: ----- ', href);
-const url = new URL("https://localhost:2019/hub/.well-known/mercure");
-url.searchParams.append("topic", "https://gkbook.traefik.me/livre/"+href);
+const url = new URL("https://localhost:2019/.well-known/mercure");
+url.searchParams.append("topic", href);
 const eventSource = new EventSource(url);
 
 eventSource.onmessage = e => {

@@ -1,7 +1,7 @@
-route {
+route /.well-known/* {
     listen 443
     server_name localhost;
-    root /var/www/html/project/public;
+    root /srv;
 
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-SS-Protection "1; mode=block";
@@ -14,8 +14,18 @@ route {
     encode zstd gzip;
 
     location / {
-        root /var/www/html/;
+        
+        root /srv/;
+        proxy_pass http://localhost:2019/.well-known/mercure
+        proxy_read_timeout 24h;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
 
+        ## Be sure to set USE_FORWARDED_HEADERS=1 to allow the hub to use those headers ##
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
         # Transport to use (default to Bolt)
         transport_url "bolt:///var/run/mercure.db?size=100&cleanup_frequency=0.4";
         # Publisher JWT key

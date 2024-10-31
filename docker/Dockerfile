@@ -101,18 +101,18 @@ ENV REDIS_ARGS="--save 60 1000 --appendonly yes --requirepass redis-stack"
 ENV REDISTIMESERIES_ARGS="RETENTION_POLICY=20"
 
 # The URL of the Mercure hub, used by the app to publish updates (can be a local URL)
-ENV MERCURE_URL="https://localhost:2019/hub/.well-known/mercure"
+ENV MERCURE_URL="https://localhost:2019/.well-known/mercure"
 # The public URL of the Mercure hub, used by the browser to connect
-ENV MERCURE_PUBLIC_URL="https://localhost:2019/hub/.well-known/mercure"
+ENV MERCURE_PUBLIC_URL="http://localhost:2019/.well-known/mercure"
 # The secret used to sign the JWTs
-ENV MERCURE_JWT_SECRET="!ChangeThisMercureHubJWTSecretKey!"
+ENV MERCURE_JWT_SECRET="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE"
 
 #ENV MERCURE_TRANSPORT_URL="postgres://postgres:postgrespw@db_geekbook_app:5432/geekbook?serverVersion=16&charset=utf8"
 ENV MERCURE_LICENSE=snip
-ENV MERCURE_PUBLISH_URL='https://localhost:2019/hub/.well-known/mercure'
-ENV MERCURE_SUBSCRIBE_URL='https://localhost:2019/hub/.well-known/mercure'
-ENV MERCURE_PUBLISHER_JWT_KEY='!ChangeThisMercureHubJWTSecretKey!'
-ENV MERCURE_SUBSCRIBER_JWT_KEY='!ChangeThisMercureHubJWTSecretKey!'
+ENV MERCURE_PUBLISH_URL='http://localhost:2019/.well-known/mercure'
+ENV MERCURE_SUBSCRIBE_URL='http://localhost:2019/.well-known/mercure'
+ENV MERCURE_PUBLISHER_JWT_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE'
+ENV MERCURE_SUBSCRIBER_JWT_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE'
 
 ENV MERCURE_PUBLISH_ALLOWED_ORIGINS='*'
 ENV MERCURE_SUBSCRIBE_ALLOWED_ORIGINS='*'

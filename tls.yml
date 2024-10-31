@@ -4,3 +4,5 @@ tls:
       defaultCertificate:
         certFile: /etc/ssl/traefik/cert.pem
         keyFile: /etc/ssl/traefik/privkey.pem
+      mercureCertificate:
+        certFile: /
