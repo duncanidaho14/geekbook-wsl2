@@ -203,9 +203,11 @@ eventSource.onmessage = event => {
 <script type="module" id="mercure-url">
 
 var href = window.location.href;
+var searchParams = window.location.searchParams;
 console.log('le href: ----- ', href);
 const url = new URL("https://localhost:2019/.well-known/mercure");
-url.searchParams.append("topic", href);
+console.log('url ------', url);
+url.searchParams.append("topic", searchParams);
 const eventSource = new EventSource(url);
 
 eventSource.onmessage = e => {

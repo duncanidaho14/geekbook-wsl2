@@ -88,7 +88,7 @@ start: ## Start app
 	$(MAKE) docker-start
 
 docker-start: 
-	$(DOCKER_COMPOSE) up --build -d
+	$(DOCKER_COMPOSE) up --build -d 
 
 stop: ## Stop app
 	$(MAKE) docker-stop

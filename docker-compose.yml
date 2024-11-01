@@ -135,8 +135,9 @@ services:
       REDIS_PASSWORD: redis-stack
       MERCURE_URL: "https://localhost:2019/.well-known/mercure"
       MERCURE_PUBLIC_URL: "http://localhost:2019/.well-known/mercure"
-      # MERCURE_PUBLISH_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
-      # MERCURE_SUBSCRIBE_URL: 'https://172.19.0.2:2019/.well-known/mercure?topic=livres'
+      ACCESS_CONTROL_ALLOW_ORIGINS: "*"
+      MERCURE_PUBLISH_URL: 'http://localhost:2019/.well-known/mercure'
+      MERCURE_SUBSCRIBE_URL: 'http://localhost:2019/.well-known/mercure'
       MERCURE_JWT_SECRET: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE"
       MERCURE_PUBLISHER_JWT_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE'
       MERCURE_SUBSCRIBER_JWT_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE'
