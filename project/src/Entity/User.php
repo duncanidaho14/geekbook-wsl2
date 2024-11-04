@@ -88,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $captcha = null;
 
-    #[ORM\ManyToOne(inversedBy: 'subscriber')]
+    #[ORM\ManyToOne(inversedBy: 'subscriber', cascade:["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Subscription $subscription = null;
 
@@ -382,7 +382,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->subscription;
     }
 
-    public function setSubscription(?Subscription $subscription): static
+    public function setSubscription(?Subscription $subscription): self
     {
         $this->subscription = $subscription;
 

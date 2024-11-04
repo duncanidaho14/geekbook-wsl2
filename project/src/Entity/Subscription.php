@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
 
 #[ORM\Entity(repositoryClass: SubscriptionRepository::class)]
 class Subscription
@@ -17,7 +18,7 @@ class Subscription
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name = 'free';
 
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
@@ -43,14 +44,14 @@ class Subscription
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $currentPeriodEnd = null;
 
-    #[ORM\ManyToOne(inversedBy: 'subscriptions')]
+    #[ORM\ManyToOne(inversedBy: 'subscriptions', cascade:["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Plan $plan = null;
 
     /**
      * @var Collection<int, Invoice>
      */
-    #[ORM\OneToMany(mappedBy: 'subscription', targetEntity: Invoice::class)]
+    #[ORM\OneToMany(mappedBy: 'subscription', targetEntity: Invoice::class, cascade:["persist"])]
     private Collection $invoices;
 
     // #[ORM\Column(type: Types::ARRAY)]
@@ -95,6 +96,11 @@ class Subscription
     {
         $this->subscriber = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int

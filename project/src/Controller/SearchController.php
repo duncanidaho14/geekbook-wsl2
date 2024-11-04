@@ -50,4 +50,37 @@ class SearchController extends AbstractController
             'results' => $results ?? []
         ]);
     }
+
+    #[Route('/search', name: 'app_search_modal')]
+    public function searchModal(SearchService $searchService, Request $request, EntityManagerInterface $manager): Response
+    {
+        $searchForm = $this->createForm(SearchFormType::class, null, [
+            'method' => 'GET',
+            'csrf_protection' => false
+        ]);
+
+        $searchQuery = $request->query->get('q') ?? '';
+
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $searchResponse = $searchService->rawSearch(Book::class, $searchQuery, [
+                'attributesToHighlight' => ['title', 'introduction'],
+                'highlightPreTag' => '<mark>',
+                'highlightPostTag' => '</mark>',
+                'attributesToCrop' => ['introduction'],
+                'cropLength' => 20,
+            ]);
+            $results = $searchResponse['hits'];
+        }
+
+        $hits = $searchService->search($manager, Book::class, $searchQuery);
+
+        return $this->render('search/search.html.twig', [
+            'books' => $hits,
+            'searchQuery' => $searchQuery,
+            'searchForm' => $searchForm,
+            'results' => $results ?? []
+        ]);
+    }
 }

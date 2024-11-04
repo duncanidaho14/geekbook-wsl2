@@ -122,8 +122,6 @@ services:
     build: docker
     image: gkbook
     container_name: wwwgeekbookapp
-    env_file:
-      - './project/.env.local'
     environment:
       POSTGRES_PASSWORD: postgrespw
       POSTGRES_USER: postgres
@@ -168,6 +166,7 @@ services:
       - redisui
       - apache
       - mercure
+      - traefik
     links:
       - db
       - redis

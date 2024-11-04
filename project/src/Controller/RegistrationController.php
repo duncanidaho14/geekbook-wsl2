@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Invoice;
+use App\Entity\Plan;
+use App\Entity\Subscription;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
 use App\Security\LoginFormAuthenticator;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +47,35 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
-
+        $subscription = new Subscription();
+        $plan = new Plan();
+        $invoice = new Invoice();
+        $subscription->setIsSubscriber(false)
+                    ->setDuration(new DateTime('+365 days'))
+                    ->setName('free') // compléter par l'abo que l'utilisateur aura choisie
+                    ->setCurrentPeriodStart(new DateTime('now'))
+                    ->setCurrentPeriodEnd(new DateTime('+365 days'))
+                    ->setPlan($plan)
+                    ->setPrice(0)
+                    ->setStripeId($user->getUserIdentifier())
+                    ->addInvoice($invoice)
+                    ->addSubscriber($user)
+        ;
+        $user->setSubscription($subscription);
+        $plan->setCreatedAt(new DateTime('now'))
+            ->setName('free')
+            ->setPrice(0)
+            ->setSlug('free')
+            ->setStripeId($user->getUserIdentifier())
+            ->addSubscription($subscription)
+        ;
+        $invoice->setAmountPaid(0)
+                ->setCreatedAt(new DateTimeImmutable('now'))
+                ->setReference($user->getFullName())
+                ->setReferenceUrl('https://gkbook.traefik.me/ref/')
+                ->setStripeId($user->getUserIdentifier())
+                ->setSubscription($subscription)
+        ;
         if ($form->isSubmitted() && $form->isValid()) {
             //dd(str_contains($request->headers->get('accept'), 'text/vnd.turbo-stream.html'));
 
@@ -59,6 +93,9 @@ class RegistrationController extends AbstractController
                 $score = $recaptcha3Validator->getLastResponse()->getScore();
                 $user->setCaptcha($score);
                 $entityManager->persist($user);
+                $entityManager->persist($subscription);
+                $entityManager->persist($plan);
+                $entityManager->persist($invoice);
                 $entityManager->flush();
 
                 // generate a signed url and email it to the user
