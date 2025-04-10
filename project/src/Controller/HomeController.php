@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Predis\Client;
 use App\Entity\Book;
+use App\Form\SearchFormType;
 use App\Repository\BookRepository;
 use App\Repository\ImageRepository;
 use Meilisearch\Bundle\SearchService;
@@ -18,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
+    public function index(SearchService $searchService, Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
         
 
@@ -65,6 +66,28 @@ class HomeController extends AbstractController
                                         ')->setMaxResults(4)->getResult();
 
 
+    $searchForm = $this->createForm(SearchFormType::class, null, [
+        'method' => 'GET',
+        'csrf_protection' => false
+    ]);
+    $emptyForm = clone $searchForm;
+    $searchQuery = $request->query->get('q') ?? '';
+
+    $emptyForm->handleRequest($request);
+
+    if ($emptyForm->isSubmitted() && $emptyForm->isValid()) {
+        $searchResponse = $searchService->rawSearch(Book::class, $searchQuery, [
+            'attributesToHighlight' => ['title', 'introduction'],
+            'highlightPreTag' => '<mark>',
+            'highlightPostTag' => '</mark>',
+            'attributesToCrop' => ['introduction'],
+            'cropLength' => 20,
+        ]);
+        $results = $searchResponse['hits'];
+    }
+
+    $hits = $searchService->search($manager, Book::class, $searchQuery);
+
         return $this->render('home/index.html.twig', [
             'books' => $lastBooks,
             'authors' => $lastAuthors,
@@ -73,8 +96,12 @@ class HomeController extends AbstractController
             'find' => $bookRepository->findByBookDate($request->query->get('publishedAt')),
             'booksAll' => $bookRepository->findAll(),
             'bookslessexpensive' => $bookRepository->findBy([], ['price' => 'ASC'], 12),
-            'booksmorestars' => $bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12)
-
+            'booksmorestars' => $bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12),
+            'hits' => $hits,
+            'searchQuery' => $searchQuery,
+            'searchForm' => $emptyForm,
+            'results' => $results ?? [],
+            
         ]);
     }
 }

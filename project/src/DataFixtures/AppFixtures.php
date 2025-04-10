@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
         $admin = new User();
         $admin->setFirstName('kirua')
             ->setLastName('zoldyk')
-            ->setAvatar($faker->imageUrl())
+            ->setAvatar('https://picsum.photos/200/300?random=1')
             ->setEmail('admin@geekbook.com')
             ->setIsVerified(true)
             ->setRoles(['ROLE_ADMIN'])
@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
             $user->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
                 ->setEmail($faker->email())
-                ->setAvatar($faker->imageUrl())
+                ->setAvatar('https://picsum.photos/200/300?random=1')
                 ->setIsVerified($faker->randomElement())
                 ->setAgreeTerms(true)
                 ->setRoles(['ROLE_USER'])
@@ -162,7 +162,7 @@ class AppFixtures extends Fixture
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
                 ->setPublishedAt(\DateTimeImmutable::createFromMutable($faker->dateTime()))
-                ->setFirstCover($faker->imageUrl())
+                ->setFirstCover('https://picsum.photos/200/300?random=1')
 
             ;
 
@@ -170,7 +170,7 @@ class AppFixtures extends Fixture
             for ($cat = 0; $cat < 5; $cat++) {
                 $category = new Category();
                 $category->setName($faker->name())
-                    ->setImage($faker->imageUrl())
+                    ->setImage('https://picsum.photos/200/300?random=1')
                     ->addBook($book)
                 ;
                 $manager->persist($category);
@@ -181,7 +181,7 @@ class AppFixtures extends Fixture
             for ($im = 0; $im < 4; $im++) {
                 $image = new Image();
                 $image->setName($faker->name())
-                    ->setUrl($faker->imageUrl())
+                    ->setUrl('https://picsum.photos/200/300?random=1')
                     ->setBook($book)
                 ;
                 $manager->persist($image);
@@ -260,7 +260,7 @@ class AppFixtures extends Fixture
                 $author->setFirstName($faker->firstName())
                     ->setLastName($faker->lastName())
                     ->setDescription($faker->paragraph(2))
-                    ->setAvatar($faker->imageUrl())
+                    ->setAvatar('https://picsum.photos/200/300?random=1')
                     ->addBook($book)
                 ;
                 $manager->persist($author);

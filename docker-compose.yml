@@ -244,7 +244,7 @@ services:
       MERCURE_PUBLISHER_JWT_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE"
       MERCURE_SUBSCRIBER_JWT_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.yTxnVn4c7LBfetDZ0Ck9tcI9vkAEwk6tEBtkp_g0QLE"
       MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins https://gkbook.traefik.me:443
+        cors_origins *
     command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
     # Enables the development mode, comment the following line to run the hub in prod mode
     # command: /usr/bin/caddy run  --config /etc/caddy/Caddyfile |

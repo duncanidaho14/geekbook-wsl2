@@ -25,7 +25,7 @@ RED = /bin/echo -e "\x1b[31m\#\# $1\x1b[0m"
 init: ## 💥 Init the project  
 	$(MAKE) start
 	$(MAKE) composer-install
-	$(MAKE) npm-install
+	$(MAKE) npm-update
 	$(MAKE) https
 	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
@@ -113,6 +113,7 @@ npm-install: ## Install all npm dependencies
 	$(NPX) tailwindcss init -p
 
 npm-update: ## Update all npm dependencies
+	$(NPM) install npm@11.2.0
 	$(NPM) update
 
 npm-watch: ## Watch files

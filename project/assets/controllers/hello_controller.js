@@ -12,5 +12,35 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     connect() {
         this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
+        document.addEventListener('keydown', this.handleEscape.bind(this));
+        useDispatch(this);
+    }
+    
+    disconnect() {
+        document.removeEventListener('keydown', this.handleEscape.bind(this));
+    }
+
+    // handleEscape(event) {
+    //     if (event.key === 'Escape') {
+    //         return this.close();
+    //     }
+    //     return;
+    // }
+
+    // handleSearch(event) {
+    //     if (event.key === 'ctrl+ g') {
+    //         return this.open();
+    //     }
+    //     return;
+    // }
+
+    static targets = ['modal'];
+
+    openModal() {
+        this.modalTarget.classList.remove('hidden');
+    }
+
+    closeModal() {
+        this.modalTarget.classList.add('hidden');
     }
 }

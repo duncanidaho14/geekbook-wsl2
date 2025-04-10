@@ -5,6 +5,7 @@
         <title>{% block title %}GeekBook!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/templates/basic_search.css" />
+
         <meta name="description" content="">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}   
@@ -15,6 +16,16 @@
         {% endblock %}
     </head>
     <body class="dark:bg-gray-800 dark:text-white">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EN9B8VVT00"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EN9B8VVT00');
+    </script>
+    
         {% include './layout/navbar.html.twig' %}
         {% block body %}{% endblock %}
         {% include './layout/footer.html.twig' %}
@@ -33,5 +44,8 @@
                 console.log(JSON.parse(event.data));
             }
         </script> #}
+        
+    
+
     </body>
 </html>

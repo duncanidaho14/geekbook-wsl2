@@ -7,90 +7,410 @@
     <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
         <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
-    <div class="mx-auto py-32 sm:py-48 lg:py-56">
-        <section>
-            <div>
-                <h1 id="director" class="text-center text-4xl">Directeur de projet en conception et développement de solution informatique</h1> 
-                <h2 class="text-center text-white-700 border-white-800 rounded-lg shadow dark:bg-white-800 dark:border-white-700">Bonjour, je m'appelle Elhadi Beddarem.</h2>  
-                <p class="text-center">Diplômé récemment et passionné par les technologies, je suis convaincu que mon profil correspond parfaitement à l’opportunité que votre entreprise offre.</p>
+    <div class="container mx-auto py-10 sm:py-7 lg:py-10">
+        {# début #}
+        <div id="apropos" class="container mx-auto">
+            <div class="w-full">
+            <img src="{{asset('build/images/projet.jpg')}}" alt="wireframe"
+                    class="w-full block max-h-96" data-aos="fade-up" />
+            </div>
+            
+            <section class="w-full h-auto bottom-64">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="min-w-0 flex-1">
+                <h2 class="py-10 text-2xl text-center font-bold text-blue-400 leading-7 sm:truncate sm:text-3xl sm:tracking-tight">Elhadi Beddarem <br>
+                    Directeur de projet en conception et développement de solution informatique
+                </h2>
+                <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+                    <div class="mt-2 flex items-center text-left text-xl text-pink-700">
+                    <svg class="mr-1.5 h-5 w-5 shrink-0 text-pink-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M6 3.75A2.75 2.75 0 0 1 8.75 1h2.5A2.75 2.75 0 0 1 14 3.75v.443c.572.055 1.14.122 1.706.2C17.053 4.582 18 5.75 18 7.07v3.469c0 1.126-.694 2.191-1.83 2.54-1.952.599-4.024.921-6.17.921s-4.219-.322-6.17-.921C2.694 12.73 2 11.665 2 10.539V7.07c0-1.321.947-2.489 2.294-2.676A41.047 41.047 0 0 1 6 4.193V3.75Zm6.5 0v.325a41.622 41.622 0 0 0-5 0V3.75c0-.69.56-1.25 1.25-1.25h2.5c.69 0 1.25.56 1.25 1.25ZM10 10a1 1 0 0 0-1 1v.01a1 1 0 0 0 1 1h.01a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1H10Z" clip-rule="evenodd" />
+                        <path d="M3 15.055v-.684c.126.053.255.1.39.142 2.092.642 4.313.987 6.61.987 2.297 0 4.518-.345 6.61-.987.135-.041.264-.089.39-.142v.684c0 1.347-.985 2.53-2.363 2.686a41.454 41.454 0 0 1-9.274 0C3.985 17.585 3 16.402 3 15.055Z" />
+                    </svg>
+                    Temps plein / CDI
+                    </div>
+                    <div class="mt-2 flex items-center text-sm text-pink-500">
+                    <svg class="mr-1.5 h-5 w-5 shrink-0 text-pink-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
+                    </svg>
+                    Télétravail à Paris
+                    </div>
+                    <div class="mt-2 flex items-center text-sm text-pink-500">
+                    <svg class="mr-1.5 h-5 w-5 shrink-0 text-pink-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path d="M10.75 10.818v2.614A3.13 3.13 0 0 0 11.888 13c.482-.315.612-.648.612-.875 0-.227-.13-.56-.612-.875a3.13 3.13 0 0 0-1.138-.432ZM8.33 8.62c.053.055.115.11.184.164.208.16.46.284.736.363V6.603a2.45 2.45 0 0 0-.35.13c-.14.065-.27.143-.386.233-.377.292-.514.627-.514.909 0 .184.058.39.202.592.037.051.08.102.128.152Z" />
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-6a.75.75 0 0 1 .75.75v.316a3.78 3.78 0 0 1 1.653.713c.426.33.744.74.925 1.2a.75.75 0 0 1-1.395.55 1.35 1.35 0 0 0-.447-.563 2.187 2.187 0 0 0-.736-.363V9.3c.698.093 1.383.32 1.959.696.787.514 1.29 1.27 1.29 2.13 0 .86-.504 1.616-1.29 2.13-.576.377-1.261.603-1.96.696v.299a.75.75 0 1 1-1.5 0v-.3c-.697-.092-1.382-.318-1.958-.695-.482-.315-.857-.717-1.078-1.188a.75.75 0 1 1 1.359-.636c.08.173.245.376.54.569.313.205.706.353 1.138.432v-2.748a3.782 3.782 0 0 1-1.653-.713C6.9 9.433 6.5 8.681 6.5 7.875c0-.805.4-1.558 1.097-2.096a3.78 3.78 0 0 1 1.653-.713V4.75A.75.75 0 0 1 10 4Z" clip-rule="evenodd" />
+                    </svg>
+                    € 45 K 
+                    </div>
+                    <div class="mt-2 flex items-center text-sm text-pink-500">
+                    <svg class="mr-1.5 h-5 w-5 shrink-0 text-pink-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+                    </svg>
+                    Ouvert à de nouvelles opportunités
+                    </div>
+                </div>
+                </div>     
+            </div>
+            </section>   
+
+            <div class="pb-12">
+            <hr>
+            </div>
+
+            <article class="p-4 text-justify">
+            <h3 class="text-3xl border border-spacing-4 bg-[#DB27CC] font-bold text-center">5 ans d'expériences en tant que développeur</h3>
+            <p class="mt-5 px-10 text-xl text-white  leading-2 dark:text-blue-400"><span class="pl-16">Fort</span> d’une formation solide <em class="font-bold">à l'école INSTA</em> de niveau <strong>Bac +5</strong> et d’une expérience approfondie en développement d’applications, je suis passionné par la création de 
+                solutions technologiques innovantes et performantes. Au fil des projets, j'ai su maîtriser les étapes de <strong>conception</strong>, de <strong>développement</strong> et de 
+                <strong>gestion de projets complexes</strong> , alliant compétences techniques pointues et sens stratégique. Mon parcours m’a permis de mener à bien des missions variées, de la définition
+                des besoins jusqu’au déploiement et suivi des solutions, en assurant une cohésion d’équipe et une satisfaction client exemplaires. En tant que Directeur
+                de projet, mon objectif est de transformer les ambitions numériques en solutions concrètes, adaptées aux besoins de l’entreprise et en phase avec 
+                les évolutions du marché.
+            </p>
+            </article>
+
+            <div id="cv" class="p-12"><hr></div>
+
+            <article class="grid grid-cols-12">
+            <div class="col-span-4 py-6 pl-1">
+                <h3 class="text-3xl font-bold">Diplôme</h3>
+                <div data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500">
+                <ol class="relative border-s border-blue-500 dark:border-blue-700">                  
+                    <li class="mb-10 ms-4">
+                        <div class="absolute w-3 h-3 bg-blue-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-400 dark:text-blue-500">Septembre 2022 à Août 2024</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">INSTA Bac +5 mention: "Bien"</h3>
+                        <p class="mb-4 text-base font-normal text-white dark:text-blue-400">Directeur de projet en conception et développement de solutions informatique</p>
+                        <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-white border border-blue-200 rounded-lg hover:bg-blue-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 focus:text-blue-700 dark:bg-blue-800 dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-700">En apprendre plus <svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg></a>
+                    </li>
+                    <li class="mb-10 ms-4">
+                        <div class="absolute w-3 h-3 bg-blue-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-400 dark:text-blue-500">Septembre 2021 Juillet 2022</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">2iTech</h3>
+                        <p class="text-base font-normal text-white dark:text-blue-400">Concepteur Développeur d'Applications</p>
+                    </li>
+                    <li class="ms-4">
+                        <div class="absolute w-3 h-3 bg-blue-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-400 dark:text-blue-500">Mars 2020 à Juin 2020</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">3W Academy</h3>
+                        <p class="text-base font-normal text-white dark:text-blue-400">Formation Symfony React JS</p>
+                    </li>
+                </ol>
+                </div>
+            </div>
+            <div class="col-span-8 px-2">
+                <h3 class="text-3xl font-bold">Expériences <strong class="text-white">professionnelles</strong></h3>
+                <div data-aos="fade-left" data-aos-easing="linear" data-aos-duration="1500">
+                <ol class="relative border-s border-white dark:border-blue-700">                  
+                    <li class="mb-10 ms-4">
+                        <div class="absolute w-3 h-3  rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-200 dark:text-blue-500">Septembre 2022 à Août 2024</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">IAD</h3>
+                        <p class="mb-4 text-base font-normal text-white dark:text-blue-400">Mes actions étaient de faire du PairProgramming, YODA Code, TDD, Clean Architecture, DDD, Code Review,
+                        PHPStan, CI/CD.</p>
+                        <a href="#portfolio" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-900 bg-white border border-blue-200 rounded-lg hover:bg-blue-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 focus:text-blue-700 dark:bg-white dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-700">En apprendre plus <svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg></a>
+                    </li>
+                    <li class="mb-10 ms-4">
+                        <div class="absolute w-3 h-3 bg-blue-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-400 dark:text-blue-500">Février 2021 à Juillet 2022</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">SAS Kalliste</h3>
+                        <p class="text-base font-normal text-white dark:text-blue-400">Implémentation d'une Api RESTfull de "News" cablé à l'application BDES.</p>
+                    </li>
+                    <li class="ms-4">
+                        <div class="absolute w-3 h-3 bg-blue-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-blue-900 dark:bg-blue-700"></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-blue-400 dark:text-blue-500">Janvier 2020 à Septembre 2020</time>
+                        <h3 class="text-lg font-semibold text-blue-200 dark:text-white">Altimatech</h3>
+                        <p class="text-base font-normal text-white dark:text-blue-400">Conception et Développement d'une application de calcul du Nutri-Score avec une solution Symfony 4
+                        et Twig au sein d'une équipe de 3 développeurs.</p>
+                    </li>
+                </ol>
+                </div>
+            </div>
+            </article>
+            
+            <div id="skills" class="p-12"></div>
+
+            <h3 class="pb-6 text-3xl font-bold text-center text-white">Skills</h3>
+            <section class="w-full h-auto flex flex-wrap">
+            <div class="basis-1/3 px-2">
+                <h4 data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500" class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">PHP</h4>
+                <a data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500" href="#" class="flex flex-col items-center bg-blue-100 border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{asset('build/images/symfony.svg')}}" alt="symfony">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Symfony</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">De nombreux projets en Symfony.</p>
+                </div>
+                </a>
+            </div>
+            <div class="basis-1/3 px-2">
+                <h4 data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500" class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">Javascript</h4>
+                <a data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500" href="https://shtex.fr" target="_blank" class="flex flex-col items-center bg-white border border-blue-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-800 dark:hover:bg-blue-700">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg lg:rounded" src="{{asset('build/images/logo-javascript.svg')}}" alt="javascript">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-blue-900 dark:text-white">React JS</h5>
+                    <p class="mb-3 font-normal text-blue-700 dark:text-blue-400">shtex.fr</p>
+                </div>
+                </a>
+            </div>
+            <div class="basis-1/3 px-2">
+                <h4 data-aos="fade-left" data-aos-easing="linear" data-aos-duration="1500" class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">Git</h4>
+                <a data-aos="fade-left" data-aos-easing="linear" data-aos-duration="1500" href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{asset('build/images/Git_icon.svg.png')}}" alt="git">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">CI/CD</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Travail coopératif.</p>
+                </div>
+                </a>
+            </div>
+            <hr>
+            <div class="basis-1/3 w-full h-24  px-2">
+                <h4 data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500"  class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">DevOps</h4>
+                <a data-aos="fade-right" data-aos-easing="linear" data-aos-duration="1500"  href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-24 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{asset('build/images/docker-svgrepo-com.svg')}}" alt="css3">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Docker & Kubernetes</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+                </a>
+            </div>
+            <div class="basis-1/3 px-2">
+                <h4 data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500"  class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">Gestion de Projet</h4>
+                <a data-aos="fade-up" data-aos-easing="linear" data-aos-duration="1500"  href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-20 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/assets/images/uml-logo.png" alt="uml">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">UML & MERISE</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+                </a>
+            </div>
+            <div class="basis-1/3 px-2">
+                <h4 data-aos="fade-left" data-aos-easing="linear" data-aos-duration="1500"  class="text-4xl m-2 text-center border border-blue-500 rounded-lg bg-blue-100">CMS & SEO</h4>
+                <a data-aos="fade-left" data-aos-easing="linear" data-aos-duration="1500"  href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-20 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/assets/images/wordpress-logo.png" alt="wordpress">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Projet Bioovi</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Modification du plugin WowCommerce afin de rajouter la quantité du panier à 0 produits par défaut.</p>
+                </div>
+                </a>
+            </div>
             </div>
         </section>
-        <section class="design-section">
-            <div class="timeline">
 
-                    <!--Well, The reason for this div is to fill space. 
-            This space is technically used for keeping dates, 
-            but I didn't find the need for dates. However, I'll provide 
-            you the styling for dates, so that you can use it if you 
-            wanted to.-->
-                <div class="timeline-empty">
-                </div>
+        <div id="portfolio"  class="p-12"></div>
 
-            <!--This is the class where the timeline graphics are 
-            housed in. Note that we have timeline-circle 
-            here for that pointer in timeline.-->
-
-                <div class="timeline-middle">
-                    <div class="timeline-circle"></div>
+        <section>
+        <div><h2 class="pb-6 text-7xl text-center font-semibold text-white">Mes projets</h2></div>
+        <div class="container mx-auto w-full h-96">
+            <div class="grid lg:grid-cols-3 sm:grid-cols-1 sm:grid-rows-3 px-2">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="./assets/images/iad-site.png" alt="projet iad" class="w-full h-96">
                 </div>
-                <div class="timeline-component timeline-content">
-                    <h3>HTML</h3>
-                    <p>Structure du code html</p>
+                <div class="flip-card-back text-justify">
+                    <h3 class="text-2xl font-bold text-center">Iad Squad Discover</h3>
+                    <p class="text-l font-bold">Développeur Backend Symfony</p>
+                    <p>Iad est une licorne dans le secteur de l'immobilier. Nous faisons évoluer le produit "Gestion des Biens"
+                    avec la méthode Agile SCRUM. Participation à la conception et à l'architecture des projets.</p>
+                    <p> Développement et maintenance d'applications intranet backend avec Symfony.</p>
+                    <p> Intégration de nouvelles fonctionnalités et modules.</p>
+                    <p> Optimisation des performances des applications.</p>
+                    <p> Participation à la mise en place d'une architecture microservices pour améliorer la scalabilité et la flexibilité des applications.</p>
+                    <p> Collaboration avec l'équipe Frontend pour garantir la cohérence des développements.</p>
+                    <p> Collaboration avec l'équipe QA pour mettre en place des tests automatisés et garantir la qualité du code livré.</p>
+                    <p>Développement et maintenance d'un outil de transactions immobilières (intégration de biens, validation des mandats, diffusion des annonces sur des sites spécialisés).</p>
+                    <p>Analyse et documentation de l'application CityScoring notamment refactoring du CRUD grâce à une évolution de la gestion des services par pays.</p>
+                    <p>Refonte de la fiche commerciale sous format PDF.</p>
+                    <p>Collaboration avec l'équipe Frontend pour assurer la cohérence des développements.</p>
+                    <p>Mes actions étaient de faire du PairProgramming, YODA Code, TDD, Clean Architecture, DDD, Code Review,PHPStan, CI CD.
+                    <p>Outils collaboratifs : Jira, Confluence, Slack, Microsoft Teams.</p>
+                    <p class="font-bold">Environnement technique : Linux, Symfony 2.* - 5.*, ApiPlatform 2.* et 3.*, PHPUnit, PostgreSQL, MySQL, Docker, Zend Framework, Datadog, AWS.</p>
                 </div>
-                    <div class="timeline-component timeline-content">
-                            <h3>CSS & SCSS</h3>
-                            <p>Some Text.</p>
-                    </div>
-                    <div class="timeline-middle">
-                        <div class="timeline-circle"></div>
-                    </div>
-                    <div class="timeline-empty">
-                    </div>
-
-                    <div class="timeline-empty">
-                    </div>
-
-                <div class="timeline-middle">
-                    <div class="timeline-circle"></div>
                 </div>
-                <div class="timeline-component timeline-content">
-                    <h3>Javascript</h3>
-                    <p>Some Text.</p>
-                </div>
-                <div class="timeline-empty">
-                    </div>
-                <div class="timeline-empty">
-                    </div>
-                <div class="timeline-middle">
-                    <div class="timeline-circle"></div>
-                </div>
-                <div class="timeline-component timeline-content">
-                    <h3>PHP 8</h3>
-                    <p>Some Text.</p>
-                </div>
-                <div class="timeline-middle">
-                    <div class="timeline-circle"></div>
-                </div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-middle">
-                    <div class="timeline-circle"></div>
-                </div>
-                <div class="timeline-component timeline-content">
-                    <h3>Shell & Bash</h3>
-                    <p>Some Text.</p>
-                </div>
-                <div class="timeline-empty"></div>
-                <div class="timeline-empty"></div>
             </div>
-        </div> 
-    </section>    
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="./assets/images/saskalliste.png" alt="projet sas kalliste" class="w-full h-96">
+                </div>
+                <div class="flip-card-back text-justify">
+                    <h3 class="text-2xl text-center">SAS Kalliste</h3>
+                    <p class="text-l font-bold">Développeur Fullstack</p>
+                    <p>Développement d'une Plateforme d'Élection pour le Comité Social et Économique (CSE)</p>
+                    <p>développement d'une application web en Symfony 5 pour organiser les élections des représentants du personnel du CSE. Le système comprend la gestion des utilisateurs, des candidats et des votes, avec une interface utilisateur sécurisée et une base de données optimisée pour une performance accrue.</p>
+                    
+                    <p>Optimisation d'un Plugin WooCommerce</p>
+                    <p>Correction et optimisation d'un plugin WooCommerce pour ajuster les quantités de produits par défaut à zéro, facilitant ainsi la gestion des stocks et la précision des commandes.</p>
+                    
+                    <p>Création d'un Plugin WordPress sur Mesure pour bioovi.e-boutique.top</p>
+                    <p>Développement d’un plugin WordPress personnalisé pour répondre aux besoins spécifiques de la boutique en ligne bioovi.e-boutique.top, en ajoutant des fonctionnalités adaptées au domaine d’activité de l’e-commerce biologique.</p>
+                    
+                    <p>Développement et Maintenance du Site BDES</p>
+                    <p>Participation active au développement et à la maintenance du site BDES en utilisant le framework CodeIgniter. Responsabilités incluant le développement de nouvelles fonctionnalités, la gestion des mises à jour, ainsi que le débogage et l’amélioration continue du site.</p>
+                    
+                    <p>Déploiement d'une API REST pour la Gestion des Actualités</p>
+                    <p>Conception, modélisation, développement et déploiement d'une API REST en Symfony 5, combinée à API Platform, pour gérer des actualités. Ce projet a permis de centraliser et d'automatiser la gestion des contenus d'actualités avec des fonctionnalités avancées.</p>
+                </div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="./assets/images/ftl express.png" alt="projet FTL Express" class="w-full h-96">
+                </div>
+                <div class="flip-card-back text-justify">
+                    <h3 class="text-2xl text-center">FTL Express</h3>
+                    <p class="text-l font-bold">Développeur Frontend</p>
+                    <p>Projet : Application Logistique de Livraison de Colis</p>
+                    <p>Développement d'une application logistique de gestion et livraison de colis en utilisant une solution
+                    JEE pour le backend et Vue JS pour le frontend.</p>
+                    <p>Au sein d'une équipe de 4 développeurs, avec des responsabilités incluant :</p>
+                    <p>Réalisation de tests unitaires et fonctionnels avec Chai et Mocha pour assurer la qualité du code.
+                    <p>Développement de la fonctionnalité d'importation de fichiers CSV et PDF pour faciliter le
+                    traitement des données logistiques.</p>
+                    <p>Migration de l'application de Vue JS 2.x et mise à jour vers Intl8, améliorant les performances et la
+                    localisation de l'interface.</p>
+                    <p >Utilisation de Webpack 3 pour la gestion des assets et l'optimisation des performances.</p>
+                    <p class="font-bold">Environnement technique : Java JEE, Vue JS, ExpressJS, Chai, Mocha, Webpack 3</p>
+                </div>
+                </div>
+            </div> 
+            </div>
+        </div>
+        </div>
+        
+        </section>
+
+        <div class="p-44"></div>
+
+        <section>
+            <div class="py-24 sm:py-32">
+                <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+                <h2 class="text-7xl text-center font-semibold text-white">Mes projets</h2>
+                <p class="mx-auto mt-2 max-w-lg text-balance text-center text-xl font-semibold tracking-tight text-pink-200 sm:text-5xl">Du Backend au Frontend</p>
+                <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+                    <div data-aos="fade-right" class="relative lg:row-span-2">
+                    <div class="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+                        <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                        <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Mobile friendly</p>
+                        <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</p>
+                        </div>
+                        <div class="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
+                        <div class="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
+                            <img class=" object-cover" src="/assets/images/symfony-chartjs.png" alt="admin dashboard">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 lg:rounded-l-[2rem]"></div>
+                    </div>
+                    <div data-aos="fade-down" class="relative max-lg:row-start-1">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+                        <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                        <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Performance</p>
+                        <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Lorem ipsum, dolor sit amet consectetur adipisicing elit maiores impedit.</p>
+                        </div>
+                        <div class="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+                        <img class="w-full max-lg:max-w-xs" src="/assets/images/panier geekbook screenshot.png" alt="panier projet geekbook">
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]"></div>
+                    </div>
+                    <div data-aos="fade-up" class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+                    <div class="absolute inset-px rounded-lg bg-white"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
+                        <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                        <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Security</p>
+                        <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.</p>
+                        </div>
+                        <div class="flex flex-1 items-center [container-type:inline-size] max-lg:py-6 lg:pb-2">
+                        <img class="h-[min(152px,40cqw)] object-cover object-center" src="/assets/images/panier geekbook screenshot.png" alt="panier projet geekbook.com">
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5"></div>
+                    </div>
+                    <div data-aos="fade-left" class="relative lg:row-span-2">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
+                        <div class="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                        <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">A propos</p>
+                        <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget sem sodales gravida.</p>
+                        </div>
+                        <div class="relative min-h-[30rem] w-full grow">
+                        <div class="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
+                            <div class="flex bg-gray-800/40 ring-1 ring-white/5">
+                            <div class="-mb-px flex text-sm/6 font-medium text-gray-400">
+                                <div class="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white cursor-pointer">NotificationSetting.jsx</div>
+                                <div class="border-r border-gray-600/10 px-4 py-2 cursor-pointer">App.jsx</div>
+                            </div>
+                            </div>
+                            <div class="px-6 pb-14 pt-6">
+                            <div class="text-white">
+                                <p>Bonjour Madame, Monsieur,</p>
+                                <p>📧 elhadibeddarem@gmail.com</p>
+                                <p>localisation: Paris</p>
+                                <p>Sport: Football</p>
+                                <p>Lecture: SF, Manga</p>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
+                    </div>
+                </div>
+                </div>
+            </div> 
+            </section>
+            <div>
+            <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+                <div>
+                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Mes Compétences</h2>
+                <p class="mt-4 text-gray-500"></p>
+            
+                <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Origin</dt>
+                    <dd class="mt-2 text-sm text-white">Designed by Good Goods, Inc.</dd>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Material</dt>
+                    <dd class="mt-2 text-sm text-white">Solid walnut base with rare earth magnets and powder coated steel card cover</dd>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Dimensions</dt>
+                    <dd class="mt-2 text-sm text-white">6.25&quot; x 3.55&quot; x 1.15&quot;</dd>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Finish</dt>
+                    <dd class="mt-2 text-sm text-white">Hand sanded and finished with natural oil</dd>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Includes</dt>
+                    <dd class="mt-2 text-sm text-white">Wood card tray and 3 refill packs</dd>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                    <dt class="font-medium text-white">Considerations</dt>
+                    <dd class="mt-2 text-sm text-white">Made from natural materials. Grain and color vary with each item.</dd>
+                    </div>
+                </dl>
+                </div>
+                <div class="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
+                <img src="/assets/images/projet.jpg" alt="Walnut card tray filled with cards and card angled in dedicated groove." class="rounded-lg bg-gray-100">
+                <img src="/assets/images/logo-symfony.png" alt="Walnut card tray with white powder coated steel divider and 3 punchout holes." class="rounded-lg bg-gray-100">
+                <img src="/assets/images/docker-svgrepo-com.svg" alt="Top down view of walnut card tray with embedded magnets and card groove." class="rounded-lg bg-gray-100">
+                <img src="/assets/images/logo-javascript.svg" alt="Side of walnut card tray with card groove and recessed card area." class="rounded-lg bg-gray-100">
+                </div>
+            </div>
+            </div>
+            
+        </div>
+        {# fin #}
+    </div>   
 </div>
 
 {% endblock %}

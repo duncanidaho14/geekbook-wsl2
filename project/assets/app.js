@@ -16,6 +16,22 @@ import {
 import 'flowbite';
 import './images/hero.png';
 import logoPath from './images/logo.svg';
+import projetAbout from './images/projet.jpg';
+import './images/css-3.svg';
+import './images/dev-diplome.jpg';
+import './images/docker-svgrepo-com.svg';
+import './images/ftl express.png';
+import './images/uml-logo.png';
+import './images/wordpress-logo.png';
+import './images/Git_icon.svg.png';
+import './images/diplome.svg';
+import second from './images/iad-site.png';
+import symfonyLogo from './images/symfony.svg';
+import chartjsSymfony from './images/symfony-chartjs.png';
+import javascriptLogo from './images/logo-javascript.svg';
+import kalliste from './images/saskalliste.png';
+import cartGKBook from './images/panier geekbook screenshot.png';
+
 
 initTE({ Ripple, Animate });
 
@@ -31,8 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('session-id').setAttribute('value', session_id);
     }
 
-    const url = JSON.parse(document.getElementById("mercure-url").textContent);
-    const eventSource = new EventSource(url)
+    // const url = JSON.parse(document.getElementById("mercure-url").textContent);
+    // const eventSource = new EventSource(url)
 });
 
 

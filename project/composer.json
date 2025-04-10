@@ -23,6 +23,7 @@
         "meilisearch/meilisearch-php": "^1.7",
         "meilisearch/search-bundle": "^0.15.0",
         "mikehaertl/phpwkhtmltopdf": "^2.5",
+        "nelmio/cors-bundle": "^2.5",
         "nelmio/security-bundle": "^3.4",
         "nyholm/psr7": "^1.8",
         "phpdocumentor/reflection-docblock": "^5.3",
