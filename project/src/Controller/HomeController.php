@@ -18,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    
+
     #[Route('/', name: 'app_home')]
     public function index(SearchService $searchService, Request $request, EntityManagerInterface $manager, BookRepository $bookRepository, ImageRepository $imageRepository, CategoryRepository $categoriesRepository): Response
     {
@@ -65,17 +67,19 @@ class HomeController extends AbstractController
                                                 ORDER BY b.publishedAt DESC
                                         ')->setMaxResults(4)->getResult();
 
+    
 
     $searchForm = $this->createForm(SearchFormType::class, null, [
         'method' => 'GET',
         'csrf_protection' => false
     ]);
-    $emptyForm = clone $searchForm;
+    
     $searchQuery = $request->query->get('q') ?? '';
+    
+    $searchForm->handleRequest($request);
+   
 
-    $emptyForm->handleRequest($request);
-
-    if ($emptyForm->isSubmitted() && $emptyForm->isValid()) {
+    if ($searchForm->isSubmitted() && $searchForm->isValid()) {
         $searchResponse = $searchService->rawSearch(Book::class, $searchQuery, [
             'attributesToHighlight' => ['title', 'introduction'],
             'highlightPreTag' => '<mark>',
@@ -99,7 +103,7 @@ class HomeController extends AbstractController
             'booksmorestars' => $bookRepository->findBy([], ['rating' => 5, 'rating' => 'DESC'], 12),
             'hits' => $hits,
             'searchQuery' => $searchQuery,
-            'searchForm' => $emptyForm,
+            'searchForm' => $searchForm,
             'results' => $results ?? [],
             
         ]);

@@ -15,7 +15,7 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   &&  curl -sS https://getcomposer.org/installer | php -- \
   &&  mv composer.phar /usr/local/bin/composer \
   \
-  && curl -sL https://deb.nodesource.com/setup_18.x | bash \
+  && curl -sS https://deb.nodesource.com/setup_22.x | bash \
   && apt-get install -y nodejs \
   \
   &&  curl -sS https://get.symfony.com/cli/installer | bash \
@@ -29,7 +29,7 @@ RUN docker-php-ext-configure \
   &&  pecl install apcu && docker-php-ext-enable apcu \
   && apt install nano
 
-RUN apt-get install -y \
+RUN apt install -y \
     openssl \
     libxrender1 \
     libfontconfig1 \
@@ -49,13 +49,14 @@ RUN curl -L https://install.meilisearch.com | sh \
 
 RUN a2enmod rewrite proxy proxy_http proxy_wstunnel ssl
 
-RUN apt install -y openssl
-
 RUN apt install -y openssh-server
 
 RUN curl -JLO "https://dl.filippo.io/mkcert/v1.4.4?for=linux/amd64" && \
     chmod +x mkcert-v1.4.4-linux-amd64 \
     && cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+
+RUN mkcert -install
+RUN mkcert gkbook.traefik.me
 
 RUN curl -LO https://deployer.org/deployer.phar  && \
     mv deployer.phar /usr/local/bin/dep  && \

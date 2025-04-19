@@ -23,20 +23,13 @@ class SearchComponent
 
     #[LiveAction]
     public function hasOpen(): bool {
-        // $this->__invoke($this->searchService, $this->request, $this->manager);
-        if($this->isOpen === false) {
-            return true;
-        }
-        return false;
+       return true;
     }
 
     #[liveAction]
     public function setTitle(Request $request): string {
-        if ($this->hasOpen() === true && $request->query->get('q') !== null) {
-            
-        }
-        $searchQuery = $request->query->get('q') ?? '';
-        return $searchQuery;
+        $this->title = $request->request->get('q');
+        return $this->title;
     }
 
     // public function __invoke(SearchService $searchService, Request $request, EntityManagerInterface $manager): Response

@@ -12,12 +12,12 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     connect() {
         this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
-        document.addEventListener('keydown', this.handleEscape.bind(this));
-        useDispatch(this);
+        // document.addEventListener('keydown', this.handleEscape.bind(this));
+        // useDispatch(this);
     }
     
     disconnect() {
-        document.removeEventListener('keydown', this.handleEscape.bind(this));
+        // document.removeEventListener('keydown', this.handleEscape.bind(this));
     }
 
     // handleEscape(event) {
@@ -34,13 +34,13 @@ export default class extends Controller {
     //     return;
     // }
 
-    static targets = ['modal'];
+    // static targets = ['modal'];
 
-    openModal() {
-        this.modalTarget.classList.remove('hidden');
-    }
+    // openModal() {
+    //     this.modalTarget.classList.remove('hidden');
+    // }
 
-    closeModal() {
-        this.modalTarget.classList.add('hidden');
-    }
+    // closeModal() {
+    //     this.modalTarget.classList.add('hidden');
+    // }
 }

@@ -46,7 +46,7 @@ cs-fixer: ## Install PHP CS FIXER
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
-	$(EXEC) mkcert -install
+	$(EXEC) mkcert install
 	
 cert: ## Install Certification
 	$(EXEC) wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem
@@ -113,7 +113,6 @@ npm-install: ## Install all npm dependencies
 	$(NPX) tailwindcss init -p
 
 npm-update: ## Update all npm dependencies
-	$(NPM) install npm@11.2.0
 	$(NPM) update
 
 npm-watch: ## Watch files

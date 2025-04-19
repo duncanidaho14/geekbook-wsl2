@@ -31,23 +31,18 @@
     <div>
       {% if app.user %}
         
-          {{ form_start(searchForm) }}
-          {{ form_widget(searchForm, {'attr': {
-            'id': 'search-modal',
-            'class': 'border rounded px-4 py-2 w-full',
-            'placeholder': 'Rechercher un article'
-          }}) }}
-          {{ form_end(searchForm) }}
-        
-        <a href="{{ path('app_logout') }}" class="bg-indigo-600 text-white px-4 py-2 rounded">
-            Se déconnecter
-        </a>
-        <a href="{{ path('app_account') }}" class="bg-indigo-600 text-white px-4 py-2 rounded">
-            Mon compte
-        </a>
-        <a href="{{ path('app_basket') }}" class="bg-indigo-600 text-white px-4 py-2 rounded">
-            Mon panier
-        </a>
+        <div class="container mx-auto">
+          
+          
+          <div id="search-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="bg-white p-6 rounded shadow-lg">
+              <h2 class="text-xl font-bold mb-4">Recherche</h2>
+              {{ form_start(searchForm) }}
+              {{ form_widget(searchForm) }}
+              {{ form_end(searchForm) }}
+              <button id="close-search-modal" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">Fermer</button>
+            </div>
+        </div>
         
         
       {% else %}

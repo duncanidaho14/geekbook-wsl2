@@ -3,5 +3,5 @@
 ./../project/vendor/
 ./../project/*.pem
 ./../*.pem
-
+./../letsencrypt/
 
