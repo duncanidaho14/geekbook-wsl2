@@ -3,8 +3,6 @@ networks:
     external: true
     name: proxy
 
-          
-
 services:
   traefik:
     image: traefik:v2.0.2
@@ -16,11 +14,11 @@ services:
       - "8085:8085"
     labels:
       - "traefik.http.services.traefik.loadbalancer.server.port=8090"
-      # - "traefik.http.routers.traefik.rule=Host(`gkbook.traefik.me`)"
-      # - "traefik.http.routers.traefik.tls=true"
-      # - "traefik.http.routers.traefik.tls.certresolver=gkbook"
-      # - "traefik.http.routers.traefik.tls.domains[0].main=gkbook.traefik.com"
-      # - "traefik.http.routers.traefik.tls.domains[0].sans=*.gkbook.traefik.org"
+      - "traefik.http.routers.traefik.rule=Host(`gkbook.traefik.me`)"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=gkbook"
+      - "traefik.http.routers.traefik.tls.domains[0].main=gkbook.traefik.me"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.gkbook.traefik.me"
       - "traefik.http.middlewares.cors.headers.accessControlAllowOrigin=*"
       - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,OPTIONS,POST"
       - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Content-Type,Authorization"
@@ -40,6 +38,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.gkbook.acme.tlschallenge=true"
       - "--certificatesresolvers.gkbook.acme.email=elhadibeddarem@gmail.com"
@@ -56,7 +55,7 @@ services:
   reverse-proxy-https-helper:
     image: alpine
     container_name: www_reverse_proxy
-    command: sh -c "cd /etc/ssl/traefik && wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem"
+    #command: sh -c "cd /etc/ssl/traefik && wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem"
     volumes:
       - certs:/etc/ssl/traefik
     networks:

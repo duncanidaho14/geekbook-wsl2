@@ -16,33 +16,35 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "comment"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "comment"])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "comment"])]
     private ?string $comment = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["comment"])]
     private ?User $userComment = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["comment"])]
     private ?Book $bookComment = null;
 
     #[Timestampable(on: 'create')]
     #[ORM\Column(name: 'created_at', type: Types::DATE_IMMUTABLE)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "comment"])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "comment"])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]

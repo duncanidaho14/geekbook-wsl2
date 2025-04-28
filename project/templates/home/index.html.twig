@@ -28,46 +28,7 @@
   </div>
 </div>
   
-    <div>
-      {% if app.user %}
-        
-        <div class="container mx-auto">
-          
-          
-          <div id="search-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div class="bg-white p-6 rounded shadow-lg">
-              <h2 class="text-xl font-bold mb-4">Recherche</h2>
-              {{ form_start(searchForm) }}
-              {{ form_widget(searchForm) }}
-              {{ form_end(searchForm) }}
-              <button id="close-search-modal" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">Fermer</button>
-            </div>
-        </div>
-        
-        
-      {% else %}
-        <a href="{{ path('app_login') }}" class="bg-indigo-600 text-white px-4 py-2 rounded">
-            Se connecter
-        </a>
-      {% endif %}
-
-        <div id="search-results" data-turbo-frame="search-results">
-            <!-- Les résultats de la recherche seront chargés ici -->
-            {% if results is not empty %}
-                <h2 class="text-2xl font-bold">Résultats de la recherche :</h2>
-                <ul>
-                    {% for result in results %}
-                        <li>
-                            <a href="{{ path('app_show_book', {'slug': result.slug}) }}">{{ result.title }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Aucun résultat trouvé.</p>
-            {% endif %}
-        </div>
-    </div>
-</div>
+    
 
 
 <div class="bg-white py-24 sm:py-32 dark:bg-gray-800 dark:text-white">

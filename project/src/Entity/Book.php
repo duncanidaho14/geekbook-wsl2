@@ -22,55 +22,168 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9\s]+$/',
+        message: 'Le titre ne peut contenir que des lettres, des chiffres et des espaces.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\d]+$/',
+        message: 'Le titre ne peut pas commencer par un chiffre.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s]+$/',
+        message: 'Le titre ne peut pas commencer par un espace.'
+    )]
+    #[Assert\Regex(
+        pattern: '/[^\s]+$/',
+        message: 'Le titre ne peut pas se terminer par un espace.'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'L\'introduction doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'L\'introduction ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9\s]+$/',
+        message: 'L\'introduction ne peut contenir que des lettres, des chiffres et des espaces.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\d]+$/',
+        message: 'L\'introduction ne peut pas commencer par un chiffre.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s]+$/',
+        message: 'L\'introduction ne peut pas commencer par un espace.'
+    )] 
     private ?string $introduction = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 2,
+        max: 1000,
+        minMessage: 'La description doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'La description ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9\s]+$/',
+        message: 'La description ne peut contenir que des lettres, des chiffres et des espaces.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\d]+$/',
+        message: 'La description ne peut pas commencer par un chiffre.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s]+$/',
+        message: 'La description ne peut pas commencer par un espace.'
+    )]
+    #[Assert\Regex(
+        pattern: '/[^\s]+$/',
+        message: 'La description ne peut pas se terminer par un espace.'
+    )]
     private ?string $description = null;
 
     #[Timestampable(on: 'create')]
     #[ORM\Column(name: 'created_at', type: Types::DATE_IMMUTABLE)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\DateTime(format: 'd/m/Y H:i:s', message: 'La date de création doit être au format d/m/Y H:i:s.')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_IMMUTABLE)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\DateTime(format: 'd/m/Y H:i:s', message: 'La date de mise à jour doit être au format d/m/Y H:i:s.')]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Timestampable(on: 'change')] //, field:["title", "body"]
     #[ORM\Column(name: 'published_at', type: Types::DATE_IMMUTABLE, nullable: true)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\DateTime(format: 'd/m/Y H:i:s', message: 'La date de publication doit être au format d/m/Y H:i:s.')]
+    #[Assert\GreaterThanOrEqual(
+        value: 'now',
+        message: 'La date de publication doit être supérieure ou égale à la date actuelle.'
+    )]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[Slug(fields: ['title'])]
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
     private ?string $slug = null;
 
     #[ORM\Column]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Positive(message: 'Le prix doit être positif.')]
+    #[Assert\GreaterThanOrEqual(
+        value: 0,
+        message: 'Le prix doit être supérieur ou égal à {{ compared_value }}.'
+    )]
     private ?float $price = null;
 
     #[ORM\Column(length: 20)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Choice(
+        choices: ['fr', 'en', 'es', 'de'],
+        message: 'Choisissez une langue valide.',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z]+$/',
+        message: 'La langue ne peut contenir que des lettres.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\d]+$/',
+        message: 'La langue ne peut pas commencer par un chiffre.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s]+$/',
+        message: 'La langue ne peut pas commencer par un espace.'
+    )]
+    #[Assert\Regex(
+        pattern: '/[^\s]+$/',
+        message: 'La langue ne peut pas se terminer par un espace.'
+    )]
     private ?string $langue = null;
 
     #[ORM\Column]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Positive(message: 'Le nombre de pages doit être positif.')]
+    #[Assert\GreaterThanOrEqual(
+        value: 1,
+        message: 'Le nombre de pages doit être supérieur ou égal à {{ compared_value }}.'
+    )]
     private ?int $nbPages = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\Regex(
+        pattern: '/^[0-9]+x[0-9]+$/',
+        message: 'Le format doit être au format "largeur x hauteur".'
+    )]
     private ?string $dimension = null;
 
     #[Assert\Isbn(
@@ -78,29 +191,67 @@ class Book
         message: 'Cette valeur n\'est pas valide.',
     )]
     #[ORM\Column(length: 50)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 10,
+        max: 13,
+        minMessage: 'L\'ISBN doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'L\'ISBN ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'L\'éditeur doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'L\'éditeur ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9\s]+$/',
+        message: 'L\'éditeur ne peut contenir que des lettres, des chiffres et des espaces.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\d]+$/',
+        message: 'L\'éditeur ne peut pas commencer par un chiffre.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[^\s]+$/',
+        message: 'L\'éditeur ne peut pas commencer par un espace.'
+    )]
+    #[Assert\Regex(
+        pattern: '/[^\s]+$/',
+        message: 'L\'éditeur ne peut pas se terminer par un espace.'
+    )]
     private ?string $editor = null;
 
     #[ORM\Column]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
+    #[Assert\NotBlank(message: 'Ce champ ne peut pas être vide.')]
+    #[Assert\Type(type: 'bool', message: 'La valeur doit être un booléen.')]
+    #[Assert\Choice(
+        choices: [true, false],
+        message: 'Choisissez une valeur valide.',
+    )]
     private ?bool $isInStock = null;
 
     #[ORM\OneToMany(mappedBy: 'bookComment', targetEntity: Comment::class, orphanRemoval: true)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
     private Collection $comments;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'book')]
+    #[Groups(["searchable", "book"])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'book')]
+    #[Groups(["searchable", "book"])]
     private Collection $authors;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Image::class, orphanRemoval: true)]
-    #[Groups(["searchable"])]
+    #[Groups(["searchable", "book"])]
     private Collection $images;
 
     #[ORM\Column]

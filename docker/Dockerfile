@@ -6,7 +6,7 @@ RUN echo "ServerName GeekBook" >> mkdir -p /etc/apache2/conf/000-default.conf \
   \
   &&  apt-get update \
   &&  apt-get install -y --no-install-recommends \
-  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget libsodium-dev \
+  locales apt-utils git libicu-dev g++ libpq-dev libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip wget libsodium-dev libnss3-tools\
   \
   &&  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen  \
   &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
