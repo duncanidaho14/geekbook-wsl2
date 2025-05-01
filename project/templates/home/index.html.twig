@@ -83,7 +83,7 @@
                 <img class="w-full h-full hover:grow hover:shadow-lg" src="{{booksexpens.firstCover}}">
  
                 <div class="pt-3 flex items-center justify-between">
-                    <h3 class="">{{booksexpens.title|slice(0, 25)}} ...</h3>
+                    <h3>{{booksexpens.title|slice(0, 25)}} ...</h3>
                     {% include 'layout/rating.html.twig' with {'rating': booksexpens.getAvgRatings} %}
                 </div>
                 <div class="flex">
@@ -116,6 +116,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script defer>
     document.addEventListener('DOMContentLoaded', function (e) {
         e.preventDefault();

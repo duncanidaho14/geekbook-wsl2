@@ -19,3 +19,7 @@
     <p>Si vous ne recevez pas vôtre email, regarder dans votre dossier spam <a href="{{ path('app_forgot_password_request') }}">Recommencer</a>.</p>
 </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

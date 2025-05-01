@@ -70,7 +70,7 @@ class SearchController extends AbstractController
         $hits = $searchService->search($manager, Book::class, $searchQuery);
         
 
-        $template = $request->isXmlHttpRequest() ? 'search/index.html.twig' : 'search/index.html.twig';
+        // $template = $request->isXmlHttpRequest() ? 'search/index.html.twig' : 'search/index.html.twig';
 
         return $this->render('search/index.html.twig', [
                 'books' => $this->serializer->serialize($hits, 'json', ['groups' => ['searchable']]),
