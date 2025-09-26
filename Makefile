@@ -26,7 +26,8 @@ init: ## 💥 Init the project
 	$(MAKE) start
 	$(MAKE) composer-install
 	$(MAKE) npm-update
-	
+	$(MAKE) https
+	$(MAKE) cert
 	$(MAKE) database-init
 	@$(call GREEN,"The application is available at: https://gkbook.traefik.me/.")
 	
@@ -46,10 +47,9 @@ cs-fixer: ## Install PHP CS FIXER
 
 https: ## Install ca
 	$(EXEC) symfony server:ca:install
-
 	
-# cert: ## Install Certification
-# 	$(EXEC) wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem
+cert: ## Install Certification
+	$(EXEC) wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem
 
 ## Test 💯 ------------------------
 

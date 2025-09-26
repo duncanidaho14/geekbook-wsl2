@@ -61,13 +61,13 @@ certificatesResolvers:
       #
       # Optional
       #
-      # httpChallenge:
+      httpChallenge:
 
         # EntryPoint to use for the HTTP-01 challenges.
         #
         # Required
         #
-        # entryPoint: web
+        entryPoint: web
 
       # Use a DNS-01 ACME challenge rather than HTTP-01 challenge.
       # Note: mandatory for wildcard certificate generation.

@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.certresolver=gkbook"
       - "traefik.http.routers.traefik.tls.domains[0].main=gkbook.traefik.me"
-      - "traefik.http.routers.traefik.tls.domains[0].sans=*.gkbook.traefik.me"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.traefik.me"
       - "traefik.http.middlewares.cors.headers.accessControlAllowOrigin=*"
       - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,OPTIONS,POST"
       - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Content-Type,Authorization"
@@ -42,7 +42,9 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.gkbook.acme.tlschallenge=true"
       - "--certificatesresolvers.gkbook.acme.email=elhadibeddarem@gmail.com"
-      - "--certificatesresolvers.gkbook.acme.storage=/letsencrypt/acme.json"   
+      - "--certificatesresolvers.gkbook.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.websecure.http.tls.certificates.certFile=/cert.pem"
+      - "--entrypoints.websecure.http.tls.certificates.keyFile=/cert.pem"   
     volumes:
       - ./letsencrypt:/letsencrypt
       - ./traefik.yml:/etc/traefik/traefik.yml
@@ -55,9 +57,11 @@ services:
   reverse-proxy-https-helper:
     image: alpine
     container_name: www_reverse_proxy
-    #command: sh -c "cd /etc/ssl/traefik && wget traefik.me/cert.pem -O cert.pem && wget traefik.me/privkey.pem -O privkey.pem"
+    ports:
+      - "9899:9899"
+    command: sh -c "cd /etc/ssl/traefik && wget traefik.me/cert.pem -O ./certs/cert.pem && wget traefik.me/privkey.pem -O ./certs/privkey.pem"
     volumes:
-      - certs:/etc/ssl/traefik
+      - ./certs:/etc/ssl/traefik
     networks:
       - proxy
 
